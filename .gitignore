@@ -1,0 +1,6 @@
+*.tmp
+*.env
+.vscode
+node_modules
+config.json
+db/*
