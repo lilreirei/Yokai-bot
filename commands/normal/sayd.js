@@ -1,0 +1,10 @@
+module.exports = {
+	desc: "Echo and deletes the command message.",
+	usage: "<text>",
+	aliases: ['echod'],
+	task(bot, msg, suffix) {
+		bot.createMessage(msg.channel.id, `:speech_balloon: ${suffix}` || 'echo').then(sentMsg => {
+			bot.deleteMessage(sentMsg.channel.id, msg.id);
+		})
+	}
+};

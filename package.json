@@ -1,0 +1,43 @@
+{
+  "name": "Shinobu",
+  "version": "2.2.4",
+  "description": "A well made and simple to use bot for discord.\nCreated with the MiraiBot framework!\nLinku: https://github.com/brussell98/Mirai",
+  "author": "Kurozero#3420",
+  "main": "Shinobu.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HaremK1ng/Shinobu"
+  },
+  "bugs": {
+    "url": "https://github.com/HaremK1ng/Shinobu/issues"
+  },
+  "engines": {
+    "node": ">=6.5.0"
+  },
+  "scripts": {
+    "start": "node Shinobu.js",
+    "docs": "node_modules/.bin/jsdoc README.md --configure .jsdoc.json --verbose"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^1.1.3",
+    "cleverbot-node": "^0.2.3",
+    "entities": "^1.1.1",
+    "eris": "abalabahaha/eris#dev",
+    "moment": "^2.15.1",
+    "moment-duration-format": "^1.3.0",
+    "require-reload": "^0.2.2",
+    "superagent": "^2.1.0",
+    "file-send": "^2.0.6",
+    "readfilesyncwithcache": "^0.0.2",
+    "maljs": "^0.1.0",
+    "malapi": "^0.0.3"
+  },
+  "devDependencies": {
+    "jsdoc-parse": "^1.2.7",
+    "minami": "^1.1.1",
+    "eslint": "*",
+    "async": "^1.4.2",
+    "asyncx": "^0.4.5"
+  }
+}
