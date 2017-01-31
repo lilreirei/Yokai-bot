@@ -11,7 +11,7 @@ const COLORSHEX = [
 module.exports = {
   desc: "Sends someone's avatar url.",
   usage: "<@username> or nothing",
-  aliases: ['ava'],
+  aliases: ['ava', 'pfp', 'avi'],
   cooldown: 5,
   task(bot, msg) {
     let choice = ~~(Math.random() * COLORSHEX.length);

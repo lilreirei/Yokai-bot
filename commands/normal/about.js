@@ -42,7 +42,7 @@ module.exports = {
             },
             {
               name: `About Me:`,
-              value: 'shinobu is a well made and simple to use discord bot. It will make your discord experience much more fun! shinobu is created with the MiraiBot framework *and framework only!*, and I got some help from AlexFlipnote (KawaiiBot creator) thank you very much for that! The help commands are: `s!help`',
+              value: 'shinobu is a well made and simple to use discord bot. It will make your discord experience much more fun! shinobu is created with the MiraiBot framework *and framework only!*. The help commands are: `s!help` for normal commands and `s$help` for moderation commands.',
               inline: false
             },
             {

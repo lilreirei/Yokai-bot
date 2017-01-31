@@ -288,7 +288,7 @@ if (config.carbonKey) { //Send servercount to Carbon bot list
 if (config.discordlistToken) { //Send servercount to discordlist bot list
 	setInterval(() => {
 		if (bot.uptime !== 0)
-			utils.updateDiscordlist(config.discordlistBotsKey, bot.guilds.size);
+			utils.updateDiscordlist(config.discordlistToken, bot.guilds.size);
 	}, 1800000);
 }
 
