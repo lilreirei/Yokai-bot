@@ -1,9 +1,8 @@
 var fs = require('fs');
 
 module.exports = {
-	desc: "",
+	desc: "Sends x doubt meme",
   cooldown: 5,
-  aliases: [],
 	task(bot, msg) {
     bot.createMessage(msg.channel.id, '', {
 											file: fs.readFileSync('./images/xDoubt.jpg'),
