@@ -8,10 +8,11 @@ module.exports = {
     var limit = '';
 
     if(!suffix){
-      limit = 100;
+      limit = 100 + 1;
     }
     else if(suffix){
-      limit = suffix;
+			msgTodelete = suffix + 1;
+      limit = msgTodelete;
     }
 
     bot.purgeChannel(msg.channel.id, limit)
