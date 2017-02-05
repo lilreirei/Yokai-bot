@@ -11,7 +11,8 @@ module.exports = {
       limit = 100 + 1;
     }
     else if(suffix){
-			msgTodelete = suffix + 1;
+			var count = parseInt(suffix);
+			msgTodelete = count + 1;
       limit = msgTodelete;
     }
 
