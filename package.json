@@ -1,6 +1,6 @@
 {
   "name": "Shinobu",
-  "version": "2.2.7",
+  "version": "2.2.8",
   "description": "A well made and simple to use bot for discord.\nCreated with the MiraiBot framework!\nLinku: https://github.com/brussell98/Mirai",
   "author": "Kurozero#3420",
   "main": "Shinobu.js",
@@ -21,7 +21,7 @@
   "license": "MIT",
   "dependencies": {
     "chalk": "^1.1.3",
-    "cleverbot-node": "^0.2.3",
+    "cleverbot-node": "^0.3.2",
     "entities": "^1.1.1",
     "eris": "abalabahaha/eris#dev",
     "moment": "^2.15.1",

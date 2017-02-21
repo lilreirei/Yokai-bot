@@ -71,7 +71,15 @@ module.exports = {
             {
               name: `Guild Owner:`,
               value: `${owner.username}#${owner.discriminator} (${msg.channel.guild.ownerID})`
-            }
+            },
+            {
+              name: `Roles:`,
+              value: `${msg.channel.guild.roles.map(c => c.name).join(', ')}`
+            }/*,
+            {
+              name: `Emotes:`,
+              value: `<:${msg.channel.guild.emojis.map(c => c.name + ":" + c.id).join('> <:')}>`
+            }*/
           ]
         }
       })

@@ -29,7 +29,7 @@ var user = msg.mentions[0];
             name: `User info of ${msg.mentions[0].username}`,
             icon_url: `${user.avatarURL}`
           },
-          description: `Playing ${id.game === null ? `None` : ''}${id.game !== null ? '**'+id.game.name+'**' : ''}`,
+          description: `Playing ${id.game === null ? `n/a` : ''}${id.game !== null ? '**'+id.game.name+'**' : ''}`,
           thumbnail: {
             url: `${user.avatarURL}`
           },
@@ -51,7 +51,7 @@ var user = msg.mentions[0];
             },
             {
               name: `Nickname:`,
-              value: `${id.nick === null ? `None` : ''}${id.nick !== null ? id.nick : ''}`,
+              value: `${id.nick === null ? `n/a` : ''}${id.nick !== null ? id.nick : ''}`,
               inline: true
             },
             {
@@ -65,7 +65,11 @@ var user = msg.mentions[0];
             {
               name: `Status:`,
               value: `${id.status}`
-            }
+            }/*,
+            {
+              name: ``,
+              value: `${id.roles.map(r=>msg.channel.guild.roles.get(r).name).join(', ')}`
+            }*/
           ]
         }
       })
@@ -80,7 +84,7 @@ var user = msg.mentions[0];
             name: `User info of ${msg.author.username}`,
             icon_url: `${user.avatarURL}`
           },
-          description: `Playing ${msg.member.game === null ? `None` : ''}${msg.member.game !== null ? '**'+msg.member.game.name+'**' : ''}`,
+          description: `Playing ${msg.member.game === null ? `n/a` : ''}${msg.member.game !== null ? '**'+msg.member.game.name+'**' : ''}`,
           thumbnail: {
             url: `${user.avatarURL}`
           },
@@ -102,7 +106,7 @@ var user = msg.mentions[0];
             },
             {
               name: `Nickname:`,
-              value: `${msg.member.nick === null ? `None` : ''}${msg.member.nick !== null ? msg.member.nick : ''}`,
+              value: `${msg.member.nick === null ? `n/a` : ''}${msg.member.nick !== null ? msg.member.nick : ''}`,
               inline: true
             },
             {
@@ -116,7 +120,11 @@ var user = msg.mentions[0];
             {
               name: `Status:`,
               value: `${msg.member.status}`
-            }
+            }/*,
+            {
+              name: ``,
+              value: `${msg.member.roles.map(r=>msg.channel.guild.roles.get(r).name).join(', ')}`
+            }*/
           ]
         }
       })
