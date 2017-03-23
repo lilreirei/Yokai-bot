@@ -18,7 +18,7 @@
     "start": "node Shinobu.js",
     "docs": "node_modules/.bin/jsdoc README.md --configure .jsdoc.json --verbose"
   },
-  "license": "MIT",
+  "license": "GPL-3.0",
   "dependencies": {
     "chalk": "^1.1.3",
     "cleverbot-node": "^0.3.3",
