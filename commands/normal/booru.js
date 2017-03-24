@@ -16,7 +16,7 @@ const COLORSDECIAML = [
 
 module.exports = {
     desc: "Send possibly nsfw image with the given tag(s) (Max 2 tags, seperate tags by space!) [nsfw]",
-    usage: "<site> [<tag1> <tag2>] (Max 2 tags, tags must be seperated by space!).\ Type: \`s!booru list\` for a list of sites the bot can get a picture from.",
+    usage: "<site> [<tag1> <tag2>] (Max 2 tags, tags must be seperated by space!).\nType: \"s!booru list\" for a list of sites the bot can get a picture from.",
     aliases: ['nsfw', 'hentai'],
     task(bot, msg, args, config, settingsManager) {
         var nsfw = settingsManager.getNSFW(msg.channel.guild.id, msg.channel.id);
