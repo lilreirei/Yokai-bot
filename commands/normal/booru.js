@@ -84,7 +84,9 @@ lolibooru.moe, aliases: ["lb", "lol", "loli", "lolibooru"]`,
                                             icon_url: `${msg.author.avatarURL}`
                                         },
                                         description: `${image.common.file_url}
-Tag: ${b}`,
+Tag: ${b}
+Score: ${image.common.score}
+Rating: ${image.common.rating}`,
                                         image: {
                                             url: `${image.common.file_url}`
                                         },
@@ -123,7 +125,9 @@ Tag: ${b}`,
                                             icon_url: `${msg.author.avatarURL}`
                                         },
                                         description: `${image.common.file_url}
-Tags: ${b}, ${c}`,
+Tags: ${b}, ${c}
+Score: ${image.common.score}
+Rating: ${image.common.rating}`,
                                         image: {
                                             url: `${image.common.file_url}`
                                         },
