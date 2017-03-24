@@ -1,8 +1,8 @@
 {
   "name": "Shinobu",
-  "version": "2.2.8",
+  "version": "2.2.9",
   "description": "A well made and simple to use bot for discord.\nCreated with the MiraiBot framework!\nLinku: https://github.com/brussell98/Mirai",
-  "author": "Kurozero#3420",
+  "author": "Pepijn \"Kurozero\" van den Broek",
   "main": "Shinobu.js",
   "repository": {
     "type": "git",
@@ -33,7 +33,8 @@
     "maljs": "^0.1.0",
     "malapi": "^0.0.3",
     "request": "^2.79.0",
-    "request-promise": "^4.1.1"
+    "request-promise": "^4.1.1",
+    "booru": "^0.2.0"
   },
   "devDependencies": {
     "jsdoc-parse": "^1.2.7",
