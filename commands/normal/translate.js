@@ -44,11 +44,11 @@ module.exports = {
             icon_url: `${msg.author.avatarURL}`
           },
           description: `${b}: ${oldres}
-      ${c}: ${newwres}`
-        },
-        footer: {
-            text: `${msg.channel.guild ? (`${msg.channel.guild.name} : #${msg.channel.name}`) : ""}`,
-            icon_url: `${msg.channel.guild ? msg.channel.guild.iconURL : ""}`
+      ${c}: ${newwres}`,
+          footer: {
+              text: `${msg.channel.guild ? (`${msg.channel.guild.name} : #${msg.channel.name}`) : ""}`,
+              icon_url: `${msg.channel.guild ? msg.channel.guild.iconURL : ""}`
+          }
         }
       });
     }).catch(err => {
