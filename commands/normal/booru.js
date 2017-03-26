@@ -15,7 +15,7 @@ const COLORSDECIAML = [
 ];
 
 module.exports = {
-    desc: "Send possibly nsfw image with the given tag(s) (Max 2 tags, seperate tags by space!) [nsfw]",
+    desc: "Send possibly nsfw image with the given tag(s) (Max 2 tags, seperate tags by space!\n(Use either s=safe, q=questionable or e=explicit for a tag to choose what you want) [nsfw]",
     usage: "<site> [<tag1> <tag2>] (Max 2 tags, tags must be seperated by space!).\nType: \"s!booru list\" for a list of sites the bot can get a picture from.",
     aliases: ['nsfw', 'hentai'],
     task(bot, msg, args, config, settingsManager) {
@@ -74,6 +74,8 @@ lolibooru.moe, aliases: ["lb", "lol", "loli", "lolibooru"]`,
                         .then(booru.commonfy)
                         .then(images => {
                             for (let image of images) {
+                              var tag = image.common.tags + "";
+                              var tags = tag.split(',').join(', ');
                                 bot.createMessage(msg.channel.id, {
                                     content: ``,
                                     embed: {
@@ -83,8 +85,9 @@ lolibooru.moe, aliases: ["lb", "lol", "loli", "lolibooru"]`,
                                             url: `${image.common.file_url}`,
                                             icon_url: `${msg.author.avatarURL}`
                                         },
-                                        description: `${image.common.file_url}
-Tag: ${b}
+                                        description: `[Click here for the direct image url](${image.common.file_url})
+Searched tags: ${b}
+Tags: ${tags}
 Score: ${image.common.score}
 Rating: ${image.common.rating}`,
                                         image: {
@@ -115,6 +118,8 @@ Rating: ${image.common.rating}`,
                         .then(booru.commonfy)
                         .then(images => {
                             for (let image of images) {
+                              var tag = image.common.tags + "";
+                              var tags = tag.split(',').join(', ');
                                 bot.createMessage(msg.channel.id, {
                                     content: ``,
                                     embed: {
@@ -124,8 +129,9 @@ Rating: ${image.common.rating}`,
                                             url: `${image.common.file_url}`,
                                             icon_url: `${msg.author.avatarURL}`
                                         },
-                                        description: `${image.common.file_url}
-Tags: ${b}, ${c}
+                                        description: `[Click here for the direct image url](${image.common.file_url})
+Searched tags: ${b}, ${c}
+Tags: ${tags}
 Score: ${image.common.score}
 Rating: ${image.common.rating}`,
                                         image: {
