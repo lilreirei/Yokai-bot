@@ -34,25 +34,44 @@ module.exports = {
 
         var neww = res.text;
         var newwres = neww.replace(/&#39;/, "'")
-
-      bot.createMessage(msg.channel.id, { content: ``,
-        embed: {
-          color: color,
-          author: {
-            name: `${msg.author.username}`,
-            url: `${msg.author.avatarURL}`,
-            icon_url: `${msg.author.avatarURL}`
-          },
-          description: `${b}: ${oldres}
-      ${c}: ${newwres}`,
-          footer: {
-              text: `${msg.channel.guild ? (`${msg.channel.guild.name} : #${msg.channel.name}`) : ""}`,
-              icon_url: `${msg.channel.guild ? msg.channel.guild.iconURL : ""}`
-          }
+        if(res.from.text.autoCorrected === true) {
+          bot.createMessage(msg.channel.id, { content: ``,
+            embed: {
+              color: color,
+              author: {
+                name: `${msg.author.username}`,
+                url: `${msg.author.avatarURL}`,
+                icon_url: `${msg.author.avatarURL}`
+              },
+              description: `${b}: ${oldres}
+          ${c}: ${newwres}`,
+              footer: {
+                  text: `${msg.channel.guild ? (`${msg.channel.guild.name} : #${msg.channel.name}`) : ""}`,
+                  icon_url: `${msg.channel.guild ? msg.channel.guild.iconURL : ""}`
+              }
+            }
+          });
         }
+        else {
+          bot.createMessage(msg.channel.id, { content: ``,
+            embed: {
+              color: color,
+              author: {
+                name: `${msg.author.username}`,
+                url: `${msg.author.avatarURL}`,
+                icon_url: `${msg.author.avatarURL}`
+              },
+              description: `${b}: ${a}
+          ${c}: ${newwres}`,
+              footer: {
+                  text: `${msg.channel.guild ? (`${msg.channel.guild.name} : #${msg.channel.name}`) : ""}`,
+                  icon_url: `${msg.channel.guild ? msg.channel.guild.iconURL : ""}`
+              }
+            }
+          });
+        }
+      }).catch(err => {
+          bot.createMessage(msg.channel.id, `${err}`);
       });
-    }).catch(err => {
-        bot.createMessage(msg.channel.id, `${err}`);
-    });
 	}
 };
