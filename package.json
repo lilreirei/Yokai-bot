@@ -1,6 +1,6 @@
 {
   "name": "Shinobu",
-  "version": "2.3.0",
+  "version": "2.3.2",
   "description": "A well made and simple to use bot for discord.\nCreated with the MiraiBot framework!\nLinku: https://github.com/brussell98/Mirai",
   "author": "Pepijn \"Kurozero\" van den Broek",
   "main": "Shinobu.js",
@@ -36,7 +36,9 @@
     "request": "^2.79.0",
     "request-promise": "^4.1.1",
     "require-reload": "^0.2.2",
-    "superagent": "^2.1.0"
+    "superagent": "^2.1.0",
+    "y-currency": "^1.0.3",
+    "yahoo-weather": "^2.2.2"
   },
   "devDependencies": {
     "jsdoc-parse": "^1.2.7",
