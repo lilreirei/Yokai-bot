@@ -77,11 +77,6 @@ module.exports = {
               name: `Average:`,
               value: `${(totalCommandUsage / (bot.uptime / (1000 * 60))).toFixed(2)}/min`,
               inline: true
-            },
-            {
-              name: `Owner/Creator`,
-              value: `Kurozero#3420 (My master ^.^)`,
-              inline: true
             }
           ]
         }
