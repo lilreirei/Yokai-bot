@@ -6,6 +6,7 @@ const RPS = [
 
 module.exports = {
 	desc: "Play rps against shinobu",
+	usage: "<rock|paper|scissors>",
 	aliases: [],
 	cooldown: 5,
 	task(bot, msg, args) {
