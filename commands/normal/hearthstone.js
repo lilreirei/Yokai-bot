@@ -1,17 +1,4 @@
 var Hearthstone = require('hearthstone-mashape')('Uhpw4la1oxmsh4QBHISImGfoMFPSp1k0Ar9jsn8s6Ojj6jlHa2', 'enUS');
-const COLORS = [
-    0x2B54CE,
-    0xFF8000,
-    0x9932CC,
-    0x008080,
-    0x800080,
-    0x808080,
-    0xEE82EE,
-    0xFFB6C1,
-    0x86B3E8,
-    0x93FFAA,
-    0x979E79
-];
 
 module.exports = {
   desc: "Search hearthstone card by name.",
@@ -21,8 +8,6 @@ module.exports = {
     if(!args) {
       return 'wrong usage'
     }
-    let choose = ~~(Math.random() * COLORS.length);
-		var color = COLORS[choose];
     var str = args.toString();
     var array = str.split(', '),
         a = array[0],
@@ -35,7 +20,7 @@ module.exports = {
       if(data === null) {
         bot.createMessage(msg.channel.id, { content: ``,
           embed: {
-            color: color,
+            color: 0xf4ce11,
             author: {
               name: ``,
               url: ``,
@@ -49,7 +34,7 @@ module.exports = {
         if(b === undefined) {
           bot.createMessage(msg.channel.id, { content: ``,
             embed: {
-              color: color,
+              color: 0xf4ce11,
               author: {
                 name: `${msg.author.username}`,
                 url: `${data[0].img}`,
@@ -67,14 +52,14 @@ Artist: ${data[0].artist}
               },
               footer: {
                   text: `${msg.channel.guild ? (`${msg.channel.guild.name} : #${msg.channel.name}`) : ""}`,
-                  icon_url: `${msg.channel.guild ? msg.channel.guild.iconURL : ""}`
+                  icon_url: `${msg.channel.guild.iconURL === null ? `` : ''}${msg.channel.guild.iconURL !== null ? msg.channel.guild.iconURL : ''}`
               }
             }
           });
         } else {
           bot.createMessage(msg.channel.id, { content: ``,
             embed: {
-              color: color,
+              color: 0xf4ce11,
               author: {
                 name: `${msg.author.username}`,
                 url: `${data[0].imgGold}`,
@@ -92,7 +77,7 @@ Artist: ${data[0].artist}
               },
               footer: {
                   text: `${msg.channel.guild ? (`${msg.channel.guild.name} : #${msg.channel.name}`) : ""}`,
-                  icon_url: `${msg.channel.guild ? msg.channel.guild.iconURL : ""}`
+                  icon_url: `${msg.channel.guild.iconURL === null ? `` : ''}${msg.channel.guild.iconURL !== null ? msg.channel.guild.iconURL : ''}`
               }
             }
           });

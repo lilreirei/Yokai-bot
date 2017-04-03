@@ -1,25 +1,10 @@
 const translate = require('google-translate-api');
-const COLORSDECIAML = [
-    0x2B54CE,
-    0xFF8000,
-    0x9932CC,
-    0x008080,
-    0x800080,
-    0x808080,
-    0xEE82EE,
-    0xFFB6C1,
-    0x86B3E8,
-    0x93FFAA,
-    0x979E79
-];
 
 module.exports = {
 	desc: "Translate words/sentences.",
 	usage: "<word(s)/sentance>, <from lang>, <to lang> (Make sure to seperate them with a comma)\nex. s!translate I'm feeling sick, en, nl",
 	aliases: ['tl', 'trans'],
 	task(bot, msg, args) {
-    let choose = ~~(Math.random() * COLORSDECIAML.length);
-		var color = COLORSDECIAML[choose];
     var str = args + "";
     var array = str.split(', '),
         a = array[0],
@@ -37,7 +22,7 @@ module.exports = {
         if(res.from.text.autoCorrected === true) {
           bot.createMessage(msg.channel.id, { content: ``,
             embed: {
-              color: color,
+              color: 0xf4ce11,
               author: {
                 name: `${msg.author.username}`,
                 url: `${msg.author.avatarURL}`,
@@ -47,7 +32,7 @@ module.exports = {
           ${c}: ${newwres}`,
               footer: {
                   text: `${msg.channel.guild ? (`${msg.channel.guild.name} : #${msg.channel.name}`) : ""}`,
-                  icon_url: `${msg.channel.guild ? msg.channel.guild.iconURL : ""}`
+                  icon_url: `${msg.channel.guild.iconURL === null ? `` : ''}${msg.channel.guild.iconURL !== null ? msg.channel.guild.iconURL : ''}`
               }
             }
           });
@@ -55,7 +40,7 @@ module.exports = {
         else {
           bot.createMessage(msg.channel.id, { content: ``,
             embed: {
-              color: color,
+              color: 0xf4ce11,
               author: {
                 name: `${msg.author.username}`,
                 url: `${msg.author.avatarURL}`,
@@ -65,7 +50,7 @@ module.exports = {
           ${c}: ${newwres}`,
               footer: {
                   text: `${msg.channel.guild ? (`${msg.channel.guild.name} : #${msg.channel.name}`) : ""}`,
-                  icon_url: `${msg.channel.guild ? msg.channel.guild.iconURL : ""}`
+                  icon_url: `${msg.channel.guild.iconURL === null ? `` : ''}${msg.channel.guild.iconURL !== null ? msg.channel.guild.iconURL : ''}`
               }
             }
           });

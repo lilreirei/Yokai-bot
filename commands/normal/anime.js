@@ -13,7 +13,7 @@ module.exports = {
         var genre = anime.genres.toString();
         var genres = genre.split(/, ?/).join(', ');
                 let embed = {
-                  color: 2706849,
+                  color: 0xf4ce11,
                   type: `rich`,
                   author: {
                       name: `${anime.title}`,

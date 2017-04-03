@@ -35,20 +35,6 @@ const GIVE = [
     "Hm luv ya 2"
 ];
 
-const COLORSDECIAML = [
-    0x2B54CE,
-    0xFF8000,
-    0x9932CC,
-    0x008080,
-    0x800080,
-    0x808080,
-    0xEE82EE,
-    0xFFB6C1,
-    0x86B3E8,
-    0x93FFAA,
-    0x979E79
-];
-
 var Nf = new Intl.NumberFormat('en-US');
 
 module.exports = {
@@ -61,15 +47,13 @@ module.exports = {
         let choice2 = ~~(Math.random() * RECEIVED.length);
         var receivedchoice = RECEIVED[choice2];
         var givechoice = GIVE[choice2];
-        let choose = ~~(Math.random() * COLORSDECIAML.length);
-        var color = COLORSDECIAML[choose];
         if (!msg.mentions[0])
             return ('wrong usage');
         else if (msg.author.id === msg.mentions[0].id) {
             bot.createMessage(msg.channel.id, {
                 content: ``,
                 embed: {
-                    color: color,
+                    color: 0xf4ce11,
                     author: {
                         name: ``,
                         url: ``,
@@ -82,7 +66,7 @@ module.exports = {
             bot.createMessage(msg.channel.id, {
                 content: ``,
                 embed: {
-                    color: color,
+                    color: 0xf4ce11,
                     author: {
                         name: ``,
                         url: ``,
@@ -95,7 +79,7 @@ module.exports = {
             bot.createMessage(msg.channel.id, {
                 content: ``,
                 embed: {
-                    color: color,
+                    color: 0xf4ce11,
                     author: {
                         name: ``,
                         url: ``,
@@ -108,7 +92,7 @@ module.exports = {
             bot.createMessage(msg.channel.id, {
                 content: ``,
                 embed: {
-                    color: color,
+                    color: 0xf4ce11,
                     author: {
                         name: ``,
                         url: ``,

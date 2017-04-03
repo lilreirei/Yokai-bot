@@ -1,13 +1,4 @@
 moment = require('../../node_modules/moment');
-const COLORSDECIAML = [
-  0x46A030,
-  0x2B54CE,
-  0x00FFFF,
-  0xFF0000,
-  0xFFFF00,
-  0xFF8000,
-  0x9932CC
-];
 
 module.exports = {
   desc: "Shows info of the guild.",
@@ -16,14 +7,12 @@ module.exports = {
   cooldown: 5,
   guildOnly: true,
   task(bot, msg) {
-    let color = ~~(Math.random() * COLORSDECIAML.length);
-    var final = COLORSDECIAML[color];
       var afkTimer = msg.channel.guild.afkTimeout/60;
       var owner = msg.channel.guild.members.get(msg.channel.guild.ownerID);
 
       bot.createMessage(msg.channel.id, { content: ``,
         embed: {
-          color: final,
+          color: 0xf4ce11,
           type: 'rich',
           author: {
             name: `Guild info of ${msg.channel.guild.name === null ? `` : ''}${msg.channel.guild.name !== null ? msg.channel.guild.name : ''}`,

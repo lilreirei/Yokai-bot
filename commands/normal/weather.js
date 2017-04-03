@@ -1,17 +1,4 @@
 var weather = require('yahoo-weather');
-const COLORS = [
-    0x2B54CE,
-    0xFF8000,
-    0x9932CC,
-    0x008080,
-    0x800080,
-    0x808080,
-    0xEE82EE,
-    0xFFB6C1,
-    0x86B3E8,
-    0x93FFAA,
-    0x979E79
-];
 
 module.exports = {
   desc: "Get the weather from the specified city",
@@ -21,8 +8,6 @@ module.exports = {
     if(!args) {
       return 'wrong usage'
     }
-    let choose = ~~(Math.random() * COLORS.length);
-		var color = COLORS[choose];
     var str = args.toString();
     var array = str.split(', '),
         a = array[0],
@@ -31,7 +16,7 @@ module.exports = {
       if((b === 'f') || (b === 'F')) {
         bot.createMessage(msg.channel.id, { content: ``,
           embed: {
-            color: color,
+            color: 0xf4ce11,
             author: {
               name: ``,
               url: ``,
@@ -56,7 +41,7 @@ module.exports = {
       else if ((b === 'c') || (b === 'C')) {
         bot.createMessage(msg.channel.id, { content: ``,
           embed: {
-            color: color,
+            color: 0xf4ce11,
             author: {
               name: ``,
               url: ``,
@@ -81,7 +66,7 @@ module.exports = {
       else {
         bot.createMessage(msg.channel.id, { content: ``,
           embed: {
-            color: color,
+            color: 0xf4ce11,
             author: {
               name: ``,
               url: ``,
@@ -94,7 +79,7 @@ module.exports = {
     }).catch(err => {
       bot.createMessage(msg.channel.id, { content: ``,
         embed: {
-          color: color,
+          color: 0xf4ce11,
           author: {
             name: ``,
             url: ``,

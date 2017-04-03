@@ -1,19 +1,5 @@
 const booru = require('booru')
 
-const COLORSDECIAML = [
-    0x2B54CE,
-    0xFF8000,
-    0x9932CC,
-    0x008080,
-    0x800080,
-    0x808080,
-    0xEE82EE,
-    0xFFB6C1,
-    0x86B3E8,
-    0x93FFAA,
-    0x979E79
-];
-
 module.exports = {
     desc: "Send possibly nsfw image with the given tag(s) (Max 2 tags, seperate tags by space!\n(Use either s=safe, q=questionable or e=explicit for a tag to choose what you want) [nsfw]",
     usage: "<site> [<tag1> <tag2>] (Max 2 tags, tags must be seperated by space!).\nType: \"s!booru list\" for a list of sites the bot can get a picture from.",
@@ -25,9 +11,6 @@ module.exports = {
         } else if (!args) {
             return 'wrong usage'
         } else {
-            let choose = ~~(Math.random() * COLORSDECIAML.length);
-            var color = COLORSDECIAML[choose];
-
             var str = args + "";
             var array = str.split(' '),
                 a = array[0],
@@ -38,7 +21,7 @@ module.exports = {
                 bot.createMessage(msg.channel.id, {
                     content: ``,
                     embed: {
-                        color: color,
+                        color: 0xf4ce11,
                         author: {
                             name: `${msg.author.username}`,
                             icon_url: `${msg.author.avatarURL}`
@@ -61,7 +44,7 @@ rule34.paheal.net, aliases: ["pa","paheal"]
 lolibooru.moe, aliases: ["lb", "lol", "loli", "lolibooru"]`,
                         footer: {
                             text: `${msg.channel.guild ? (`${msg.channel.guild.name} : #${msg.channel.name}`) : ""}`,
-                            icon_url: `${msg.channel.guild ? msg.channel.guild.iconURL : ""}`
+                            icon_url: `${msg.channel.guild.iconURL === null ? `` : ''}${msg.channel.guild.iconURL !== null ? msg.channel.guild.iconURL : ''}`
                         }
                     }
                 })
@@ -79,7 +62,7 @@ lolibooru.moe, aliases: ["lb", "lol", "loli", "lolibooru"]`,
                                 bot.createMessage(msg.channel.id, {
                                     content: ``,
                                     embed: {
-                                        color: color,
+                                        color: 0xf4ce11,
                                         author: {
                                             name: `${msg.author.username}`,
                                             url: `${image.common.file_url}`,
@@ -95,7 +78,7 @@ Rating: ${image.common.rating}`,
                                         },
                                         footer: {
                                             text: `${msg.channel.guild ? (`${msg.channel.guild.name} : #${msg.channel.name}`) : ""}`,
-                                            icon_url: `${msg.channel.guild ? msg.channel.guild.iconURL : ""}`
+                                            icon_url: `${msg.channel.guild.iconURL === null ? `` : ''}${msg.channel.guild.iconURL !== null ? msg.channel.guild.iconURL : ''}`
                                         }
                                     }
                                 })
@@ -123,7 +106,7 @@ Rating: ${image.common.rating}`,
                                 bot.createMessage(msg.channel.id, {
                                     content: ``,
                                     embed: {
-                                        color: color,
+                                        color: 0xf4ce11,
                                         author: {
                                             name: `${msg.author.username}`,
                                             url: `${image.common.file_url}`,
@@ -139,7 +122,7 @@ Rating: ${image.common.rating}`,
                                         },
                                         footer: {
                                             text: `${msg.channel.guild ? (`${msg.channel.guild.name} : #${msg.channel.name}`) : ""}`,
-                                            icon_url: `${msg.channel.guild ? msg.channel.guild.iconURL : ""}`
+                                            icon_url: `${msg.channel.guild.iconURL === null ? `` : ''}${msg.channel.guild.iconURL !== null ? msg.channel.guild.iconURL : ''}`
                                         }
                                     }
                                 })

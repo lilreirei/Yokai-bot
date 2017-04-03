@@ -22,7 +22,7 @@ module.exports = {
           fields: [
             {
               name: `Creator:`,
-              value: `Kurozero#3420`,
+              value: `<@93973697643155456>`,
               inline: true
             },
             {

@@ -1,13 +1,4 @@
 moment = require('../../node_modules/moment');
-const COLORSDECIAML = [
-  0x46A030,
-  0x2B54CE,
-  0x00FFFF,
-  0xFF0000,
-  0xFFFF00,
-  0xFF8000,
-  0x9932CC
-];
 
 module.exports = {
   desc: "Shows info of a user.",
@@ -16,14 +7,12 @@ module.exports = {
   cooldown: 5,
   guildOnly: true,
   task(bot, msg, guild) {
-    let color = ~~(Math.random() * COLORSDECIAML.length);
-    var final = COLORSDECIAML[color];
     if (msg.mentions.length === 1) {
 var user = msg.mentions[0];
       var id = msg.channel.guild.members.get(msg.mentions[0].id);
       bot.createMessage(msg.channel.id, { content: ``,
         embed: {
-          color: final,
+          color: 0xf4ce11,
           type: 'rich',
           author: {
             name: `User info of ${msg.mentions[0].username}`,
@@ -78,7 +67,7 @@ var user = msg.mentions[0];
 	var user = msg.author;
       bot.createMessage(msg.channel.id, { content: ``,
         embed: {
-          color: final,
+          color: 0xf4ce11,
           type: 'rich',
           author: {
             name: `User info of ${msg.author.username}`,
