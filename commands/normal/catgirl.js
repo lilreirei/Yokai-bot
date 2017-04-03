@@ -26,7 +26,7 @@ module.exports = {
 			} else {
 				bot.createMessage(msg.channel.id, { content: ``,
 	        embed: {
-	          color: COLORSDECIAML[choice],
+	          color: 0xf4ce11,
 	          author: {
 	            name: `${msg.author.username} requested a catgirl`,
 	            url: `${msg.author.avatarURL}`,
