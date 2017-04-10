@@ -2,7 +2,7 @@ const request = require('request-promise');
 const kiss = require('../../kiss.json');
 
 module.exports = {
-	desc: "Hug someone.",
+	desc: "Kiss someone.",
   usage: "<@mention>",
 	aliases: ['kisses', 'kissu'],
 	cooldown: 2,
