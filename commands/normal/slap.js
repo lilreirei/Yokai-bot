@@ -1,5 +1,7 @@
 const request = require('request-promise');
 const slap = require('../../slap.json');
+var uniqueRandomArray = require('unique-random-array');
+var randomItem = require('random-item');
 
 module.exports = {
 	desc: "Slap someone.",
@@ -7,7 +9,8 @@ module.exports = {
 	aliases: ['punish'],
 	cooldown: 2,
 	task(bot, msg) {
-		var response = slap[Math.floor(Math.random()*slap.length)];
+		//var gif = uniqueRandomArray(kiss);
+		var gif = randomItem(kiss);
 		if (msg.mentions.length === 1) {
 			bot.createMessage(msg.channel.id, { content: ``,
 	       embed: {
@@ -17,9 +20,9 @@ module.exports = {
 	           url: ``,
 	           icon_url: ``
 	         },
-	         description: `<@${msg.author.id}> **slaps** <@${msg.mentions[0].id}> :smirk:`,
+	         description: `<@${msg.author.id}> **slaps** <@${msg.mentions[0].id}>`,
 	         image: {
-	           url: `${response}`
+	           url: `${gif}`
 	         }
 	       }
 	     });

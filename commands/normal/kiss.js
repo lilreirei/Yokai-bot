@@ -1,5 +1,7 @@
 const request = require('request-promise');
 const kiss = require('../../kiss.json');
+var uniqueRandomArray = require('unique-random-array');
+var randomItem = require('random-item');
 
 module.exports = {
 	desc: "Kiss someone.",
@@ -7,7 +9,8 @@ module.exports = {
 	aliases: ['kisses', 'kissu'],
 	cooldown: 2,
 	task(bot, msg) {
-		var response = kiss[Math.floor(Math.random()*kiss.length)];
+		//var gif = uniqueRandomArray(kiss);
+		var gif = randomItem(kiss);
 		if (msg.mentions.length === 1) {
 			bot.createMessage(msg.channel.id, { content: ``,
 	       embed: {
@@ -19,7 +22,7 @@ module.exports = {
 	         },
 	         description: `<@${msg.author.id}> **kisses** <@${msg.mentions[0].id}> :flushed:`,
 	         image: {
-	           url: `${response}`
+	           url: `${gif}`
 	         }
 	       }
 	     });
