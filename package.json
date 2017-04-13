@@ -21,6 +21,7 @@
   "license": "GPL-3.0",
   "dependencies": {
     "9gag-scraper": "^1.0.1",
+    "anilist-api-pt": "^1.0.0",
     "booru": "^0.2.0",
     "cat-facts": "^1.0.2",
     "catfacts": "^0.4.0",
