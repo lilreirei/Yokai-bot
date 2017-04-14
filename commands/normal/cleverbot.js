@@ -1,5 +1,5 @@
 var cleverbot = require("better-cleverbot-io"),
-cbot = new cleverbot({user:'FqxpO21tjaYpPyJz', key:'4oZ8IAsSMuQIVLWJ7xCFyEqSvzyEaZgc', nick:'Shinobu'});
+cbot = new cleverbot({user:'', key:'', nick:'Shinobu'});
 
 module.exports = {
   desc: "Talk with the bot.",
