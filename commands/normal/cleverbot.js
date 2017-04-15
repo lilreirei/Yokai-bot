@@ -21,7 +21,16 @@ module.exports = {
         })
       });
     }).catch(err => {
-      bot.createMessage(msg.channel.id, 'Ohno something bad happened, '+err)
+      let embed = {
+        color: 0xf4ce11,
+        author: {
+          name: ``,
+          url: ``,
+          icon_url: ``
+        },
+        description: `Ohno something bad happened: ${err}`
+      }
+      bot.createMessage(msg.channel.id, {embed: embed})
     });
   }
 }

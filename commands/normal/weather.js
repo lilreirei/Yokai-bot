@@ -33,7 +33,7 @@ module.exports = {
             },
             footer: {
                 text: `${msg.channel.guild ? (`${msg.channel.guild.name} : #${msg.channel.name}`) : ""}`,
-                icon_url: `${msg.channel.guild ? msg.channel.guild.iconURL : ""}`
+                icon_url: `${msg.channel.guild.iconURL === null ? `` : ''}${msg.channel.guild.iconURL !== null ? msg.channel.guild.iconURL : ''}`
             }
           }
         })
@@ -58,7 +58,7 @@ module.exports = {
             },
             footer: {
                 text: `${msg.channel.guild ? (`${msg.channel.guild.name} : #${msg.channel.name}`) : ""}`,
-                icon_url: `${msg.channel.guild ? msg.channel.guild.iconURL : ""}`
+                icon_url: `${msg.channel.guild.iconURL === null ? `` : ''}${msg.channel.guild.iconURL !== null ? msg.channel.guild.iconURL : ''}`
             }
           }
         })
