@@ -146,6 +146,23 @@ exports.updateAbalBots = function(id, key, server_count) {
 }
 
 /**
+* Update the server count on [discordbots]@{link https://discordbots.org}.
+* @arg {String} key Your API key.
+* @arg {Number} server_count Server count.
+*/
+exports.updateDiscordBots = function(id, key, server_count) {
+	if (!key || !server_count) return;
+	superagent.post(`https://discordbots.org/api/bots/${id}/stats`)
+		.set('Authorization', key)
+		.type('application/json')
+		.send({server_count})
+		.end(error => {
+			logger.debug('Updated bot server count to ' + server_count, 'BOTS .ORG LIST UPDATE');
+			if (error) logger.error(error.status || error.response, 'BOTS .ORG LIST UPDATE ERROR');
+		});
+}
+
+/**
 * Set the bot's avatar from /avatars/.
 * @arg {Eris.Client} bot The client.
 * @arg {String} url The direct url to the image.

@@ -312,6 +312,26 @@ if (config.abalBotsKey) { //Send servercount to Abal's bot list
 	}, 1800000);
 }
 
+if (config.discordbotsorg) { //Send servercount to discordbotsorg
+	setInterval(() => {
+		if (bot.uptime !== 0)
+			utils.updateDiscordBots(bot.user.id, config.discordbotsorg, bot.guilds.size);
+
+			var data = {}
+			data.table = []
+				 var obj = {
+						 server_count: bot.guilds.size,
+						 shard_count: bot.shards.size
+				 }
+			data.table.push(obj)
+			fs.writeFile ("input.json", JSON.stringify(data), function(err) {
+					if (err) throw err;
+					console.log('succesfully wrote data to: input.json');
+					}
+			);
+	}, 1800000);
+}
+
 setInterval(() => { // Update the bot's status for each shard every 10 minutes
 	if (games.length !== 0 && bot.uptime !== 0 && config.cycleGames === true) {
 		bot.shards.forEach(shard => {
