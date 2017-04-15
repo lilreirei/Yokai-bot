@@ -1,3 +1,6 @@
+[![Discord](https://discordapp.com/api/guilds/240059867744698368/embed.png)](https://discord.gg/Vf4ne5b)
+[![dependencies Status](https://david-dm.org/KurozeroPB/Shinobu/status.svg)](https://david-dm.org/KurozeroPB/Shinobu)
+
 # Shinobu
 Shinobu is a bot created for the discord app https://discordapp.com
 
