@@ -18,5 +18,6 @@ Shinobu is open-source under the GNU AGPLv3 License. If you use any of my code i
 
 Questions?
 -
-Join the shinobu server
+Join the shinobu server:
+
 [![Discord](https://discordapp.com/api/guilds/240059867744698368/embed.png?style=banner3)](https://discord.gg/Vf4ne5b)
