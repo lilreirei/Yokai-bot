@@ -57,8 +57,8 @@ module.exports = {
   					url: ``,
   					icon_url: ``
   				},
-  				description: `rule34 has been changed to \`s!booru\`, type: \`s!help booru\` to get more info of the command.
-Dw you can still use rule34 just added a few extra sites to use. To view a list of all the sites use \`s!booru list\`.
+  				description: `rule34 has been changed to \`s.booru\`, type: \`s.help booru\` to get more info of the command.
+Dw you can still use rule34 just added a few extra sites to use. To view a list of all the sites use \`s.booru list\`.
 (Make sure to join [Shinobu's support server](https://discord.gg/Vf4ne5b) to stay updated on all the bot changes and annoucements.)`
   			}
   		})

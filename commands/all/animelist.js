@@ -2,6 +2,7 @@ module.exports = {
   desc: "Gets info about your anime list using the following tags <watching|completed|onhold>. (note: completed doesn't return all completed.)",
 	usage: "<watching|completed|onhold>, <mal username>",
 	aliases: ['mallist', 'alist'],
+  cooldown: 10,
   task(bot, msg, suffix) {
     var args = suffix.toString();
     var data = args.split(', '),
@@ -30,6 +31,8 @@ module.exports = {
         var titles = t.split(',').join('\n');
         var s = resp.map(function (score) { return score.my_score; }).toString();
         var scores = s.split(',').join('\n');
+        var w = resp.map(function (watched) { return watched.my_watched_episodes; }).toString();
+        var watchedep = s.split(',').join('\n');
         let embed = {
           color: 0xf4ce11,
           author: {
@@ -85,6 +88,8 @@ module.exports = {
         var titles = t.split(',').join('\n');
         var s = resp.map(function (score) { return score.my_score; }).toString();
         var scores = s.split(',').join('\n');
+        var w = resp.map(function (watched) { return watched.my_watched_episodes; }).toString();
+        var watchedep = s.split(',').join('\n');
         let embed = {
           color: 0xf4ce11,
           author: {
@@ -140,6 +145,8 @@ module.exports = {
         var titles = t.split(',').join('\n');
         var s = resp.map(function (score) { return score.my_score; }).toString();
         var scores = s.split(',').join('\n');
+        var w = resp.map(function (watched) { return watched.my_watched_episodes; }).toString();
+        var watchedep = s.split(',').join('\n');
         let embed = {
           color: 0xf4ce11,
           author: {

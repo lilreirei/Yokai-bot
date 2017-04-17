@@ -2,8 +2,10 @@ const translate = require('google-translate-api');
 
 module.exports = {
 	desc: "Translate words/sentences.",
-	usage: "<word(s)/sentance>, <from lang>, <to lang> (Make sure to seperate them with a comma)\nex. s!translate I'm feeling sick, en, nl",
+	usage: "<word(s)/sentance>, <from lang>, <to lang> (Make sure to seperate them with a comma)\nex. s.translate I'm feeling sick, en, nl",
 	aliases: ['tl', 'trans'],
+	cooldown: 10,
+	guildOnly: true,
 	task(bot, msg, args) {
     var str = args + "";
     var array = str.split(', '),

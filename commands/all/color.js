@@ -21,6 +21,7 @@ const COLORSNAME = [
 module.exports = {
   desc: "Show a random color or a color from the hex/decimal code given.",
   aliases: ['colour'],
+  cooldown: 5,
   task(bot, msg, suffix) {
     if(!suffix) {
       let choice = ~~(Math.random() * COLORSDECIAML.length);

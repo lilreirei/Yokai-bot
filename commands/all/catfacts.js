@@ -5,6 +5,7 @@ module.exports = {
 	desc: "Gives you a random catfact with a cute cat image.",
 	usage: "",
   cooldown: 5,
+	guildOnly: true,
   aliases: ['catfact'],
 	task(bot, msg) {
     let randomFact = catFacts.random();

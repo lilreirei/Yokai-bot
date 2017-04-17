@@ -1,6 +1,7 @@
 module.exports = {
 	desc: "Sends the latest changelog from the support server.",
 	usage: "",
+	cooldown: 5,
 	guildOnly: true,
 	task(bot, msg, suffix, channel) {
 		let c_ = bot.getChannel('240154536856125440')

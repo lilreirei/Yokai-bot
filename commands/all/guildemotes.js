@@ -3,6 +3,7 @@ module.exports = {
   usage: "",
   aliases: ['serveremotes', 'gemotes', 'semotes'],
   cooldown: 5,
+  guildOnly: true,
   task(bot, msg) {
     bot.createMessage(msg.channel.id, { content: ``,
       embed: {

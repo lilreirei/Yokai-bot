@@ -2,8 +2,10 @@ var currency = require('y-currency');
 
 module.exports = {
 	desc: "Convert currency",
-	usage: "<value>, <from currency>, <to currency> (Make sure to seperate them with a comma)\nex. s!currency 10, EUR, USD",
+	usage: "<value>, <from currency>, <to currency> (Make sure to seperate them with a comma)\nex. s.currency 10, EUR, USD",
 	aliases: ['cc'],
+	guildOnly: true,
+	cooldown: 10,
 	task(bot, msg, args) {
     var str = args.toString();
     var array = str.split(', '),

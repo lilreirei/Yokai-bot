@@ -3,6 +3,8 @@ var giphy = require('giphy-api')();
 module.exports = {
   desc: "Sends a gif from giphy using your search terms.",
   usage: "<tags> | nothing for absolutely random",
+  guildOnly: true,
+  cooldown: 5,
   task(bot, msg, args) {
     giphy.random(`${args}`).then(function(res) {
       bot.createMessage(msg.channel.id, {

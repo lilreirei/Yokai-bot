@@ -3,6 +3,7 @@ module.exports = {
   usage: "",
   aliases: ['serverroles', 'groles', 'sroles'],
   cooldown: 5,
+  guildOnly: true,
   task(bot, msg) {
     bot.createMessage(msg.channel.id, { content: ``,
       embed: {

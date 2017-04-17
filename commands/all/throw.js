@@ -41,6 +41,7 @@ module.exports = {
     desc: "Throw a user.",
     usage: "<@user>",
     cooldown: 2,
+    guildOnly: true,
     task(bot, msg) {
         let choice = ~~(Math.random() * EMOTES.length);
         var emotechoice = EMOTES[choice];

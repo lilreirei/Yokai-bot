@@ -4,6 +4,8 @@ module.exports = {
   desc: "Search hearthstone card by name.",
 	usage: "<card name>, [gold] (Make sure to seperate card name and gold with a comma!)",
 	aliases: ['hs'],
+  cooldown: 10,
+  guildOnly: true,
   task(bot, msg, args) {
     if(!args) {
       return 'wrong usage'

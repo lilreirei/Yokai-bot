@@ -4,7 +4,7 @@ const catgirls = require('../../catgirls.json');
 module.exports = {
 	desc: "Posts a random catgirl.",
 	aliases: ['neko', 'nekos', 'catgirls'],
-	cooldown: 2,
+	cooldown: 5,
 	task(bot, msg, args) {
 		try {
 			var response = catgirls[Math.floor(Math.random()*catgirls.length)];

@@ -5,6 +5,7 @@ module.exports = {
 	desc: "Search a pokemon by name. (Alola region not included)",
 	usage: "<pokemon name>",
 	cooldown: 5,
+	guildOnly: true,
 	task(bot, msg, args) {
 		if(!args) {
 			return 'wrong usage'

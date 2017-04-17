@@ -4,6 +4,7 @@ module.exports = {
 	desc: "Sends a random 9gag post.",
 	usage: "",
 	cooldown: 5,
+	guildOnly: true,	
 	task(bot, msg) {
 		new gagScraper().getRandom(function (error, data) {
 			bot.createMessage(msg.channel.id, { content: ``,

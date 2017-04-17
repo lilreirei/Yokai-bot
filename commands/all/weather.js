@@ -4,6 +4,8 @@ module.exports = {
   desc: "Get the weather from the specified city",
 	usage: "<City>, <Weather unit> ((C = celsius or F = fahrenheit)Make sure to seperate the city and the weather unit with a comma!)",
 	aliases: ['we'],
+  cooldown: 10,
+  guildOnly: true,
   task(bot, msg, args) {
     if(!args) {
       return 'wrong usage'

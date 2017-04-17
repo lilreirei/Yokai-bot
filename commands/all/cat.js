@@ -3,6 +3,7 @@ var request = require('request');
 module.exports = {
 	desc: "Sends random cat image from http://random.cat",
 	usage: "",
+	cooldown: 5,
 	task(bot, msg, suffix) {
 		request("http://random.cat/meow", function(err, response, body) {
 			var cat = JSON.parse(body);

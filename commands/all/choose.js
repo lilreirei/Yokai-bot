@@ -10,7 +10,7 @@ module.exports = {
 	desc: "Makes a choice for you.",
 	usage: "<choice> | <choice> [| choice...]",
 	aliases: ['c', 'pick', 'decide', 'choice'],
-	cooldown: 2,
+	cooldown: 5,
 	task(bot, msg, suffix) {
 		if (!suffix)
 			return 'wrong usage';

@@ -1,6 +1,5 @@
 const request = require('request-promise');
 const hugs = require('../../hugs.json');
-var uniqueRandomArray = require('unique-random-array');
 var randomItem = require('random-item');
 
 module.exports = {
@@ -8,9 +7,9 @@ module.exports = {
   usage: "<@mention>",
 	aliases: ['hugs', 'huggel'],
 	cooldown: 2,
+	guildOnly: true,
 	task(bot, msg) {
-		//var gif = uniqueRandomArray(kiss);
-		var gif = randomItem(kiss);
+		var gif = randomItem(hug);
 		if (msg.mentions.length === 1) {
 			bot.createMessage(msg.channel.id, { content: ``,
 	       embed: {
