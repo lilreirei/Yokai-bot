@@ -9,7 +9,7 @@ module.exports = {
 	cooldown: 2,
 	guildOnly: true,
 	task(bot, msg) {
-		var gif = randomItem(hug);
+		var gif = randomItem(hugs);
 		if (msg.mentions.length === 1) {
 			bot.createMessage(msg.channel.id, { content: ``,
 	       embed: {
