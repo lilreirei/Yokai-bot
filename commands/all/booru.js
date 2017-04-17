@@ -61,29 +61,43 @@ lolibooru.moe, aliases: ["lb", "lol", "loli", "lolibooru"]`,
                             for (let image of images) {
                               var tag = image.common.tags + "";
                               var tags = tag.split(',').join(', ');
+                              var img = image.common.file_url.toString(" ");
+                              var imguri = img.replace(/ /g, "%20");
                                 bot.createMessage(msg.channel.id, {
                                     content: ``,
                                     embed: {
                                         color: 0xf4ce11,
                                         author: {
                                             name: `${msg.author.username}`,
-                                            url: `${image.common.file_url}`,
+                                            url: `${imguri}`,
                                             icon_url: `${msg.author.avatarURL}`
                                         },
-                                        description: `[Click here for the direct image url](${image.common.file_url})
+                                        description: `[Click here for the direct image url](${imguri})
 Searched tags: ${b}
 Tags: ${tags}
 Score: ${image.common.score}
 Rating: ${image.common.rating}`,
                                         image: {
-                                            url: `${image.common.file_url}`
+                                            url: `${imguri}`
                                         },
                                         footer: {
                                             text: `${msg.channel.guild ? (`${msg.channel.guild.name} : #${msg.channel.name}`) : ""}`,
                                             icon_url: `${msg.channel.guild.iconURL === null ? `` : ''}${msg.channel.guild.iconURL !== null ? msg.channel.guild.iconURL : ''}`
                                         }
                                     }
-                                })
+                                }).catch(err => {
+                                  bot.createMessage(msg.channel.id, { content: ``,
+                                    embed: {
+                                      color: 0xf4ce11,
+                                      author: {
+                                        name: ``,
+                                        url: ``,
+                                        icon_url: ``
+                                      },
+                                      description: `${err}`
+                                    }
+                                  })
+                                });
                             }
                         })
                         .catch(err => {
@@ -105,29 +119,43 @@ Rating: ${image.common.rating}`,
                             for (let image of images) {
                               var tag = image.common.tags + "";
                               var tags = tag.split(',').join(', ');
+                              var img = image.common.file_url.toString(" ");
+                              var imguri = img.replace(/ /g, "%20");
                                 bot.createMessage(msg.channel.id, {
                                     content: ``,
                                     embed: {
                                         color: 0xf4ce11,
                                         author: {
                                             name: `${msg.author.username}`,
-                                            url: `${image.common.file_url}`,
+                                            url: `${imguri}`,
                                             icon_url: `${msg.author.avatarURL}`
                                         },
-                                        description: `[Click here for the direct image url](${image.common.file_url})
+                                        description: `[Click here for the direct image url](${imguri})
 Searched tags: ${b}, ${c}
 Tags: ${tags}
 Score: ${image.common.score}
 Rating: ${image.common.rating}`,
                                         image: {
-                                            url: `${image.common.file_url}`
+                                            url: `${imguri}`
                                         },
                                         footer: {
                                             text: `${msg.channel.guild ? (`${msg.channel.guild.name} : #${msg.channel.name}`) : ""}`,
                                             icon_url: `${msg.channel.guild.iconURL === null ? `` : ''}${msg.channel.guild.iconURL !== null ? msg.channel.guild.iconURL : ''}`
                                         }
                                     }
-                                })
+                                }).catch(err => {
+                                  bot.createMessage(msg.channel.id, { content: ``,
+                                    embed: {
+                                      color: 0xf4ce11,
+                                      author: {
+                                        name: ``,
+                                        url: ``,
+                                        icon_url: ``
+                                      },
+                                      description: `${err}`
+                                    }
+                                  })
+                                });
                             }
                         })
                         .catch(err => {
