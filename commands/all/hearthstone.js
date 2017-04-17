@@ -31,26 +31,25 @@ module.exports = {
             description: `${err}, make sure you used the correct name.`
           }
         })
-      }
-      else {
+      } else {
         if(b === undefined) {
           bot.createMessage(msg.channel.id, { content: ``,
             embed: {
               color: 0xf4ce11,
               author: {
                 name: `${msg.author.username}`,
-                url: `${data[0].img}`,
+                url: `${data[0] === undefined ? `` : ''}${data[0] !== undefined ? data[0].img : ''}`,
                 icon_url: `${msg.author.avatarURL}`
               },
-              description: `Name: ${data[0].name}
-Card Set: ${data[0].cardSet}
-Type: ${data[0].type}
-Rarity: ${data[0].rarity}
-Flavor: ${data[0].flavor}
-Artist: ${data[0].artist}
-[Click here for the direct image url](${data[0].img})`,
+              description: `${data[0] === undefined ? `` : ''}${data[0] !== undefined ? `Name: `+data[0].name : ''}
+${data[0] === undefined ? `` : ''}${data[0] !== undefined ? `Card Set: `+data[0].cardSet : ''}
+${data[0] === undefined ? `` : ''}${data[0] !== undefined ? `Type: `+data[0].type : ''}
+${data[0] === undefined ? `` : ''}${data[0] !== undefined ? `Rarity: `+data[0].rarity : ''}
+${data[0] === undefined ? `` : ''}${data[0] !== undefined ? `Flavor: `+data[0].flavor : ''}
+${data[0] === undefined ? `` : ''}${data[0] !== undefined ? `Artist: `+data[0].artist : ''}
+${data[0] === undefined ? `Make sure to use a card name.` : ''}${data[0] !== undefined ? `[Click here for the direct image url](`+data[0].img+`)` : ''}`,
               image: {
-                url: `${data[0].img}`
+                url: `${data[0] === undefined ? `` : ''}${data[0] !== undefined ? data[0].img : ''}`
               },
               footer: {
                   text: `${msg.channel.guild ? (`${msg.channel.guild.name} : #${msg.channel.name}`) : ""}`,
@@ -64,18 +63,18 @@ Artist: ${data[0].artist}
               color: 0xf4ce11,
               author: {
                 name: `${msg.author.username}`,
-                url: `${data[0].imgGold}`,
+                url: `${data[0] === undefined ? `` : ''}${data[0] !== undefined ? data[0].imgGold : ''}`,
                 icon_url: `${msg.author.avatarURL}`
               },
-              description: `Name: ${data[0].name}
-Card Set: ${data[0].cardSet}
-Type: ${data[0].type}
-Rarity: ${data[0].rarity}
-Flavor: ${data[0].flavor}
-Artist: ${data[0].artist}
-[Click here for the direct image url](${data[0].imgGold})`,
+              description: `${data[0] === undefined ? `` : ''}${data[0] !== undefined ? `Name: `+data[0].name : ''}
+${data[0] === undefined ? `` : ''}${data[0] !== undefined ? `Card Set: `+data[0].cardSet : ''}
+${data[0] === undefined ? `` : ''}${data[0] !== undefined ? `Type: `+data[0].type : ''}
+${data[0] === undefined ? `` : ''}${data[0] !== undefined ? `Rarity: `+data[0].rarity : ''}
+${data[0] === undefined ? `` : ''}${data[0] !== undefined ? `Flavor: `+data[0].flavor : ''}
+${data[0] === undefined ? `` : ''}${data[0] !== undefined ? `Artist: `+data[0].artist : ''}
+${data[0] === undefined ? `Make sure to use a card name.` : ''}${data[0] !== undefined ? `[Click here for the direct image url](`+data[0].imgGold+`)` : ''}`,
               image: {
-                url: `${data[0].imgGold}`
+                url: `${data[0] === undefined ? `` : ''}${data[0] !== undefined ? data[0].imgGold : ''}`
               },
               footer: {
                   text: `${msg.channel.guild ? (`${msg.channel.guild.name} : #${msg.channel.name}`) : ""}`,
