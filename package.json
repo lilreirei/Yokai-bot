@@ -1,6 +1,6 @@
 {
   "name": "Shinobu",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "description": "A well made and simple to use bot for discord.\nCreated with the MiraiBot framework!\nLinku: https://github.com/brussell98/Mirai",
   "author": "Pepijn \"Kurozero\" van den Broek",
   "main": "Shinobu.js",
@@ -34,6 +34,7 @@
     "entities": "^1.1.1",
     "eris": "github:abalabahaha/eris#dev",
     "file-send": "^2.0.6",
+    "giphy-api": "^1.2.5",
     "google-translate-api": "^2.2.2",
     "group-by": "0.0.1",
     "hearthstone-card-repo": "^0.5.0",
@@ -50,16 +51,19 @@
     "request": "^2.79.0",
     "request-promise": "^4.1.1",
     "require-reload": "^0.2.2",
+    "sfwbooru": "0.0.1",
+    "sloc": "^0.2.0",
     "superagent": "^3.5.2",
     "unique-random-array": "^1.0.0",
     "y-currency": "^1.0.3",
     "yahoo-weather": "^2.2.2"
   },
   "devDependencies": {
-    "jsdoc-parse": "^3.0.0",
-    "minami": "^1.1.1",
-    "eslint": "*",
     "async": "^2.3.0",
-    "asyncx": "^0.4.5"
+    "asyncx": "^0.4.5",
+    "cloc": "^2.2.0",
+    "eslint": "*",
+    "jsdoc-parse": "^3.0.0",
+    "minami": "^1.1.1"
   }
 }
