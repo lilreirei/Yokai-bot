@@ -31,6 +31,11 @@ module.exports = {
               value: `${owner.username}#${owner.discriminator} (${msg.channel.guild.ownerID})`,
               inline: true
             },
+						{
+              name: `Channel ID`,
+              value: `${msg.channel.id}`,
+              inline: false
+            },
             {
               name: `Report`,
               value: `${args}`,
