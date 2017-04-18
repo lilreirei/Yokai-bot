@@ -68,12 +68,11 @@ lolibooru.moe, aliases: ["lb", "lol", "loli", "lolibooru"]`,
                   embed: {
                     color: 0xf4ce11,
                     author: {
-                      name: `${msg.author.username}`,
+                      name: `Click here for the direct image url`,
                       url: `${imguri}`,
                       icon_url: `${msg.author.avatarURL}`
                     },
-                    description: `[Click here for the direct image url](${imguri})
-Searched tags: ${b}
+                    description: `Searched tags: ${b}
 Tags: ${tags}
 Score: ${image.common.score}
 Rating: ${image.common.rating}`,
@@ -149,12 +148,11 @@ Rating: ${image.common.rating}`,
                   embed: {
                     color: 0xf4ce11,
                     author: {
-                      name: `${msg.author.username}`,
+                      name: `Click here for the direct image url`,
                       url: `${imguri}`,
                       icon_url: `${msg.author.avatarURL}`
                     },
-                    description: `[Click here for the direct image url](${imguri})
-Searched tags: ${b}, ${c}
+                    description: `Searched tags: ${b}, ${c}
 Tags: ${tags}
 Score: ${image.common.score}
 Rating: ${image.common.rating}`,

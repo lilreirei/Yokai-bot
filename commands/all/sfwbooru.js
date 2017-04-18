@@ -30,7 +30,19 @@ dollbooru.org, aliases: ["do","doll","dollbooru"]`,
             icon_url: `${msg.channel.guild.iconURL === null ? `` : ''}${msg.channel.guild.iconURL !== null ? msg.channel.guild.iconURL : ''}`
           }
         }
-      })
+      }).catch(err => {
+				bot.createMessage(msg.channel.id, { content: ``,
+					embed: {
+						color: 0xf4ce11,
+						author: {
+							name: ``,
+							url: ``,
+							icon_url: ``
+						},
+						description: `${err}`
+					}
+				})
+			});
     } else {
       booru.search(site, ['', '', 's'], {
           limit: 1,
