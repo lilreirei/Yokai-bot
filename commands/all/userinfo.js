@@ -18,46 +18,55 @@ module.exports = {
             name: `User info of ${msg.author.username}`,
             icon_url: `${user.avatarURL}`
           },
-          description: `Playing ${msg.member.game === null ? `n/a` : ''}${msg.member.game !== null ? '**'+msg.member.game.name+'**' : ''}`,
+          description: ``,
           thumbnail: {
             url: `${user.avatarURL}`
           },
           fields: [
             {
-              name: `Username:`,
+              name: `Username`,
               value: `${msg.member.user.username}#${msg.member.user.discriminator}`,
               inline: true
             },
             {
-              name: `Bot:`,
+              name: `Bot`,
               value: `${msg.member.user.bot}`,
               inline: true
             },
             {
-              name: `User Id:`,
+              name: `ID`,
               value: `${msg.member.user.id}`,
               inline: true
             },
             {
-              name: `Nickname:`,
+              name: `Nickname`,
               value: `${msg.member.nick === null ? `n/a` : ''}${msg.member.nick !== null ? msg.member.nick : ''}`,
               inline: true
             },
             {
-              name: `Created at:`,
-              value: `${msg.member.user.createdAt === null ? `` : ''}${moment(msg.member.user.createdAt).utc().format('ddd MMM DD YYYY | kk:mm:ss')} UTC (${moment(msg.member.user.createdAt).fromNow()})`
+              name: `Status`,
+              value: `${msg.member.status}`,
+              inline: true
             },
             {
-              name: `Joined at:`,
-              value: `${msg.member.joinedAt === null ? `` : ''}${moment(msg.member.joinedAt).utc().format('ddd MMM DD YYYY | kk:mm:ss')} UTC (${moment(msg.member.joinedAt).fromNow()})`
+              name: `Playing`,
+              value: `${msg.member.game === null ? `n/a` : ''}${msg.member.game !== null ? '**'+msg.member.game.name+'**' : ''}`,
+              inline: true
             },
             {
-              name: `Status:`,
-              value: `${msg.member.status}`
+              name: `Created at`,
+              value: `${msg.member.user.createdAt === null ? `` : ''}${moment(msg.member.user.createdAt).utc().format('ddd MMM DD YYYY | kk:mm:ss')} UTC (${moment(msg.member.user.createdAt).fromNow()})`,
+              inline: false
             },
             {
-              name: `Roles:`,
-              value: `${msg.member.roles === undefined ? `n/a` : ''}${msg.member.roles !== undefined ? `${userroles}` : ''}`
+              name: `Joined at`,
+              value: `${msg.member.joinedAt === null ? `` : ''}${moment(msg.member.joinedAt).utc().format('ddd MMM DD YYYY | kk:mm:ss')} UTC (${moment(msg.member.joinedAt).fromNow()})`,
+              inline: false
+            },
+            {
+              name: `Roles`,
+              value: `${msg.member.roles === undefined ? `n/a` : ''}${msg.member.roles !== undefined ? `${userroles}` : ''}`,
+              inline: false
             }
           ]
         }
