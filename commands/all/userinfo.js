@@ -16,7 +16,8 @@ module.exports = {
           type: 'rich',
           author: {
             name: `User info of ${msg.author.username}`,
-            icon_url: `${user.avatarURL}`
+            icon_url: `${user.avatarURL}`,
+            url: `${user.avatarURL}`
           },
           description: ``,
           thumbnail: {
@@ -50,7 +51,7 @@ module.exports = {
             },
             {
               name: `Playing`,
-              value: `${msg.member.game === null ? `n/a` : ''}${msg.member.game !== null ? '**'+msg.member.game.name+'**' : ''}`,
+              value: `${msg.member.game === null ? `n/a` : ''}${msg.member.game !== null ? msg.member.game.name : ''}`,
               inline: true
             },
             {
@@ -104,7 +105,8 @@ module.exports = {
           type: 'rich',
           author: {
             name: `User info of ${user.username}`,
-            icon_url: `${user.avatarURL}`
+            icon_url: `${user.avatarURL}`,
+            url: `${user.avatarURL}`
           },
           description: ``,
           thumbnail: {
@@ -138,7 +140,7 @@ module.exports = {
             },
             {
               name: `Playing`,
-              value: `${id.game === null ? `n/a` : ''}${id.game !== null ? '**'+id.game.name+'**' : ''}`,
+              value: `${id.game === null ? `n/a` : ''}${id.game !== null ? id.game.name : ''}`,
               inline: true
             },
             {
