@@ -2,69 +2,14 @@ moment = require('../../node_modules/moment');
 
 module.exports = {
   desc: "Shows info of a user.",
-  usage: "Nothing, for your info | <@user> for someone else's info",
+  usage: "<username | ID | @username>",
   aliases: ['ui', 'uinfo', 'user'],
   cooldown: 5,
   guildOnly: true,
-  task(bot, msg, guild) {
-    if (msg.mentions.length === 1) {
-var user = msg.mentions[0];
-      var id = msg.channel.guild.members.get(msg.mentions[0].id);
-      bot.createMessage(msg.channel.id, { content: ``,
-        embed: {
-          color: 0xf4ce11,
-          type: 'rich',
-          author: {
-            name: `User info of ${msg.mentions[0].username}`,
-            icon_url: `${user.avatarURL}`
-          },
-          description: `Playing ${id.game === null ? `n/a` : ''}${id.game !== null ? '**'+id.game.name+'**' : ''}`,
-          thumbnail: {
-            url: `${user.avatarURL}`
-          },
-          fields: [
-            {
-              name: `Username:`,
-              value: `${msg.mentions[0].username}#${msg.mentions[0].discriminator}`,
-              inline: true
-            },
-            {
-              name: `Bot:`,
-              value: `${msg.mentions[0].bot}`,
-              inline: true
-            },
-            {
-              name: `User Id:`,
-              value: `${msg.mentions[0].id}`,
-              inline: true
-            },
-            {
-              name: `Nickname:`,
-              value: `${id.nick === null ? `n/a` : ''}${id.nick !== null ? id.nick : ''}`,
-              inline: true
-            },
-            {
-              name: `Created at:`,
-              value: `${msg.mentions[0].createdAt === null ? `` : ''}${moment(msg.mentions[0].createdAt).utc().format('ddd MMM DD YYYY | kk:mm:ss')} UTC (${moment(msg.mentions[0].createdAt).fromNow()})`
-            },
-            {
-              name: `Joined at:`,
-              value: `${id.joinedAt === null ? `` : ''}${moment(id.joinedAt).utc().format('ddd MMM DD YYYY | kk:mm:ss')} UTC (${moment(id.joinedAt).fromNow()})`
-            },
-            {
-              name: `Status:`,
-              value: `${id.status}`
-            }/*,
-            {
-              name: ``,
-              value: `${id.roles.map(r=>msg.channel.guild.roles.get(r).name).join(', ')}`
-            }*/
-          ]
-        }
-      })
-    }
-    else {
-	var user = msg.author;
+  task(bot, msg, args) {
+    if(!args) {
+      const user = msg.author;
+      const userroles = msg.member.roles.map(r=>msg.channel.guild.roles.get(r).name).join(', ');
       bot.createMessage(msg.channel.id, { content: ``,
         embed: {
           color: 0xf4ce11,
@@ -109,14 +54,109 @@ var user = msg.mentions[0];
             {
               name: `Status:`,
               value: `${msg.member.status}`
-            }/*,
+            },
             {
-              name: ``,
-              value: `${msg.member.roles.map(r=>msg.channel.guild.roles.get(r).name).join(', ')}`
-            }*/
+              name: `Roles:`,
+              value: `${msg.member.roles === undefined ? `n/a` : ''}${msg.member.roles !== undefined ? `${userroles}` : ''}`
+            }
           ]
         }
+      }).catch(err => {
+        bot.createMessage(msg.channel.id, { content: ``,
+          embed: {
+            color: 0xff0000,
+            author: {
+              name: ``,
+              url: ``,
+              icon_url: ``
+            },
+            description: `${err}`
+          }
+        })
+      });
+    } else {
+      const user = this.findMember(msg, args)
+      if (!user) return bot.createMessage(msg.channel.id, { content: ``,
+        embed: {
+          color: 0xff0000,
+          author: {
+            name: ``,
+            url: ``,
+            icon_url: ``
+          },
+          description: `That is not a valid guild member. Need to specify a name, ID or mention the user.`
+        }
       })
+      const id = msg.channel.guild.members.get(user.id);
+      const userroles = id.roles.map(r => msg.channel.guild.roles.get(r).name).join(', ');
+      bot.createMessage(msg.channel.id, { content: ``,
+        embed: {
+          color: 0xf4ce11,
+          type: 'rich',
+          author: {
+            name: `User info of ${user.username}`,
+            icon_url: `${user.avatarURL}`
+          },
+          description: `Playing ${id.game === null ? `n/a` : ''}${id.game !== null ? '**'+id.game.name+'**' : ''}`,
+          thumbnail: {
+            url: `${user.avatarURL}`
+          },
+          fields: [
+            {
+              name: `Username:`,
+              value: `${user.username}#${user.discriminator}`,
+              inline: true
+            },
+            {
+              name: `Bot:`,
+              value: `${user.bot}`,
+              inline: true
+            },
+            {
+              name: `User Id:`,
+              value: `${user.id}`,
+              inline: true
+            },
+            {
+              name: `Nickname:`,
+              value: `${id.nick === null ? `n/a` : ''}${id.nick !== null ? id.nick : ''}`,
+              inline: true
+            },
+            {
+              name: `Created at:`,
+              value: `${user.createdAt === null ? `` : ''}${moment(user.createdAt).utc().format('ddd MMM DD YYYY | kk:mm:ss')} UTC (${moment(user.createdAt).fromNow()})`,
+              inline: false
+            },
+            {
+              name: `Joined at:`,
+              value: `${id.joinedAt === null ? `` : ''}${moment(id.joinedAt).utc().format('ddd MMM DD YYYY | kk:mm:ss')} UTC (${moment(id.joinedAt).fromNow()})`,
+              inline: false
+            },
+            {
+              name: `Status:`,
+              value: `${id.status}`,
+              inline: true
+            },
+            {
+              name: `Roles:`,
+              value: `${id.roles === undefined ? `n/a` : ''}${id.roles !== undefined ? `${userroles}` : ''}`,
+              inline: true
+            }
+          ]
+        }
+      }).catch(err => {
+        bot.createMessage(msg.channel.id, { content: ``,
+          embed: {
+            color: 0xff0000,
+            author: {
+              name: ``,
+              url: ``,
+              icon_url: ``
+            },
+            description: `${err}`
+          }
+        })
+      });
     }
   }
 };

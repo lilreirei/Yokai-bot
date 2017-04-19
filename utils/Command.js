@@ -138,6 +138,23 @@ class Command {
 		}
 	}
 
+	findMember (msg, str) {
+    if (!str || str === '') return false
+    const guild = msg.channel.guild
+    if (!guild) return msg.mentions[0] ? msg.mentions[0] : false
+    if (/^\d{17,18}/.test(str) || /^<@!?\d{17,18}>/.test(str)) {
+      const member = guild.members.get(/^<@!?\d{17,18}>/.test(str) ? str.replace(/<@!?/, '').replace('>', '') : str)
+      return member ? member.user : false
+    } else if (str.length <= 33) {
+      const isMemberName = (name, str) => name === str || name.startsWith(str) || name.includes(str)
+      const member = guild.members.find(m => {
+        if (m.nick && isMemberName(m.nick.toLowerCase(), str.toLowerCase())) return true
+        return isMemberName(m.user.username.toLowerCase(), str.toLowerCase())
+      })
+      return member ? member.user : false
+    } else return false
+  }
+
 	/** Destroys the command */
 	destroy() {
 		if (typeof this.destroyFunction === 'function')
