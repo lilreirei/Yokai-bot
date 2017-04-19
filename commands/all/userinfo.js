@@ -97,50 +97,55 @@ module.exports = {
             name: `User info of ${user.username}`,
             icon_url: `${user.avatarURL}`
           },
-          description: `Playing ${id.game === null ? `n/a` : ''}${id.game !== null ? '**'+id.game.name+'**' : ''}`,
+          description: ``,
           thumbnail: {
             url: `${user.avatarURL}`
           },
           fields: [
             {
-              name: `Username:`,
+              name: `Username`,
               value: `${user.username}#${user.discriminator}`,
               inline: true
             },
             {
-              name: `Bot:`,
+              name: `Bot`,
               value: `${user.bot}`,
               inline: true
             },
             {
-              name: `User Id:`,
+              name: `ID`,
               value: `${user.id}`,
               inline: true
             },
             {
-              name: `Nickname:`,
+              name: `Nickname`,
               value: `${id.nick === null ? `n/a` : ''}${id.nick !== null ? id.nick : ''}`,
               inline: true
             },
             {
-              name: `Created at:`,
-              value: `${user.createdAt === null ? `` : ''}${moment(user.createdAt).utc().format('ddd MMM DD YYYY | kk:mm:ss')} UTC (${moment(user.createdAt).fromNow()})`,
-              inline: false
-            },
-            {
-              name: `Joined at:`,
-              value: `${id.joinedAt === null ? `` : ''}${moment(id.joinedAt).utc().format('ddd MMM DD YYYY | kk:mm:ss')} UTC (${moment(id.joinedAt).fromNow()})`,
-              inline: false
-            },
-            {
-              name: `Status:`,
+              name: `Status`,
               value: `${id.status}`,
               inline: true
             },
             {
-              name: `Roles:`,
-              value: `${id.roles === undefined ? `n/a` : ''}${id.roles !== undefined ? `${userroles}` : ''}`,
+              name: `Playing`,
+              value: `${id.game === null ? `n/a` : ''}${id.game !== null ? '**'+id.game.name+'**' : ''}`,
               inline: true
+            },
+            {
+              name: `Created at`,
+              value: `${user.createdAt === null ? `` : ''}${moment(user.createdAt).utc().format('ddd MMM DD YYYY | kk:mm:ss')} UTC (${moment(user.createdAt).fromNow()})`,
+              inline: false
+            },
+            {
+              name: `Joined at`,
+              value: `${id.joinedAt === null ? `` : ''}${moment(id.joinedAt).utc().format('ddd MMM DD YYYY | kk:mm:ss')} UTC (${moment(id.joinedAt).fromNow()})`,
+              inline: false
+            },
+            {
+              name: `Roles`,
+              value: `${id.roles === undefined ? `n/a` : ''}${id.roles !== undefined ? `${userroles}` : ''}`,
+              inline: false
             }
           ]
         }
