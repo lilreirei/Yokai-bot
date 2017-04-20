@@ -15,10 +15,8 @@ module.exports = {
   cooldown: 2,
   task(bot, msg, suffix) {
 		let choice = ~~(Math.random() * RESPONSES.length);
-		if(!suffix)
-    	bot.createMessage(msg.channel.id, `**${msg.author.username}** has paid their respect ${RESPONSES[choice]}`);
-		else {
-    	bot.createMessage(msg.channel.id, `**${msg.author.username}** has paid their respect for **${suffix}** ${RESPONSES[choice]}`);
-		}
+		if(!suffix) return bot.createMessage(msg.channel.id, `**${msg.author.username}** has paid their respect ${RESPONSES[choice]}`);
+
+		bot.createMessage(msg.channel.id, `**${msg.author.username}** has paid their respect for **${suffix}** ${RESPONSES[choice]}`);
   }
 };
