@@ -8,7 +8,7 @@ module.exports = {
   aliases: ['hugs', 'huggel'],
   cooldown: 2,
   guildOnly: true,
-  task(bot, msg) {
+  task(bot, msg, args) {
 		const user = this.findMember(msg, args);
     const gif = randomItem(hugs);
     if (!args) return 'wrong usage';
