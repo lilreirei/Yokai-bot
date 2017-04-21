@@ -33,7 +33,7 @@ module.exports = {
           url: ``,
           icon_url: ``
         },
-        description: `<@${msg.author.id}> **hugs** <@${msg.mentions[0].id}>`,
+        description: `<@${msg.author.id}> **kisses** <@${user.id}>`,
         image: {
           url: `${gif}`
         }
