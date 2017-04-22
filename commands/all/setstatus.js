@@ -8,15 +8,22 @@ module.exports = {
 	hidden: true,
 	ownerOnly: true,
 	task(bot, msg, suffix, config) {
+		const str = suffix + "";
+    const array = str.split(/ ?\| ?/),
+      status = array[0],
+      game = array[1];
 		if (!suffix)
 			return bot.createMessage(msg.channel.id, 'No suffix provided');
-		if (suffix.endsWith('-r'))
-			return bot.editGame({name: games[~~(Math.random() * games.length)]});
-		if (suffix.endsWith('-f'))
+		if (!game)
+			if (suffix.startsWith('{'))
+				return bot.editStatus(JSON.parse(suffix.replace(/ *\-f$/, '')));
+			if (!suffix.startsWith('{'))
+				return bot.editStatus(status, {name: games[~~(Math.random() * games.length)]});
+		if (game.endsWith('-r'))
+			return bot.editStatus(status, {name: games[~~(Math.random() * games.length)]});
+		if (game.endsWith('-f'))
 			config.cycleGames = false;
-		if (suffix.startsWith('{'))
-			bot.editGame(JSON.parse(suffix.replace(/ *\-f$/, '')));
 		else
-			bot.editGame({name: suffix.replace(/ *\-f$/, '')});
+			bot.editStatus(status, {name: game.replace(/ *\-f$/, '')});
 	}
 };
