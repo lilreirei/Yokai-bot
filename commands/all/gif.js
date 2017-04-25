@@ -7,6 +7,19 @@ module.exports = {
   cooldown: 5,
   task(bot, msg, args) {
     giphy.random(`${args}`).then(function(res) {
+      const imgURL = res.data.image_url;
+      if (imgURL === undefined) return bot.createMessage(msg.channel.id, {
+        content: ``,
+        embed: {
+          color: 0xff0000,
+          author: {
+            name: ``,
+            url: ``,
+            icon_url: ``
+          },
+          description: `Coudn't find any image.`
+        }
+      })
       bot.createMessage(msg.channel.id, {
         content: ``,
         embed: {
@@ -16,12 +29,12 @@ module.exports = {
             url: ``,
             icon_url: ``
           },
-          description: `[Direct image url](${res.data.image_url})
+          description: `[Direct image url](${imgURL})
 Frames: ${res.data.image_frames}
 Width: ${res.data.image_width}
 Height: ${res.data.image_height}`,
           image: {
-            url: `${res.data.image_url}`
+            url: `${imgURL}`
           },
           footer: {
             text: `${msg.channel.guild ? (`${msg.channel.guild.name} : #${msg.channel.name}`) : ""}`,
