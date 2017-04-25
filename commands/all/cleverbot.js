@@ -25,15 +25,6 @@ module.exports = {
           }
         })
       }).catch(err => {
-        /*let embed = {
-          color: 0xff0000,
-          author: {
-            name: ``,
-            url: ``,
-            icon_url: ``
-          },
-          description: `:warning: ${err}`
-        }*/
         let embed = {
           color: 0xff0000,
           author: {
@@ -41,22 +32,13 @@ module.exports = {
             url: ``,
             icon_url: ``
           },
-          description: `Cleverbot is currently disabled.`
+          description: `:warning: ${err}`
         }
         bot.createMessage(msg.channel.id, {
           embed: embed
         })
       });
     }).catch(err => {
-      /*let embed = {
-        color: 0xff0000,
-        author: {
-          name: ``,
-          url: ``,
-          icon_url: ``
-        },
-        description: `:warning: ${err}`
-      }*/
       let embed = {
         color: 0xff0000,
         author: {
@@ -64,7 +46,7 @@ module.exports = {
           url: ``,
           icon_url: ``
         },
-        description: `Cleverbot is currently disabled.`
+        description: `:warning: ${err}`
       }
       bot.createMessage(msg.channel.id, {
         embed: embed
