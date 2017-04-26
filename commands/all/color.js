@@ -1,149 +1,73 @@
-const COLORSDECIAML = [
-  0x46A030,
-  0x2B54CE,
-  0x00FFFF,
-  0xFF0000,
-  0xFFFF00,
-  0xFF8000,
-  0x9932CC
-];
-
-const COLORSNAME = [
-  "green",
-  "blue",
-  "cyan",
-  "red",
-  "yellow",
-  "orange",
-  "purple"
-];
+const randomColor = require('random-color');
+const hexRgb = require('hex-rgb');
+const converter = require('hex2dec');
+const randomFloat = require('random-floating');
 
 module.exports = {
-  desc: "Show a random color or a color from the hex/decimal code given.",
+  desc: "Generate a random color.",
   aliases: ['colour'],
   cooldown: 5,
-  task(bot, msg, suffix) {
-    if(!suffix) {
-      let choice = ~~(Math.random() * COLORSDECIAML.length);
-      let hex = (COLORSDECIAML[choice]).toString(16);
-      var c = COLORSDECIAML[choice];
-      var components = {
-        r: (c & 0xff0000) >> 16,
-        g: (c & 0x00ff00) >> 8,
-        b: (c & 0x0000ff)
-    }
-
-      bot.createMessage(msg.channel.id, { content: ``,
+  task(bot, msg) {
+    // generate random number
+    const rn = randomFloat({
+      min: 0.3,
+      max: 0.99,
+      fixed: 2
+    });
+    const rn2 = randomFloat({
+      min: 0.3,
+      max: 0.99,
+      fixed: 2
+    });
+    // generate random color
+    const color = randomColor(rn, rn2);
+    const hex = color.hexString();
+    // convert to rgb
+    const rgb = hexRgb(`${hex}`).join(', ');
+    // make usable for dec
+    const hex2 = hex.replace("#", "0x");
+    // convert to decimal
+    const dec = converter.hexToDec(`${hex2}`);
+    bot.createMessage(msg.channel.id, {
+      content: ``,
+      embed: {
+        color: dec,
+        author: {
+          name: ``,
+          url: ``,
+          icon_url: ``
+        },
+        description: ``,
+        fields: [{
+            name: `Hex`,
+            value: `${hex}`,
+            inline: false
+          },
+          {
+            name: `RGB`,
+            value: `(${rgb})`,
+            inline: false
+          },
+          {
+            name: `Decimal`,
+            value: `${dec}`,
+            inline: false
+          }
+        ]
+      }
+    }).catch(err => {
+      bot.createMessage(msg.channel.id, {
+        content: ``,
         embed: {
-          color: COLORSDECIAML[choice],
+          color: 0xff0000,
           author: {
-            name: `${COLORSNAME[choice]}`,
+            name: ``,
+            url: ``,
             icon_url: ``
           },
-          description: `**Hex: #${hex}**
-**Decimal: ${COLORSDECIAML[choice]}**
-**RGB: (${components.r}, ${components.g}, (${components.b})**`
+          description: `${err}`
         }
       })
-    }
-    else {
-      var suf = suffix;
-
-      if(suf.charAt( 0 ) === '#') {
-        suf = suf.slice( 1 );
-      let color = parseInt(suf, 16);
-      var c = color;
-      var components = {
-        r: (c & 0xff0000) >> 16,
-        g: (c & 0x00ff00) >> 8,
-        b: (c & 0x0000ff)
-    }
-        bot.createMessage(msg.channel.id, { content: ``,
-          embed: {
-            color: color,
-            author: {
-              name: `Custom color`,
-              icon_url: ``
-            },
-            description: `**Hex: #${suf}**
-**Decimal: ${color}**
-**RGB: (${components.r}, ${components.g}, ${components.b})**
-
-Requested by *${msg.author.username}*`
-          }
-        })
-      }
-      else if((suf.charAt(0) === '0') && (suf.charAt(1) === 'x')) {
-        suf = suf.slice( 2 );
-      let color = parseInt(suf, 16);
-      var c = color;
-      var components = {
-        r: (c & 0xff0000) >> 16,
-        g: (c & 0x00ff00) >> 8,
-        b: (c & 0x0000ff)
-    }
-        bot.createMessage(msg.channel.id, { content: ``,
-          embed: {
-            color: color,
-            author: {
-              name: `Custom color`,
-              icon_url: ``
-            },
-            description: `**Hex: #${suf}**
-**Decimal: ${color}**
-**RGB: (${components.r}, ${components.g}, ${components.b})**
-
-Requested by *${msg.author.username}*`
-          }
-        })
-      }
-      else if(suffix.length === 6) {
-        let color = parseInt(suf, 16);
-        var c = color;
-        var components = {
-          r: (c & 0xff0000) >> 16,
-          g: (c & 0x00ff00) >> 8,
-          b: (c & 0x0000ff)
-      }
-        bot.createMessage(msg.channel.id, { content: ``,
-          embed: {
-            color: color,
-            author: {
-              name: `Custom color`,
-              icon_url: ``
-            },
-            description: `**Hex: #${suf}**
-**Decimal: ${color}**
-**RGB: (${components.r}, ${components.g}, ${components.b})**
-
-Requested by *${msg.author.username}*`
-          }
-        })
-      }
-      else {
-        var int = parseInt(suffix);
-        let hex = (int).toString(16);
-        var c = int;
-        var components = {
-          r: (c & 0xff0000) >> 16,
-          g: (c & 0x00ff00) >> 8,
-          b: (c & 0x0000ff)
-      }
-        bot.createMessage(msg.channel.id, { content: ``,
-          embed: {
-            color: suf,
-            author: {
-              name: `Custom color`,
-              icon_url: ``
-            },
-            description: `**Hex: #${hex}**
-**Decimal: ${suf}**
-**RGB: (${components.r}, ${components.g}, ${components.b})**
-
-Requested by *${msg.author.username}*`
-          }
-        })
-      }
-    }
+    });
   }
 };
