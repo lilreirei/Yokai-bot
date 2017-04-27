@@ -97,6 +97,15 @@ function initEvent(name) { // Setup the event listener for each loaded event.
 			else
 				events.messageCreate.handler(bot, msg, CommandManagers, config, settingsManager);
 		});
+	} else if (name === 'messageLevel') {
+		bot.on('messageCreate', msg => {
+			if (msg.content.startsWith(config.reloadCommand) && config.adminIds.includes(msg.author.id)) //check for reload or eval command
+				reloadModule(msg);
+			else if (msg.content.startsWith(config.evalCommand) && config.adminIds.includes(msg.author.id))
+				evaluate(msg);
+			else
+				events.messageLevel.handler(bot, msg, CommandManagers, config, settingsManager);
+		});
 	} else if (name === 'channelDelete') {
 		bot.on('channelDelete', channel => {
 			settingsManager.handleDeletedChannel(channel);
@@ -321,6 +330,7 @@ if (config.discordbotsorg) { //Send servercount to discordbotsorg
 			data.table = []
 				 var obj = {
 						 server_count: bot.guilds.size,
+						 //shard_id: bot.shards.id,
 						 shard_count: bot.shards.size
 				 }
 			data.table.push(obj)
