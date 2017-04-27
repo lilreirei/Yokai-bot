@@ -18,6 +18,33 @@ module.exports = {
         a = array[0],
         b = array[1],
         c = array[2];
+      if (c !== undefined)
+        var lower2 = c.toLowerCase();
+      if (b !== undefined)
+        var lower = b.toLowerCase();
+      if (lower === 'loli' || lower === 'lolicon' || lower === 'shota' || lower === 'shotacon') return bot.createMessage(msg.channel.id, { content: ``,
+  			embed: {
+  				color: 0xf4ce11,
+  				author: {
+  					name: ``,
+  					url: ``,
+  					icon_url: ``
+  				},
+  				description: `Sorry it's against Discord's ToS to search for these tags.`
+  			}
+  		});
+
+      if (lower2 === 'loli' || lower2 === 'lolicon' || lower2 === 'shota' || lower2 === 'shotacon') return bot.createMessage(msg.channel.id, { content: ``,
+  			embed: {
+  				color: 0xf4ce11,
+  				author: {
+  					name: ``,
+  					url: ``,
+  					icon_url: ``
+  				},
+  				description: `Sorry it's against Discord's ToS to search for these tags.`
+  			}
+  		});
 
       if (a === 'list') {
         bot.createMessage(msg.channel.id, {
@@ -42,8 +69,7 @@ tbib.org, aliases: ["tb", "tbib","big"]
 xbooru.com, aliases: ["xb","xbooru"]
 youhate.us, aliases: ["yh","you","youhate"]
 dollbooru.org, aliases: ["do","doll","dollbooru"]
-rule34.paheal.net, aliases: ["pa","paheal"]
-lolibooru.moe, aliases: ["lb", "lol", "loli", "lolibooru"]`,
+rule34.paheal.net, aliases: ["pa","paheal"]`,
             footer: {
               text: `${msg.channel.guild ? (`${msg.channel.guild.name} : #${msg.channel.name}`) : ""}`,
               icon_url: `${msg.channel.guild.iconURL === null ? `` : ''}${msg.channel.guild.iconURL !== null ? msg.channel.guild.iconURL : ''}`
