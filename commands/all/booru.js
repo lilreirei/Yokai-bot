@@ -86,6 +86,18 @@ rule34.paheal.net, aliases: ["pa","paheal"]`,
             .then(images => {
               for (let image of images) {
                 var tag = image.common.tags + "";
+                if (tag.includes('loli') || tag.includes('lolicon') || tag.includes('shota') || tag.includes('shotacon')) return bot.createMessage(msg.channel.id, {
+                  content: ``,
+                  embed: {
+                    color: 0xf4ce11,
+                    author: {
+                      name: ``,
+                      url: ``,
+                      icon_url: ``
+                    },
+                    description: `Sorry, it's against Discord's ToS to show you this images.`
+                  }
+                });
                 var tags = tag.split(',').join(', ');
                 var img = image.common.file_url.toString(" ");
                 var imguri = img.replace(/ /g, "%20");
@@ -166,6 +178,18 @@ Rating: ${image.common.rating}`,
             .then(images => {
               for (let image of images) {
                 var tag = image.common.tags + "";
+                if (tag.includes('loli') || tag.includes('lolicon') || tag.includes('shota') || tag.includes('shotacon')) return bot.createMessage(msg.channel.id, {
+                  content: ``,
+                  embed: {
+                    color: 0xf4ce11,
+                    author: {
+                      name: ``,
+                      url: ``,
+                      icon_url: ``
+                    },
+                    description: `Sorry, it's against Discord's ToS to show you this images.`
+                  }
+                });
                 var tags = tag.split(',').join(', ');
                 var img = image.common.file_url.toString(" ");
                 var imguri = img.replace(/ /g, "%20");
