@@ -97,7 +97,7 @@ function initEvent(name) { // Setup the event listener for each loaded event.
 			else
 				events.messageCreate.handler(bot, msg, CommandManagers, config, settingsManager);
 		});
-	} else if (name === 'messageLevel') {
+	} /*else if (name === 'messageLevel') {
 		bot.on('messageCreate', msg => {
 			if (msg.content.startsWith(config.reloadCommand) && config.adminIds.includes(msg.author.id)) //check for reload or eval command
 				reloadModule(msg);
@@ -106,7 +106,7 @@ function initEvent(name) { // Setup the event listener for each loaded event.
 			else
 				events.messageLevel.handler(bot, msg, CommandManagers, config, settingsManager);
 		});
-	} else if (name === 'channelDelete') {
+	}*/ else if (name === 'channelDelete') {
 		bot.on('channelDelete', channel => {
 			settingsManager.handleDeletedChannel(channel);
 		});

@@ -9,7 +9,10 @@ module.exports = {
     const array = str.split(/ ?\| ?/),
       msgid = array[0],
       emote = array[1];
-    bot.addMessageReaction(msg.channel.id, msgid, emote).catch(err => {
+    bot.addMessageReaction(msg.channel.id, msgid, emote).then(succ => {
+      bot.deleteMessage(msg.channel.id, msg.id);
+    }).catch(err => {
+      console.log(err);
       bot.createMessage(msg.channel.id, {
         content: ``,
         embed: {
