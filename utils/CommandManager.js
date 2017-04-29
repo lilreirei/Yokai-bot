@@ -141,7 +141,7 @@ class CommandManager {
 				currentMessage += '\n' + toAdd;
 			}
 			messageQueue.push(currentMessage);
-			bot.createMessage(msg.channel.id, ':white_check_mark: Help has been send to your DMs.');
+			msg.channel.addMessageReaction(msg.id, "✅");
 			bot.getDMChannel(msg.author.id).then(chan => {
 				let sendInOrder = setInterval(() => { //eslint-disable-line no-unused-vars
 					if (messageQueue.length > 0)
