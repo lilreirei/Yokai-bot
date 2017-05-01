@@ -1,8 +1,10 @@
 var reload		= require('require-reload')(require),
-	cleverbot	= reload('../special/cleverbot.js');
-
+	cleverbot	= reload('../special/cleverbot.js'),
+	utils = reload('../utils/utils.js'),
+	points = reload('../db/points.json'),
+	updatePoints = false;
 const fs = require('fs');
-let points = JSON.parse(fs.readFileSync(`./db/points.json`, 'utf8'));
+//let points = JSON.parse(fs.readFileSync(`./db/points.json`, 'utf8'));
 
 module.exports = {
 	handler(bot, msg, CommandManagers, config, settingsManager) {
@@ -22,6 +24,7 @@ module.exports = {
 		    level: 0
 		  };
 		  let userData = points[msg.author.id];
+			updatePoints = true;
 		  userData.points++;
 
 		  let curLevel = Math.floor(0.1 * Math.sqrt(userData.points));
@@ -43,10 +46,6 @@ module.exports = {
 			fs.writeFile(`./db/message.json`, JSON.stringify(message), (err) => {
 				if (err) console.error(err)
 			});
-
-		  fs.writeFile(`./db/points.json`, JSON.stringify(points), (err) => {
-		    if (err) console.error(err)
-		  });
 	},
 	reloadCleverbot(bot, channelId) {
 		try {
@@ -57,4 +56,22 @@ module.exports = {
 			bot.createMessage(channelId, `Error reloading cleverbot: ${error}`);
 		}
 	}
+}
+
+// points shit
+const interval = setInterval(() => {
+	if (updatePoints === true) {
+		utils.safeSave('db/points', '.json', JSON.stringify(points));
+		updatePoints = false;
+	}
+}, 30000);
+
+function handleShutdown() {
+	return Promise.all([utils.safeSave('db/points', '.json', JSON.stringify(points))]);
+}
+
+function destroy() {
+	clearInterval(interval);
+	if (updateCommand === true)
+		utils.safeSave('db/points', '.json', JSON.stringify(commandSettings));
 }
