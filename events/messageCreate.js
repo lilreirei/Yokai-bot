@@ -35,6 +35,7 @@ module.exports = {
       userData.level = curLevel;
       let message = JSON.parse(fs.readFileSync(`./db/message.json`, 'utf8'));
       if (config.nowelcomemessageGuild.includes(msg.channel.guild.id)) return;
+      if ((!message[msg.channel.guild.id]) || (message[msg.channel.guild.id].type.includes("true")))
       if (message[msg.channel.guild.id].type.includes("false")) return;
       bot.createMessage(msg.channel.id, `<@${msg.author.id}> You've leveled up to level **${curLevel}**!`);
     }
