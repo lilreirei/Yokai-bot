@@ -7,10 +7,11 @@ module.exports = {
   cooldown: 5,
   guildOnly: true,
   task(bot, msg, args) {
-    if(!args) {
+    if (!args) {
       const user = msg.author;
-      const userroles = msg.member.roles.map(r=>msg.channel.guild.roles.get(r).name).join(', ');
-      bot.createMessage(msg.channel.id, { content: ``,
+      const userroles = msg.member.roles.map(r => msg.channel.guild.roles.get(r).name).join(', ');
+      bot.createMessage(msg.channel.id, {
+        content: ``,
         embed: {
           color: 0xf4ce11,
           type: 'rich',
@@ -23,8 +24,7 @@ module.exports = {
           thumbnail: {
             url: `${user.avatarURL}`
           },
-          fields: [
-            {
+          fields: [{
               name: `Username`,
               value: `${msg.member.user.username}#${msg.member.user.discriminator}`,
               inline: true
@@ -66,13 +66,14 @@ module.exports = {
             },
             {
               name: `Roles`,
-              value: `${msg.member.roles === undefined ? `n/a` : ''}${msg.member.roles !== undefined ? `${userroles}` : ''}`,
+              value: `${userroles === '' ? `n/a` : ''}${userroles !== '' ? `${userroles}` : ''}`,
               inline: false
             }
           ]
         }
       }).catch(err => {
-        bot.createMessage(msg.channel.id, { content: ``,
+        bot.createMessage(msg.channel.id, {
+          content: ``,
           embed: {
             color: 0xff0000,
             author: {
@@ -80,13 +81,19 @@ module.exports = {
               url: ``,
               icon_url: ``
             },
-            description: `${err}`
+            description: `${err}`,
+            fields: [{
+              name: `For support join:`,
+              value: `https://discord.gg/Vf4ne5b`,
+              inline: true
+            }]
           }
-        })
+        });
       });
     } else {
       const user = this.findMember(msg, args)
-      if (!user) return bot.createMessage(msg.channel.id, { content: ``,
+      if (!user) return bot.createMessage(msg.channel.id, {
+        content: ``,
         embed: {
           color: 0xff0000,
           author: {
@@ -99,7 +106,8 @@ module.exports = {
       })
       const id = msg.channel.guild.members.get(user.id);
       const userroles = id.roles.map(r => msg.channel.guild.roles.get(r).name).join(', ');
-      bot.createMessage(msg.channel.id, { content: ``,
+      bot.createMessage(msg.channel.id, {
+        content: ``,
         embed: {
           color: 0xf4ce11,
           type: 'rich',
@@ -112,8 +120,7 @@ module.exports = {
           thumbnail: {
             url: `${user.avatarURL}`
           },
-          fields: [
-            {
+          fields: [{
               name: `Username`,
               value: `${user.username}#${user.discriminator}`,
               inline: true
@@ -155,13 +162,14 @@ module.exports = {
             },
             {
               name: `Roles`,
-              value: `${id.roles === undefined ? `n/a` : ''}${id.roles !== undefined ? `${userroles}` : ''}`,
+              value: `${userroles === '' ? `n/a` : ''}${userroles !== '' ? `${userroles}` : ''}`,
               inline: false
             }
           ]
         }
       }).catch(err => {
-        bot.createMessage(msg.channel.id, { content: ``,
+        bot.createMessage(msg.channel.id, {
+          content: ``,
           embed: {
             color: 0xff0000,
             author: {
@@ -169,9 +177,14 @@ module.exports = {
               url: ``,
               icon_url: ``
             },
-            description: `${err}`
+            description: `${err}`,
+            fields: [{
+              name: `For support join:`,
+              value: `https://discord.gg/Vf4ne5b`,
+              inline: true
+            }]
           }
-        })
+        });
       });
     }
   }

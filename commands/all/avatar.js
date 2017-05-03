@@ -1,7 +1,8 @@
 module.exports = {
   desc: "Sends someone's avatar url.",
-  usage: "<@username> or nothing",
+  usage: "<username/ID/@username>",
   aliases: ['ava', 'pfp', 'avi'],
+  guildOnly: true,
   cooldown: 5,
   task(bot, msg, args) {
     let format = '',

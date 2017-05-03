@@ -65,9 +65,14 @@ module.exports = {
             url: ``,
             icon_url: ``
           },
-          description: `${err}`
+          description: `${err}`,
+          fields: [{
+            name: `For support join:`,
+            value: `https://discord.gg/Vf4ne5b`,
+            inline: true
+          }]
         }
-      })
+      });
     });
   }
 };

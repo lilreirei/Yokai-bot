@@ -62,8 +62,23 @@ ${response.abilities[3] === undefined ? `` : ''}${response.abilities[3] !== unde
 				});
 	    })
 	    .catch(function(error) {
-	      console.log('There was an ERROR: ', error);
-				bot.createMessage(msg.channel.id, 'There was an ERROR: '+error+'\nMost likely you typed the name wrong.')
+				bot.createMessage(msg.channel.id, {
+	        content: ``,
+	        embed: {
+	          color: 0xff0000,
+	          author: {
+	            name: ``,
+	            url: ``,
+	            icon_url: ``
+	          },
+	          description: `${error}`,
+	          fields: [{
+	            name: `For support join:`,
+	            value: `https://discord.gg/Vf4ne5b`,
+	            inline: true
+	          }]
+	        }
+	      });
 	    });
 		}
 	}

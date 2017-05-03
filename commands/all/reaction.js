@@ -12,7 +12,6 @@ module.exports = {
     bot.addMessageReaction(msg.channel.id, msgid, emote).then(succ => {
       bot.deleteMessage(msg.channel.id, msg.id);
     }).catch(err => {
-      console.log(err);
       bot.createMessage(msg.channel.id, {
         content: ``,
         embed: {
@@ -22,7 +21,12 @@ module.exports = {
             url: ``,
             icon_url: ``
           },
-          description: `${err}`
+          description: `${err}`,
+          fields: [{
+            name: `For support join:`,
+            value: `https://discord.gg/Vf4ne5b`,
+            inline: true
+          }]
         }
       });
     });

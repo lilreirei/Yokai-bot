@@ -9,6 +9,24 @@ module.exports = {
 
 		bot.unpinMessage(msg.channel.id, suffix).then(sentMsg => {
 			bot.createMessage(msg.channel.id, `:white_check_mark: Successfully unpinned the message`)
+		}).catch(err => {
+			bot.createMessage(msg.channel.id, {
+			  content: ``,
+			  embed: {
+			    color: 0xff0000,
+			    author: {
+			      name: ``,
+			      url: ``,
+			      icon_url: ``
+			    },
+			    description: `${err}`,
+			    fields: [{
+			      name: `For support join:`,
+			      value: `https://discord.gg/Vf4ne5b`,
+			      inline: true
+			    }]
+			  }
+			});
 		})
 	}
 };

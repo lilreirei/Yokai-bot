@@ -19,7 +19,7 @@ module.exports = {
           },
           description: `Coudn't find any image.`
         }
-      })
+      });
       bot.createMessage(msg.channel.id, {
         content: ``,
         embed: {
@@ -35,10 +35,6 @@ Width: ${res.data.image_width}
 Height: ${res.data.image_height}`,
           image: {
             url: `${imgURL}`
-          },
-          footer: {
-            text: `${msg.channel.guild ? (`${msg.channel.guild.name} : #${msg.channel.name}`) : ""}`,
-            icon_url: `${msg.channel.guild.iconURL === null ? `` : ''}${msg.channel.guild.iconURL !== null ? msg.channel.guild.iconURL : ''}`
           }
         }
       })
@@ -46,15 +42,20 @@ Height: ${res.data.image_height}`,
       bot.createMessage(msg.channel.id, {
         content: ``,
         embed: {
-          color: 0xf4ce11,
+          color: 0xff0000,
           author: {
             name: ``,
             url: ``,
             icon_url: ``
           },
-          description: `${err}`
+          description: `${err}`,
+          fields: [{
+            name: `For support join:`,
+            value: `https://discord.gg/Vf4ne5b`,
+            inline: true
+          }]
         }
-      })
+      });
     });
   }
 };

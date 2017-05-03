@@ -2,38 +2,62 @@ var Hearthstone = require('hearthstone-mashape')('Uhpw4la1oxmsh4QBHISImGfoMFPSp1
 
 module.exports = {
   desc: "Search hearthstone card by name.",
-	usage: "<card name>, [gold] (Make sure to seperate card name and gold with a comma!)",
-	aliases: ['hs'],
+  usage: "<card name>, [gold] (Make sure to seperate card name and gold with a comma!)",
+  aliases: ['hs'],
   cooldown: 10,
   guildOnly: true,
   task(bot, msg, args) {
-    if(!args) {
+    if (!args) {
       return 'wrong usage'
     }
     var str = args.toString();
     var array = str.split(', '),
-        a = array[0],
-        b = array[1];
+      a = array[0],
+      b = array[1];
     var params = {
       name: `${a}`,
       collectible: 1
     };
     Hearthstone.card(params, function(err, data) {
-      if(data === null) {
-        bot.createMessage(msg.channel.id, { content: ``,
+      if (err) return bot.createMessage(msg.channel.id, {
+        content: ``,
+        embed: {
+          color: 0xff0000,
+          author: {
+            name: ``,
+            url: ``,
+            icon_url: ``
+          },
+          description: `${err}`,
+          fields: [{
+            name: `For support join:`,
+            value: `https://discord.gg/Vf4ne5b`,
+            inline: true
+          }]
+        }
+      });
+      if (data === null) {
+        bot.createMessage(msg.channel.id, {
+          content: ``,
           embed: {
-            color: 0xf4ce11,
+            color: 0xff0000,
             author: {
               name: ``,
               url: ``,
               icon_url: ``
             },
-            description: `${err}, make sure you used the correct name.`
+            description: `${err}`,
+            fields: [{
+              name: `For support join:`,
+              value: `https://discord.gg/Vf4ne5b`,
+              inline: true
+            }]
           }
-        })
+        });
       } else {
-        if(b === undefined) {
-          bot.createMessage(msg.channel.id, { content: ``,
+        if (b === undefined) {
+          bot.createMessage(msg.channel.id, {
+            content: ``,
             embed: {
               color: 0xf4ce11,
               author: {
@@ -50,15 +74,12 @@ ${data[0] === undefined ? `` : ''}${data[0] !== undefined ? `Artist: `+data[0].a
 ${data[0] === undefined ? `Make sure to use a card name.` : ''}${data[0] !== undefined ? `[Click here for the direct image url](`+data[0].img+`)` : ''}`,
               image: {
                 url: `${data[0] === undefined ? `` : ''}${data[0] !== undefined ? data[0].img : ''}`
-              },
-              footer: {
-                  text: `${msg.channel.guild ? (`${msg.channel.guild.name} : #${msg.channel.name}`) : ""}`,
-                  icon_url: `${msg.channel.guild.iconURL === null ? `` : ''}${msg.channel.guild.iconURL !== null ? msg.channel.guild.iconURL : ''}`
               }
             }
           });
         } else {
-          bot.createMessage(msg.channel.id, { content: ``,
+          bot.createMessage(msg.channel.id, {
+            content: ``,
             embed: {
               color: 0xf4ce11,
               author: {
@@ -75,10 +96,6 @@ ${data[0] === undefined ? `` : ''}${data[0] !== undefined ? `Artist: `+data[0].a
 ${data[0] === undefined ? `Make sure to use a card name.` : ''}${data[0] !== undefined ? `[Click here for the direct image url](`+data[0].imgGold+`)` : ''}`,
               image: {
                 url: `${data[0] === undefined ? `` : ''}${data[0] !== undefined ? data[0].imgGold : ''}`
-              },
-              footer: {
-                  text: `${msg.channel.guild ? (`${msg.channel.guild.name} : #${msg.channel.name}`) : ""}`,
-                  icon_url: `${msg.channel.guild.iconURL === null ? `` : ''}${msg.channel.guild.iconURL !== null ? msg.channel.guild.iconURL : ''}`
               }
             }
           });

@@ -3,6 +3,7 @@ module.exports = {
   usage: "<rolename> (Case-sensitive)",
   aliases: ['role', 'ri'],
   cooldown: 5,
+  guildOnly: true,
   task(bot, msg, suffix) {
     if (!suffix) return 'wrong usage';
     const role = msg.channel.guild.roles.find(o => o.name === `${suffix}`);
@@ -57,17 +58,21 @@ module.exports = {
         }
       }
     }).catch(err => {
-      console.log(err);
       bot.createMessage(msg.channel.id, {
         content: ``,
         embed: {
-          color: 0xf4ce11,
+          color: 0xff0000,
           author: {
             name: ``,
             url: ``,
             icon_url: ``
           },
-          description: `${err}`
+          description: `${err}`,
+          fields: [{
+            name: `For support join:`,
+            value: `https://discord.gg/Vf4ne5b`,
+            inline: true
+          }]
         }
       });
     });

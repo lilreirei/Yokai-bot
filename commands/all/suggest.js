@@ -1,4 +1,4 @@
-const OwnerId = require('../../config.json').adminIds;
+const OwnerId = require('../../config.json').adminIds[0];
 const moment = require('../../node_modules/moment');
 
 module.exports = {
@@ -51,30 +51,40 @@ module.exports = {
         bot.createMessage(msg.channel.id, {
           content: ``,
           embed: {
-            color: 0xf4ce11,
+            color: 0xff0000,
             author: {
               name: ``,
               url: ``,
               icon_url: ``
             },
-            description: `${err}`
+            description: `${err}`,
+            fields: [{
+              name: `For support join:`,
+              value: `https://discord.gg/Vf4ne5b`,
+              inline: true
+            }]
           }
-        })
+        });
       });
       bot.createMessage(msg.channel.id, `:white_check_mark: Successfully send your feedback/suggestion.`);
     }).catch(err => {
       bot.createMessage(msg.channel.id, {
         content: ``,
         embed: {
-          color: 0xf4ce11,
+          color: 0xff0000,
           author: {
             name: ``,
             url: ``,
             icon_url: ``
           },
-          description: `${err}`
+          description: `${err}`,
+          fields: [{
+            name: `For support join:`,
+            value: `https://discord.gg/Vf4ne5b`,
+            inline: true
+          }]
         }
-      })
+      });
     });
   }
 };

@@ -31,8 +31,7 @@ module.exports = {
             thumbnail: {
               url: `${data.profile.avatar}`
             },
-            fields: [
-              {
+            fields: [{
                 name: `Nick`,
                 value: `${data.profile.nick}`,
                 inline: true
@@ -61,7 +60,8 @@ module.exports = {
           }
         });
       }).catch(err => {
-        bot.createMessage(msg.channel.id, { content: ``,
+        bot.createMessage(msg.channel.id, {
+          content: ``,
           embed: {
             color: 0xff0000,
             author: {
@@ -69,9 +69,14 @@ module.exports = {
               url: ``,
               icon_url: ``
             },
-            description: `${err}`
+            description: `${err}`,
+            fields: [{
+              name: `For support join:`,
+              value: `https://discord.gg/Vf4ne5b`,
+              inline: true
+            }]
           }
-        })
+        });
       });
     } else if (lower === 'comp' || lower === 'c' || lower === 'competitive') {
       owjs.getOverall(platform, region, user).then(data => {
@@ -88,8 +93,7 @@ module.exports = {
             thumbnail: {
               url: `${data.profile.avatar}`
             },
-            fields: [
-              {
+            fields: [{
                 name: `Average`,
                 value: `**Eliminations:** ${data.competitive.global.eliminations_average}
 **Damage done:** ${data.competitive.global.damage_done_average}
@@ -133,7 +137,8 @@ module.exports = {
           }
         });
       }).catch(err => {
-        bot.createMessage(msg.channel.id, { content: ``,
+        bot.createMessage(msg.channel.id, {
+          content: ``,
           embed: {
             color: 0xff0000,
             author: {
@@ -141,9 +146,14 @@ module.exports = {
               url: ``,
               icon_url: ``
             },
-            description: `${err}`
+            description: `${err}`,
+            fields: [{
+              name: `For support join:`,
+              value: `https://discord.gg/Vf4ne5b`,
+              inline: true
+            }]
           }
-        })
+        });
       });
     } else if (lower === 'quick' || lower === 'q' || lower === 'quickplay') {
       owjs.getOverall(platform, region, user).then(data => {
@@ -160,8 +170,7 @@ module.exports = {
             thumbnail: {
               url: `${data.profile.avatar}`
             },
-            fields: [
-              {
+            fields: [{
                 name: `Average`,
                 value: `**Eliminations:** ${data.quickplay.global.eliminations_average}
 **Damage done:** ${data.quickplay.global.damage_done_average}
@@ -208,7 +217,8 @@ module.exports = {
           }
         });
       }).catch(err => {
-        bot.createMessage(msg.channel.id, { content: ``,
+        bot.createMessage(msg.channel.id, {
+          content: ``,
           embed: {
             color: 0xff0000,
             author: {
@@ -216,9 +226,14 @@ module.exports = {
               url: ``,
               icon_url: ``
             },
-            description: `${err}`
+            description: `${err}`,
+            fields: [{
+              name: `For support join:`,
+              value: `https://discord.gg/Vf4ne5b`,
+              inline: true
+            }]
           }
-        })
+        });
       });
     }
   }

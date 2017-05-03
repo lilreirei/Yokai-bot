@@ -1,37 +1,50 @@
 module.exports = {
-  desc: "Gets info about your anime list using the following tags <watching|completed|onhold>. (note: completed doesn't return all completed.)",
-	usage: "<watching|completed|onhold>, <mal username>",
-	aliases: ['mallist', 'alist'],
+  desc: "Gets info about your anime list using the following tags <watching/completed/onhold>. (note: completed doesn't return all completed.)",
+  usage: "<watching/completed/onhold>, <mal username>",
+  aliases: ['mallist', 'alist'],
   cooldown: 10,
   task(bot, msg, suffix) {
     var args = suffix.toString();
     var data = args.split(', '),
-        type = data[0],
-        username = data[1];
-    var myAnimeList = require('myanimelist')({username: `${username}`})
-    if(type === undefined) {
-      return 'wrong usage';
-    }
+      type = data[0],
+      username = data[1];
+    var myAnimeList = require('myanimelist')({
+      username: `${username}`
+    })
+    if (type === undefined) return 'wrong usage';
     var type = type.toLowerCase();
-    if(type === 'watching') {
+    if (type === 'watching') {
       myAnimeList.getAnimeList(1, (err, resp) => {
         if (err) {
-          let embed = {
-            color: 0xf4ce11,
-            author: {
-              name: ``,
-              url: ``,
-              icon_url: ``
-            },
-            description: `Ewps something bad happened: ${err}`
-          }
-          bot.createMessage(msg.channel.id, {embed: embed})
+          bot.createMessage(msg.channel.id, {
+            content: ``,
+            embed: {
+              color: 0xff0000,
+              author: {
+                name: ``,
+                url: ``,
+                icon_url: ``
+              },
+              description: `${err}`,
+              fields: [{
+                name: `For support join:`,
+                value: `https://discord.gg/Vf4ne5b`,
+                inline: true
+              }]
+            }
+          });
         }
-        var t = resp.map(function (title) { return title.series_title; }).toString();
+        var t = resp.map(function(title) {
+          return title.series_title;
+        }).toString();
         var titles = t.split(',').join('\n');
-        var s = resp.map(function (score) { return score.my_score; }).toString();
+        var s = resp.map(function(score) {
+          return score.my_score;
+        }).toString();
         var scores = s.split(',').join('\n');
-        var w = resp.map(function (watched) { return watched.my_watched_episodes; }).toString();
+        var w = resp.map(function(watched) {
+          return watched.my_watched_episodes;
+        }).toString();
         var watchedep = s.split(',').join('\n');
         let embed = {
           color: 0xf4ce11,
@@ -41,8 +54,7 @@ module.exports = {
             icon_url: ``
           },
           description: ``,
-          fields: [
-            {
+          fields: [{
               name: `Titles:`,
               value: `${titles === null ? `None` : ''}${titles !== null ? titles : ''}`,
               inline: true
@@ -54,41 +66,63 @@ module.exports = {
             }
           ]
         }
-        bot.createMessage(msg.channel.id, {embed: embed}).catch(err => {
-          bot.createMessage(msg.channel.id, { content: ``,
+        bot.createMessage(msg.channel.id, {
+          embed: embed
+        }).catch(err => {
+          bot.createMessage(msg.channel.id, {
+            content: ``,
             embed: {
-              color: 0xf4ce11,
+              color: 0xff0000,
               author: {
                 name: ``,
                 url: ``,
                 icon_url: ``
               },
-              description: `${err}`
+              description: `${err}`,
+              fields: [{
+                name: `For support join:`,
+                value: `https://discord.gg/Vf4ne5b`,
+                inline: true
+              }]
             }
-          })
+          });
         });
       })
-    }
-    else if(type === 'completed') {
-      var myAnimeList = require('myanimelist')({username: `${username}`})
+    } else if (type === 'completed') {
+      var myAnimeList = require('myanimelist')({
+        username: `${username}`
+      })
       myAnimeList.getAnimeList(2, (err, resp) => {
         if (err) {
-          let embed = {
-            color: 0xf4ce11,
-            author: {
-              name: ``,
-              url: ``,
-              icon_url: ``
-            },
-            description: `Ewps something bad happened: ${err}`
-          }
-          bot.createMessage(msg.channel.id, {embed: embed})
+          bot.createMessage(msg.channel.id, {
+            content: ``,
+            embed: {
+              color: 0xff0000,
+              author: {
+                name: ``,
+                url: ``,
+                icon_url: ``
+              },
+              description: `${err}`,
+              fields: [{
+                name: `For support join:`,
+                value: `https://discord.gg/Vf4ne5b`,
+                inline: true
+              }]
+            }
+          });
         }
-        var t = resp.map(function (title) { return title.series_title; }).toString();
+        var t = resp.map(function(title) {
+          return title.series_title;
+        }).toString();
         var titles = t.split(',').join('\n');
-        var s = resp.map(function (score) { return score.my_score; }).toString();
+        var s = resp.map(function(score) {
+          return score.my_score;
+        }).toString();
         var scores = s.split(',').join('\n');
-        var w = resp.map(function (watched) { return watched.my_watched_episodes; }).toString();
+        var w = resp.map(function(watched) {
+          return watched.my_watched_episodes;
+        }).toString();
         var watchedep = s.split(',').join('\n');
         let embed = {
           color: 0xf4ce11,
@@ -98,8 +132,7 @@ module.exports = {
             icon_url: ``
           },
           description: ``,
-          fields: [
-            {
+          fields: [{
               name: `Titles:`,
               value: `${titles === null ? `None` : ''}${titles !== null ? titles : ''}`,
               inline: true
@@ -111,41 +144,63 @@ module.exports = {
             }
           ]
         }
-        bot.createMessage(msg.channel.id, {embed: embed}).catch(err => {
-          bot.createMessage(msg.channel.id, { content: ``,
+        bot.createMessage(msg.channel.id, {
+          embed: embed
+        }).catch(err => {
+          bot.createMessage(msg.channel.id, {
+            content: ``,
             embed: {
-              color: 0xf4ce11,
+              color: 0xff0000,
               author: {
                 name: ``,
                 url: ``,
                 icon_url: ``
               },
-              description: `${err}`
+              description: `${err}`,
+              fields: [{
+                name: `For support join:`,
+                value: `https://discord.gg/Vf4ne5b`,
+                inline: true
+              }]
             }
-          })
+          });
         });
       })
-    }
-    else if(type === 'onhold') {
-      var myAnimeList = require('myanimelist')({username: `${username}`})
+    } else if (type === 'onhold') {
+      var myAnimeList = require('myanimelist')({
+        username: `${username}`
+      })
       myAnimeList.getAnimeList(3, (err, resp) => {
         if (err) {
-          let embed = {
-            color: 0xf4ce11,
-            author: {
-              name: ``,
-              url: ``,
-              icon_url: ``
-            },
-            description: `Ewps something bad happened: ${err}`
-          }
-          bot.createMessage(msg.channel.id, {embed: embed})
+          bot.createMessage(msg.channel.id, {
+            content: ``,
+            embed: {
+              color: 0xff0000,
+              author: {
+                name: ``,
+                url: ``,
+                icon_url: ``
+              },
+              description: `${err}`,
+              fields: [{
+                name: `For support join:`,
+                value: `https://discord.gg/Vf4ne5b`,
+                inline: true
+              }]
+            }
+          });
         }
-        var t = resp.map(function (title) { return title.series_title; }).toString();
+        var t = resp.map(function(title) {
+          return title.series_title;
+        }).toString();
         var titles = t.split(',').join('\n');
-        var s = resp.map(function (score) { return score.my_score; }).toString();
+        var s = resp.map(function(score) {
+          return score.my_score;
+        }).toString();
         var scores = s.split(',').join('\n');
-        var w = resp.map(function (watched) { return watched.my_watched_episodes; }).toString();
+        var w = resp.map(function(watched) {
+          return watched.my_watched_episodes;
+        }).toString();
         var watchedep = s.split(',').join('\n');
         let embed = {
           color: 0xf4ce11,
@@ -155,8 +210,7 @@ module.exports = {
             icon_url: ``
           },
           description: ``,
-          fields: [
-            {
+          fields: [{
               name: `Titles:`,
               value: `${titles === null ? `None` : ''}${titles !== null ? titles : ''}`,
               inline: true
@@ -168,18 +222,26 @@ module.exports = {
             }
           ]
         }
-        bot.createMessage(msg.channel.id, {embed: embed}).catch(err => {
-          bot.createMessage(msg.channel.id, { content: ``,
+        bot.createMessage(msg.channel.id, {
+          embed: embed
+        }).catch(err => {
+          bot.createMessage(msg.channel.id, {
+            content: ``,
             embed: {
-              color: 0xf4ce11,
+              color: 0xff0000,
               author: {
                 name: ``,
                 url: ``,
                 icon_url: ``
               },
-              description: `${err}`
+              description: `${err}`,
+              fields: [{
+                name: `For support join:`,
+                value: `https://discord.gg/Vf4ne5b`,
+                inline: true
+              }]
             }
-          })
+          });
         });
       })
     }

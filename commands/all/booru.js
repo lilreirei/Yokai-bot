@@ -22,29 +22,31 @@ module.exports = {
         var lower2 = c.toLowerCase();
       if (b !== undefined)
         var lower = b.toLowerCase();
-      if (lower === 'loli' || lower === 'lolicon' || lower === 'shota' || lower === 'shotacon') return bot.createMessage(msg.channel.id, { content: ``,
-  			embed: {
-  				color: 0xf4ce11,
-  				author: {
-  					name: ``,
-  					url: ``,
-  					icon_url: ``
-  				},
-  				description: `Sorry it's against Discord's ToS to search for these tags.`
-  			}
-  		});
+      if (lower === 'loli' || lower === 'lolicon' || lower === 'shota' || lower === 'shotacon') return bot.createMessage(msg.channel.id, {
+        content: ``,
+        embed: {
+          color: 0xf4ce11,
+          author: {
+            name: ``,
+            url: ``,
+            icon_url: ``
+          },
+          description: `Sorry it's against Discord's ToS to search for these tags.`
+        }
+      });
 
-      if (lower2 === 'loli' || lower2 === 'lolicon' || lower2 === 'shota' || lower2 === 'shotacon') return bot.createMessage(msg.channel.id, { content: ``,
-  			embed: {
-  				color: 0xf4ce11,
-  				author: {
-  					name: ``,
-  					url: ``,
-  					icon_url: ``
-  				},
-  				description: `Sorry it's against Discord's ToS to search for these tags.`
-  			}
-  		});
+      if (lower2 === 'loli' || lower2 === 'lolicon' || lower2 === 'shota' || lower2 === 'shotacon') return bot.createMessage(msg.channel.id, {
+        content: ``,
+        embed: {
+          color: 0xf4ce11,
+          author: {
+            name: ``,
+            url: ``,
+            icon_url: ``
+          },
+          description: `Sorry it's against Discord's ToS to search for these tags.`
+        }
+      });
 
       if (a === 'list') {
         bot.createMessage(msg.channel.id, {
@@ -126,47 +128,60 @@ Rating: ${image.common.rating}`,
                   bot.createMessage(msg.channel.id, {
                     content: ``,
                     embed: {
-                      color: 0xf4ce11,
+                      color: 0xff0000,
                       author: {
                         name: ``,
                         url: ``,
                         icon_url: ``
                       },
-                      description: `${err}`
+                      description: `${err}`,
+                      fields: [{
+                        name: `For support join:`,
+                        value: `https://discord.gg/Vf4ne5b`,
+                        inline: true
+                      }]
                     }
-                  })
+                  });
                 });
               }
             })
             .catch(err => {
               if (err.name === 'booruError') {
-                console.log(err.message)
                 bot.createMessage(msg.channel.id, {
                   content: ``,
                   embed: {
-                    color: 0xf4ce11,
+                    color: 0xff0000,
                     author: {
                       name: ``,
                       url: ``,
                       icon_url: ``
                     },
-                    description: `${err.message}`
+                    description: `${err.message}`,
+                    fields: [{
+                      name: `For support join:`,
+                      value: `https://discord.gg/Vf4ne5b`,
+                      inline: true
+                    }]
                   }
-                })
+                });
               } else {
-                console.log(err)
                 bot.createMessage(msg.channel.id, {
                   content: ``,
                   embed: {
-                    color: 0xf4ce11,
+                    color: 0xff0000,
                     author: {
                       name: ``,
                       url: ``,
                       icon_url: ``
                     },
-                    description: `${err}`
+                    description: `${err}`,
+                    fields: [{
+                      name: `For support join:`,
+                      value: `https://discord.gg/Vf4ne5b`,
+                      inline: true
+                    }]
                   }
-                })
+                });
               }
             })
         } else {
@@ -218,47 +233,60 @@ Rating: ${image.common.rating}`,
                   bot.createMessage(msg.channel.id, {
                     content: ``,
                     embed: {
-                      color: 0xf4ce11,
+                      color: 0xff0000,
                       author: {
                         name: ``,
                         url: ``,
                         icon_url: ``
                       },
-                      description: `${err}`
+                      description: `${err}`,
+                      fields: [{
+                        name: `For support join:`,
+                        value: `https://discord.gg/Vf4ne5b`,
+                        inline: true
+                      }]
                     }
-                  })
+                  });
                 });
               }
             })
             .catch(err => {
               if (err.name === 'booruError') {
-                console.log(err.message)
                 bot.createMessage(msg.channel.id, {
                   content: ``,
                   embed: {
-                    color: 0xf4ce11,
+                    color: 0xff0000,
                     author: {
                       name: ``,
                       url: ``,
                       icon_url: ``
                     },
-                    description: `${err.message}`
+                    description: `${err.message}`,
+                    fields: [{
+                      name: `For support join:`,
+                      value: `https://discord.gg/Vf4ne5b`,
+                      inline: true
+                    }]
                   }
-                })
+                });
               } else {
-                console.log(err)
                 bot.createMessage(msg.channel.id, {
                   content: ``,
                   embed: {
-                    color: 0xf4ce11,
+                    color: 0xff0000,
                     author: {
                       name: ``,
                       url: ``,
                       icon_url: ``
                     },
-                    description: `${err}`
+                    description: `${err}`,
+                    fields: [{
+                      name: `For support join:`,
+                      value: `https://discord.gg/Vf4ne5b`,
+                      inline: true
+                    }]
                   }
-                })
+                });
               }
             })
         }

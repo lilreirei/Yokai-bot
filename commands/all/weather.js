@@ -79,17 +79,23 @@ module.exports = {
         })
       }
     }).catch(err => {
-      bot.createMessage(msg.channel.id, { content: ``,
+      bot.createMessage(msg.channel.id, {
+        content: ``,
         embed: {
-          color: 0xf4ce11,
+          color: 0xff0000,
           author: {
             name: ``,
             url: ``,
             icon_url: ``
           },
-          description: `${err}`
+          description: `${err}`,
+          fields: [{
+            name: `For support join:`,
+            value: `https://discord.gg/Vf4ne5b`,
+            inline: true
+          }]
         }
-      })
+      });
     });
   }
 }

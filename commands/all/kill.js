@@ -1,7 +1,7 @@
 var randomItem = require('random-item');
 
 module.exports = {
-  desc: "Pat someone.",
+  desc: "Kill someone.",
   usage: "<username | ID | @username>",
   aliases: [],
   cooldown: 2,
@@ -90,15 +90,20 @@ module.exports = {
       bot.createMessage(msg.channel.id, {
         content: ``,
         embed: {
-          color: 0xf4ce11,
+          color: 0xff0000,
           author: {
             name: ``,
             url: ``,
             icon_url: ``
           },
-          description: `${err}`
+          description: `${err}`,
+          fields: [{
+            name: `For support join:`,
+            value: `https://discord.gg/Vf4ne5b`,
+            inline: true
+          }]
         }
-      })
+      });
     });
   }
 }

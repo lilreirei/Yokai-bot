@@ -10,7 +10,7 @@ module.exports = {
 		if (!result) return bot.createMessage(msg.channel.id, {
 			content: ``,
 			embed: {
-				color: 0xf4ce11,
+				color: 0xff0000,
 				author: {
 					name: ``,
 					url: ``,

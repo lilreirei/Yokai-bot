@@ -3,7 +3,7 @@ const fs = require('fs');
 module.exports = {
   desc: "Enable/disable the level up message.",
   usage: "<enable/disable>",
-  aliases: ['lvlmsg', 'levelmsg'],
+  aliases: ['lvlmsg', 'levelmsg', 'levelmessage'],
   cooldown: 5,
   guildOnly: true,
   requiredPermission: 'administrator',
@@ -53,21 +53,3 @@ module.exports = {
     }
   }
 };
-
-/*
-bot.createMessage(msg.channel.id, {
-  content: ``,
-  embed: {
-    color: 0xf4ce11,
-    author: {
-      name: ``,
-      url: ``,
-      icon_url: ``
-    },
-    description: ``,
-    image: {
-      url: ``
-    }
-  },
-});
-*/

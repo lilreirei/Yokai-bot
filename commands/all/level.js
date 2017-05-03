@@ -2,6 +2,7 @@ const fs = require('fs');
 
 module.exports = {
   desc: "Get your level and points.",
+  aliases: ['lvl', 'points', 'profile', 'rank'],
   cooldown: 5,
   task(bot, msg) {
     let points = JSON.parse(fs.readFileSync(`./db/points.json`, 'utf8'));
@@ -18,13 +19,24 @@ module.exports = {
       }
     });
     let userData = points[msg.author.id];
-
+    if (!userData) return bot.createMessage(msg.channel.id, {
+      content: ``,
+      embed: {
+        color: 0xff0000,
+        author: {
+          name: ``,
+          url: ``,
+          icon_url: ``
+        },
+        description: `Oh it looks like you do not have any points yet, better start talking and stop lurking boii.`
+      }
+    });
     bot.createMessage(msg.channel.id, {
       content: ``,
       embed: {
         color: 0xf4ce11,
         author: {
-          name: ``,
+          name: `Profile of ${msg.author.username}`,
           url: ``,
           icon_url: ``
         },

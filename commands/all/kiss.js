@@ -23,7 +23,24 @@ module.exports = {
         },
         description: `That is not a valid guild member. Need to specify a name, ID or mention the user.`
       }
-    })
+    });
+    if (!gif) return bot.createMessage(msg.channel.id, {
+      content: ``,
+      embed: {
+        color: 0xff0000,
+        author: {
+          name: ``,
+          url: ``,
+          icon_url: ``
+        },
+        description: `Sowwy I couldn't find a gif for you :(`,
+        fields: [{
+          name: `For support join:`,
+          value: `https://discord.gg/Vf4ne5b`,
+          inline: true
+        }]
+      }
+    });
     bot.createMessage(msg.channel.id, {
       content: ``,
       embed: {
