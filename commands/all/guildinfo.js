@@ -14,6 +14,11 @@ module.exports = {
     var emotes = msg.channel.guild.emojis.map(c => c.name).join(', '),
       emotelength = (emotes.match(/, /g) || []).length + 1;
     let guildRegion = msg.channel.guild.region;
+    let afkChanID = msg.channel.guild.afkChannelID;
+    let createdOn = moment(msg.channel.guild.createdAt).utc().format('ddd MMM DD YYYY | kk:mm:ss') + ' UTC ' + '(' + moment(msg.channel.guild.createdAt).fromNow() + ')';
+    let verificationLevel = msg.channel.guild.verificationLevel;
+    let defChan = msg.channel.guild.defaultChannel;
+    let guildMembers = msg.channel.guild.memberCount;
     bot.createMessage(msg.channel.id, {
       content: ``,
       embed: {
@@ -29,37 +34,37 @@ module.exports = {
         },
         fields: [{
             name: `Guild Members:`,
-            value: `${msg.channel.guild.memberCount}`,
+            value: `${guildMembers === null ? `n/a` : ''}${guildMembers !== null ? guildMembers : ''}`,
             inline: true
           },
           {
             name: `Default Channel:`,
-            value: `${msg.channel.guild.defaultChannel.name === null ? `` : ''}${msg.channel.guild.defaultChannel.name !== null ? msg.channel.guild.defaultChannel.mention : ''}`,
+            value: `${defChan === null ? `n/a` : ''}${defChan !== null ? defChan.mention : ''}`,
             inline: true
           },
           {
             name: `Guild Region:`,
-            value: `${guildRegion === null ? `` : ''}${guildRegion !== null ? guildRegion : ''}`,
+            value: `${guildRegion === null ? `n/a` : ''}${guildRegion !== null ? guildRegion : ''}`,
             inline: true
           },
           {
             name: `Verification Level:`,
-            value: `${msg.channel.guild.verificationLevel === null ? `` : ''}${msg.channel.guild.verificationLevel !== null ? msg.channel.guild.verificationLevel : ''}`,
+            value: `${verificationLevel === null ? `n/a` : ''}${verificationLevel !== null ? verificationLevel : ''}`,
             inline: true
           },
           {
             name: `AFK Timeout:`,
-            value: `${afkTimer === null ? `` : ''}${afkTimer !== null ? afkTimer+'min' : ''}`,
+            value: `${afkTimer === null ? `n/a` : ''}${afkTimer !== null ? afkTimer+'min' : ''}`,
             inline: true
           },
           {
             name: `AFK Channel:`,
-            value: `${msg.channel.guild.afkChannelID === null ? `` : ''}${msg.channel.guild.afkChannelID !== null ? '<#'+msg.channel.guild.afkChannelID+'>' : ''}`,
+            value: `${afkChanID === null ? `n/a` : ''}${afkChanID !== null ? '<#'+afkChanID+'>' : ''}`,
             inline: true
           },
           {
             name: `Created On:`,
-            value: `${moment(msg.channel.guild.createdAt).utc().format('ddd MMM DD YYYY | kk:mm:ss')} UTC (${moment(msg.channel.guild.createdAt).fromNow()})`
+            value: `${createdOn === null ? `n/a` : ''}${createdOn !== null ? createdOn : ''}`
           },
           {
             name: `Guild Owner:`,
@@ -67,12 +72,12 @@ module.exports = {
           },
           {
             name: `Roles:`,
-            value: `${rolelength}`,
+            value: `${rolelength === null ? `n/a` : ''}${rolelength !== null ? rolelength : ''}`,
             inline: true
           },
           {
             name: `Emotes:`,
-            value: `${emotelength === null ? `` : ''}${emotelength !== null ? emotelength : ''}`,
+            value: `${emotelength === null ? `n/a` : ''}${emotelength !== null ? emotelength : ''}`,
             inline: true
           }
         ]
@@ -95,6 +100,6 @@ module.exports = {
           }]
         }
       });
-    })
+    });
   }
 };
