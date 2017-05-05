@@ -1,12 +1,29 @@
-var fs = require('fs');
+const request = require('request-promise');
+const lewd = require('../../lewd.json');
+var randomItem = require('random-item');
 
 module.exports = {
-  desc: "Sends an image with lewd.",
-  cooldown: 2,
+  desc: "Lewd.",
+  usage: "",
+  aliases: [],
+  cooldown: 5,
+  guildOnly: true,
   task(bot, msg) {
-    bot.createMessage(msg.channel.id, '', {
-											file: fs.readFileSync('./images/lewd.jpg'),
-											name:'lewd.jpg'
-		})
+    const gif = randomItem(lewd);
+    bot.createMessage(msg.channel.id, {
+      content: ``,
+      embed: {
+        color: 0xf4ce11,
+        author: {
+          name: ``,
+          url: ``,
+          icon_url: ``
+        },
+        description: ``,
+        image: {
+          url: `${gif}`
+        }
+      }
+    });
   }
 }

@@ -1,85 +1,25 @@
-var weather = require('yahoo-weather');
+let Wunderground = require('wunderground-api');
+let client = new Wunderground('');
+
 
 module.exports = {
-  desc: "Get the weather from the specified city",
-	usage: "<City>, <Weather unit> ((C = celsius or F = fahrenheit)Make sure to seperate the city and the weather unit with a comma!)",
-	aliases: ['we'],
-  cooldown: 10,
+  desc: "Get the weather from the specified city and state/country.",
+  usage: "<City> | <State/Country>",
+  aliases: ['we'],
+  cooldown: 30,
   guildOnly: true,
   task(bot, msg, args) {
-    if(!args) {
-      return 'wrong usage'
+    if (!args) return 'wrong usage'
+    let str = args.toString();
+    let array = str.split(/ ?\| ?/),
+      city = array[0],
+      state = array[1];
+    let opts = {
+      city: `${city}`,
+      state: `${state}`
     }
-    var str = args.toString();
-    var array = str.split(', '),
-        a = array[0],
-        b = array[1];
-    weather(`${a}`, `${b}`).then(info => {
-      if((b === 'f') || (b === 'F')) {
-        bot.createMessage(msg.channel.id, { content: ``,
-          embed: {
-            color: 0xf4ce11,
-            author: {
-              name: ``,
-              url: ``,
-              icon_url: ``
-            },
-            description: `**Weather for ${info.location.city}, ${info.location.country}**
-  **Weather:** ${info.item.condition.text}
-  **Temp:** ${info.item.condition.temp}°F
-  **Humidity:** ${info.atmosphere.humidity}%
-  **Wind:** ${info.wind.speed}mph
-  **Sunrise:** ${info.astronomy.sunrise} **Sunset:** ${info.astronomy.sunset}`,
-            image: {
-              url: ``
-            },
-            footer: {
-                text: `${msg.channel.guild ? (`${msg.channel.guild.name} : #${msg.channel.name}`) : ""}`,
-                icon_url: `${msg.channel.guild.iconURL === null ? `` : ''}${msg.channel.guild.iconURL !== null ? msg.channel.guild.iconURL : ''}`
-            }
-          }
-        })
-      }
-      else if ((b === 'c') || (b === 'C')) {
-        bot.createMessage(msg.channel.id, { content: ``,
-          embed: {
-            color: 0xf4ce11,
-            author: {
-              name: ``,
-              url: ``,
-              icon_url: ``
-            },
-            description: `**Weather for ${info.location.city}, ${info.location.country}**
-  **Weather:** ${info.item.condition.text}
-  **Temp:** ${info.item.condition.temp}°C
-  **Humidity:** ${info.atmosphere.humidity}%
-  **Wind:** ${info.wind.speed}kph
-  **Sunrise:** ${info.astronomy.sunrise} **Sunset:** ${info.astronomy.sunset}`,
-            image: {
-              url: ``
-            },
-            footer: {
-                text: `${msg.channel.guild ? (`${msg.channel.guild.name} : #${msg.channel.name}`) : ""}`,
-                icon_url: `${msg.channel.guild.iconURL === null ? `` : ''}${msg.channel.guild.iconURL !== null ? msg.channel.guild.iconURL : ''}`
-            }
-          }
-        })
-      }
-      else {
-        bot.createMessage(msg.channel.id, { content: ``,
-          embed: {
-            color: 0xf4ce11,
-            author: {
-              name: ``,
-              url: ``,
-              icon_url: ``
-            },
-            description: `Specified weather unit is invalid`
-          }
-        })
-      }
-    }).catch(err => {
-      bot.createMessage(msg.channel.id, {
+    client.conditions(opts, function(err, data) {
+      if (err) return bot.createMessage(msg.channel.id, {
         content: ``,
         embed: {
           color: 0xff0000,
@@ -96,6 +36,62 @@ module.exports = {
           }]
         }
       });
+      bot.createMessage(msg.channel.id, {
+        content: ``,
+        embed: {
+          color: 0xf4ce11,
+          author: {
+            name: `${data.icon}`,
+            url: `${data.icon_url}`,
+            icon_url: `${data.icon_url}`
+          },
+          description: ``,
+          thumbnail: {
+            url: `${data.icon_url}`
+          },
+          fields: [{
+              name: `Location:`,
+              value: `${data.display_location.full}`,
+              inline: false
+            },
+            {
+              name: `Time:`,
+              value: `${data.observation_time}`,
+              inline: false
+            },
+            {
+              name: `Wind:`,
+              value: `${data.wind_string}`,
+              inline: false
+            },
+            {
+              name: `Temperature:`,
+              value: `Fahrenheit: ${data.temp_f}°F\nCelsius: ${data.temp_c}°C`,
+              inline: true
+            },
+            {
+              name: `\"Feelslike\" temperature:`,
+              value: `Fahrenheit: ${data.feelslike_f}°F\nCelsius: ${data.feelslike_c}°C`,
+              inline: true
+            },
+            {
+              name: `Humidity:`,
+              value: `${data.relative_humidity}`,
+              inline: true
+            },
+            {
+              name: `Wind Speed:`,
+              value: `${data.wind_mph}mph\n${data.wind_kph}kph`,
+              inline: true
+            },
+            {
+              name: `Visibility:`,
+              value: `${data.visibility_mi}mi\n${data.visibility_km}km`,
+              inline: true
+            }
+          ]
+        }
+      });
     });
   }
-}
+};
