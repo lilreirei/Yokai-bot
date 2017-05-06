@@ -15,6 +15,7 @@ module.exports = {
     } else if (!args) {
       return 'wrong usage'
     } else {
+
       var str = args + "";
       var array = str.split(' '),
         a = array[0],
@@ -24,31 +25,11 @@ module.exports = {
         var lower2 = c.toLowerCase();
       if (b !== undefined)
         var lower = b.toLowerCase();
-      if (banned.bannedWords.includes(/lower/i)) return bot.createMessage(msg.channel.id, {
-        content: ``,
-        embed: {
-          color: 0xf4ce11,
-          author: {
-            name: ``,
-            url: ``,
-            icon_url: ``
-          },
-          description: `Sorry it's against Discord's ToS to search for these tags.`
-        }
-      });
 
-      if (banned.bannedWords.includes(/lower2/i)) return bot.createMessage(msg.channel.id, {
-        content: ``,
-        embed: {
-          color: 0xf4ce11,
-          author: {
-            name: ``,
-            url: ``,
-            icon_url: ``
-          },
-          description: `Sorry it's against Discord's ToS to search for these tags.`
-        }
-      });
+      var bannedWord1 = banned.bannedWords[0];
+      var bannedWord2 = banned.bannedWords[1];
+      var bannedWord3 = banned.bannedWords[2];
+      var bannedWord4 = banned.bannedWords[3];
 
       if (a === 'list') {
         bot.createMessage(msg.channel.id, {
@@ -78,6 +59,18 @@ rule34.paheal.net, aliases: ["pa","paheal"]`
         })
       } else {
         if (!c) {
+          if (lower.includes(bannedWord1) || lower.includes(bannedWord2) || lower.includes(bannedWord3) || lower.includes(bannedWord4)) return bot.createMessage(msg.channel.id, {
+            content: ``,
+            embed: {
+              color: 0xf4ce11,
+              author: {
+                name: ``,
+                url: ``,
+                icon_url: ``
+              },
+              description: `Sorry it's against Discord's ToS to search for these tags.`
+            }
+          });
           booru.search(`${a}`, [`${b}`], {
               limit: 1,
               random: true
@@ -179,6 +172,18 @@ Rating: ${image.common.rating}`,
               }
             })
         } else {
+          if (lower2.includes(bannedWord1) || lower2.includes(bannedWord2) || lower2.includes(bannedWord3) || lower2.includes(bannedWord4)) return bot.createMessage(msg.channel.id, {
+            content: ``,
+            embed: {
+              color: 0xf4ce11,
+              author: {
+                name: ``,
+                url: ``,
+                icon_url: ``
+              },
+              description: `Sorry it's against Discord's ToS to search for these tags.`
+            }
+          });
           booru.search(`${a}`, [`${b}`, `${c}`], {
               limit: 1,
               random: true
