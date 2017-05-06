@@ -4,3 +4,4 @@
 node_modules
 config.json
 db/*
+banned_search_terms.json

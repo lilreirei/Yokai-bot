@@ -1,3 +1,5 @@
+var reload = require('require-reload'),
+	banned = reload('../../banned_search_terms.json');
 const booru = require('booru')
 
 module.exports = {
@@ -22,7 +24,7 @@ module.exports = {
         var lower2 = c.toLowerCase();
       if (b !== undefined)
         var lower = b.toLowerCase();
-      if (lower === 'loli' || lower === 'lolicon' || lower === 'shota' || lower === 'shotacon') return bot.createMessage(msg.channel.id, {
+      if (banned.bannedWords.includes(/lower/i)) return bot.createMessage(msg.channel.id, {
         content: ``,
         embed: {
           color: 0xf4ce11,
@@ -35,7 +37,7 @@ module.exports = {
         }
       });
 
-      if (lower2 === 'loli' || lower2 === 'lolicon' || lower2 === 'shota' || lower2 === 'shotacon') return bot.createMessage(msg.channel.id, {
+      if (banned.bannedWords.includes(/lower2/i)) return bot.createMessage(msg.channel.id, {
         content: ``,
         embed: {
           color: 0xf4ce11,
@@ -71,11 +73,7 @@ tbib.org, aliases: ["tb", "tbib","big"]
 xbooru.com, aliases: ["xb","xbooru"]
 youhate.us, aliases: ["yh","you","youhate"]
 dollbooru.org, aliases: ["do","doll","dollbooru"]
-rule34.paheal.net, aliases: ["pa","paheal"]`,
-            footer: {
-              text: `${msg.channel.guild ? (`${msg.channel.guild.name} : #${msg.channel.name}`) : ""}`,
-              icon_url: `${msg.channel.guild.iconURL === null ? `` : ''}${msg.channel.guild.iconURL !== null ? msg.channel.guild.iconURL : ''}`
-            }
+rule34.paheal.net, aliases: ["pa","paheal"]`
           }
         })
       } else {
@@ -88,7 +86,7 @@ rule34.paheal.net, aliases: ["pa","paheal"]`,
             .then(images => {
               for (let image of images) {
                 var tag = image.common.tags + "";
-                if (tag.includes('loli') || tag.includes('lolicon') || tag.includes('shota') || tag.includes('shotacon')) return bot.createMessage(msg.channel.id, {
+                if (tag.includes(banned.bannedWords[0]) || tag.includes(banned.bannedWords[1]) || tag.includes(banned.bannedWords[2]) || tag.includes(banned.bannedWords[3]) || tag.includes(banned.bannedWords[4]) || tag.includes(banned.bannedWords[5])) return bot.createMessage(msg.channel.id, {
                   content: ``,
                   embed: {
                     color: 0xf4ce11,
@@ -118,10 +116,6 @@ Score: ${image.common.score}
 Rating: ${image.common.rating}`,
                     image: {
                       url: `${imguri}`
-                    },
-                    footer: {
-                      text: `${msg.channel.guild ? (`${msg.channel.guild.name} : #${msg.channel.name}`) : ""}`,
-                      icon_url: `${msg.channel.guild.iconURL === null ? `` : ''}${msg.channel.guild.iconURL !== null ? msg.channel.guild.iconURL : ''}`
                     }
                   }
                 }).catch(err => {
@@ -193,7 +187,7 @@ Rating: ${image.common.rating}`,
             .then(images => {
               for (let image of images) {
                 var tag = image.common.tags + "";
-                if (tag.includes('loli') || tag.includes('lolicon') || tag.includes('shota') || tag.includes('shotacon')) return bot.createMessage(msg.channel.id, {
+                if (tag.includes(banned.bannedWords[0]) || tag.includes(banned.bannedWords[1]) || tag.includes(banned.bannedWords[2]) || tag.includes(banned.bannedWords[3]) || tag.includes(banned.bannedWords[4]) || tag.includes(banned.bannedWords[5])) return bot.createMessage(msg.channel.id, {
                   content: ``,
                   embed: {
                     color: 0xf4ce11,
@@ -202,7 +196,7 @@ Rating: ${image.common.rating}`,
                       url: ``,
                       icon_url: ``
                     },
-                    description: `Sorry, it's against Discord's ToS to show you this images.`
+                    description: `Sorry, it's against Discord's ToS to show you this image.`
                   }
                 });
                 var tags = tag.split(',').join(', ');
@@ -223,10 +217,6 @@ Score: ${image.common.score}
 Rating: ${image.common.rating}`,
                     image: {
                       url: `${imguri}`
-                    },
-                    footer: {
-                      text: `${msg.channel.guild ? (`${msg.channel.guild.name} : #${msg.channel.name}`) : ""}`,
-                      icon_url: `${msg.channel.guild.iconURL === null ? `` : ''}${msg.channel.guild.iconURL !== null ? msg.channel.guild.iconURL : ''}`
                     }
                   }
                 }).catch(err => {
