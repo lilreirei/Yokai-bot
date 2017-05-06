@@ -15,14 +15,6 @@ module.exports = {
     } else if (!args) {
       return 'wrong usage'
     } else {
-
-      var bannedWord1 = banned.bannedWords[0];
-      var bannedWord2 = banned.bannedWords[1];
-      var bannedWord3 = banned.bannedWords[2];
-      var bannedWord4 = banned.bannedWords[3];
-      // var bannedWord5 = banned.bannedWords[4];
-      // var bannedWord6 = banned.bannedWords[5];
-
       var str = args + "";
       var array = str.split(' '),
         a = array[0],
@@ -32,7 +24,7 @@ module.exports = {
         var lower2 = c.toLowerCase();
       if (b !== undefined)
         var lower = b.toLowerCase();
-      if (lower.startsWith(bannedWord1) || lower.startsWith(bannedWord2) || lower.startsWith(bannedWord3) || lower.startsWith(bannedWord4)) return bot.createMessage(msg.channel.id, {
+      if (banned.bannedWords.includes(/lower/i)) return bot.createMessage(msg.channel.id, {
         content: ``,
         embed: {
           color: 0xf4ce11,
@@ -45,7 +37,7 @@ module.exports = {
         }
       });
 
-      if (lower2.startsWith(bannedWord1) || lower2.startsWith(bannedWord2) || lower2.startsWith(bannedWord3) || lower2.startsWith(bannedWord4)) return bot.createMessage(msg.channel.id, {
+      if (banned.bannedWords.includes(/lower2/i)) return bot.createMessage(msg.channel.id, {
         content: ``,
         embed: {
           color: 0xf4ce11,
