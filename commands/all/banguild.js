@@ -37,6 +37,19 @@ module.exports = {
           }
         });
       });
+    }).catch(err => {
+      bot.createMessage(msg.channel.id, {
+        content: ``,
+        embed: {
+          color: 0xff0000,
+          author: {
+            name: ``,
+            url: ``,
+            icon_url: ``
+          },
+          description: `${err}`
+        }
+      });
     });
   }
 };
