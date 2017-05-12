@@ -1,5 +1,6 @@
 module.exports = function(bot, settingsManager, _config, guild, member) {
 	let welcomeMessage = settingsManager.getWelcome(guild, member);
+	if (member.user.bot === true) return;
 	if (welcomeMessage !== null) {
 		if (welcomeMessage[0] === 'DM') {
 			member.user.getDMChannel().then(chan => {

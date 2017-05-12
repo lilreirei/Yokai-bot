@@ -1,4 +1,5 @@
 module.exports = function(bot, settingsManager, _config, guild, member, oldMember) {
+	if (member.user.bot === true) return;
 	if (oldMember && member.nick !== oldMember.nick) {
 		let nickEventChannel = settingsManager.getEventSetting(guild.id, 'nicknamechanged');
 		if (nickEventChannel !== null) {
