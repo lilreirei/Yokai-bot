@@ -1,6 +1,6 @@
 module.exports = {
-    desc: "Ban the mentioned member.",
-    usage: "<username/ID/@username> | <reason>",
+    desc: "Ban a user that is not in the guild.",
+    usage: "<user_id> | <reason>",
     guildOnly: true,
     requiredPermission: 'banMembers',
     task(bot, msg, args) {
@@ -9,22 +9,9 @@ module.exports = {
         const array = str.split(/ ?\| ?/),
             userToBan = array[0],
             reason = array[1];
-        const user = this.findMember(msg, userToBan);
         const deletedays = 7;
-        if (!user) return bot.createMessage(msg.channel.id, {
-            content: ``,
-            embed: {
-                color: 0xff0000,
-                author: {
-                    name: ``,
-                    url: ``,
-                    icon_url: ``
-                },
-                description: `That is not a valid guild member. Need to specify a name, ID or mention the user.`
-            }
-        });
         msg.channel.guild.members.get(bot.user.id).permission.json.banMembers
-        bot.banGuildMember(msg.channel.guild.id, user.id, deletedays, reason).catch(err => {
+        bot.banGuildMember(msg.channel.guild.id, userToBan, deletedays, reason).catch(err => {
             var string = `${err}`,
                 substring = 'Privilege is too low...';
             if (string.includes(substring)) return bot.createMessage(msg.channel.id, {
@@ -36,7 +23,7 @@ module.exports = {
                         url: ``,
                         icon_url: ``
                     },
-                    description: `Can't ban <@${user.id}>, privilege is too low.`
+                    description: `Can't ban <@${userToBan}>, privilege is too low.`
                 }
             })
             bot.createMessage(msg.channel.id, {
@@ -58,4 +45,4 @@ module.exports = {
             });
         });
     }
-}
+};
