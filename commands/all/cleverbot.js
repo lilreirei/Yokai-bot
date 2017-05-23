@@ -1,66 +1,37 @@
-let cleverbot = require("better-cleverbot-io");
+const axios = require("axios");
 
 module.exports = {
-  desc: "Talk with the bot.",
-  usage: "<question>",
-  aliases: ['cb'],
-  task(bot, msg, suffix) {
-    let cbot = new cleverbot({
-      user: 'FqxpO21tjaYpPyJz',
-      key: '4oZ8IAsSMuQIVLWJ7xCFyEqSvzyEaZgc',
-      nick: `${msg.channel.guild.id}`
-    });
-    cbot.create().then(() => {
-      cbot.ask(suffix).then((response) => {
-        bot.createMessage(msg.channel.id, {
-          content: ``,
-          embed: {
-            color: 0xf4ce11,
-            author: {
-              name: ``,
-              url: ``,
-              icon_url: ``
-            },
-            description: `${response}`
-          }
-        })
-      }).catch(err => {
-        bot.createMessage(msg.channel.id, {
-          content: ``,
-          embed: {
-            color: 0xff0000,
-            author: {
-              name: ``,
-              url: ``,
-              icon_url: ``
-            },
-            description: `:warning: ${err}`,
-            fields: [{
-              name: `For support join:`,
-              value: `https://discord.gg/Vf4ne5b`,
-              inline: true
-            }]
-          }
+    desc: "Chat with the bot.",
+    usage: "<question>",
+    aliases: ['cb'],
+    cooldown: 2,
+    task(bot, msg, args) {
+        axios.get(`http://api.program-o.com/v2/chatbot/?bot_id=6&say=${args}&convo_id=${msg.author.id}&format=json`).then(function(res) {
+            bot.createMessage(msg.channel.id, {
+                content: ``,
+                embed: {
+                    color: 0xf4ce11,
+                    author: {
+                        name: ``,
+                        url: ``,
+                        icon_url: ``
+                    },
+                    description: `${msg.author.mention}, ${res.data.botsay.replace("Program-O", bot.user.username)}`
+                }
+            });
+        }).catch(function(err) {
+            bot.createMessage(msg.channel.id, {
+                content: ``,
+                embed: {
+                    color: 0xf4ce11,
+                    author: {
+                        name: ``,
+                        url: ``,
+                        icon_url: ``
+                    },
+                    description: `${msg.author.mention}, I don't wanna talk right now :slight_frown:`
+                }
+            });
         });
-      });
-    }).catch(err => {
-      bot.createMessage(msg.channel.id, {
-        content: ``,
-        embed: {
-          color: 0xff0000,
-          author: {
-            name: ``,
-            url: ``,
-            icon_url: ``
-          },
-          description: `:warning: ${err}`,
-          fields: [{
-            name: `For support join:`,
-            value: `https://discord.gg/Vf4ne5b`,
-            inline: true
-          }]
-        }
-      });
-    });
-  }
-}
+    }
+};
