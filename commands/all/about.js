@@ -25,7 +25,7 @@ module.exports = {
                 },
                 fields: [{
                         name: `Creator:`,
-                        value: `<@93973697643155456>\n(**${ownername}#${ownerdiscrim}**)`,
+                        value: `<@93973697643155456>\n(${ownername}#${ownerdiscrim})`,
                         inline: true
                     },
                     {

@@ -34,7 +34,7 @@ module.exports = function(bot, _settingsManager, config, guild) {
                 },
                 description: ``,
                 thumbnail: {
-                    url: `${guild.iconURL}`
+                    url: `${guild.iconURL === null ? `` : ''}${guild.iconURL !== null ? guild.iconURL : ''}`
                 },
                 fields: [{
                         name: `Owner`,
@@ -73,7 +73,7 @@ module.exports = function(bot, _settingsManager, config, guild) {
                     },
                     {
                         name: `Default channel`,
-                        value: `<#${defid}>`,
+                        value: `<#${defid}>\n(${defid})`,
                         inline: true
                     },
                     {
