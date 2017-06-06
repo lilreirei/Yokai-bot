@@ -101,7 +101,33 @@ Japanese: ${manga.title_japanese}`,
                                 text: `All information is provided by AniList`
                             }
                         }
-                        bot.createMessage(msg.channel.id, { embed: embed }).catch(console.log);
+                        bot.createMessage(msg.channel.id, { embed: embed }).catch(err => {
+                            const error = JSON.parse(err.response);
+                            if (error.code === 50013) {
+                                bot.createMessage(msg.channel.id, `❌ I do not have the required permissions for this command to function normally.`).catch(err => {
+                                    bot.getDMChannel(msg.author.id).then(dmchannel => {
+                                        dmchannel.createMessage(`I tried to respond to a command you used in **${msg.channel.guild.name}**, channel: ${msg.channel.mention}.\nUnfortunately I do not have the required permissions. Please speak to the guild owner.`).catch(err => {
+                                            return;
+                                        });
+                                    }).catch(err => {
+                                        return;
+                                    });
+                                });
+                            } else {
+                                bot.createMessage(msg.channel.id, `
+\`\`\`
+ERROR
+Code: ${error.code}
+Message: ${error.message}
+
+For more help join the support server.
+Get the invite link by doing s.support
+\`\`\`
+`).catch(err => {
+                                    return;
+                                });
+                            }
+                        });
                     } else if (index < 0) {
                         var index2 = results.map(function(title) { return title.title_english; }).indexOf(args);
                         if (index2 >= 0) {
@@ -188,7 +214,33 @@ Japanese: ${manga.title_japanese}`,
                                     text: `All information is provided by AniList`
                                 }
                             }
-                            bot.createMessage(msg.channel.id, { embed: embed }).catch(console.log);
+                            bot.createMessage(msg.channel.id, { embed: embed }).catch(err => {
+                                const error = JSON.parse(err.response);
+                                if (error.code === 50013) {
+                                    bot.createMessage(msg.channel.id, `❌ I do not have the required permissions for this command to function normally.`).catch(err => {
+                                        bot.getDMChannel(msg.author.id).then(dmchannel => {
+                                            dmchannel.createMessage(`I tried to respond to a command you used in **${msg.channel.guild.name}**, channel: ${msg.channel.mention}.\nUnfortunately I do not have the required permissions. Please speak to the guild owner.`).catch(err => {
+                                                return;
+                                            });
+                                        }).catch(err => {
+                                            return;
+                                        });
+                                    });
+                                } else {
+                                    bot.createMessage(msg.channel.id, `
+\`\`\`
+ERROR
+Code: ${error.code}
+Message: ${error.message}
+
+For more help join the support server.
+Get the invite link by doing s.support
+\`\`\`
+`).catch(err => {
+                                        return;
+                                    });
+                                }
+                            });
                         } else if (index2 < 0) {
                             var index3 = 0;
                             manga = results[index3];
@@ -273,7 +325,33 @@ Japanese: ${manga.title_japanese}`,
                                     text: `All information is provided by AniList`
                                 }
                             }
-                            bot.createMessage(msg.channel.id, { embed: embed }).catch(console.log);
+                            bot.createMessage(msg.channel.id, { embed: embed }).catch(err => {
+                                const error = JSON.parse(err.response);
+                                if (error.code === 50013) {
+                                    bot.createMessage(msg.channel.id, `❌ I do not have the required permissions for this command to function normally.`).catch(err => {
+                                        bot.getDMChannel(msg.author.id).then(dmchannel => {
+                                            dmchannel.createMessage(`I tried to respond to a command you used in **${msg.channel.guild.name}**, channel: ${msg.channel.mention}.\nUnfortunately I do not have the required permissions. Please speak to the guild owner.`).catch(err => {
+                                                return;
+                                            });
+                                        }).catch(err => {
+                                            return;
+                                        });
+                                    });
+                                } else {
+                                    bot.createMessage(msg.channel.id, `
+\`\`\`
+ERROR
+Code: ${error.code}
+Message: ${error.message}
+
+For more help join the support server.
+Get the invite link by doing s.support
+\`\`\`
+`).catch(err => {
+                                        return;
+                                    });
+                                }
+                            });
                         }
                     }
                 });
@@ -294,6 +372,8 @@ Japanese: ${manga.title_japanese}`,
                             inline: true
                         }]
                     }
+                }).catch(err => {
+                    return;
                 });
             })
         }

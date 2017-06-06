@@ -32,17 +32,19 @@ module.exports = {
                 inline: true
               }]
             }
+          }).catch(err => {
+            return;
           });
         }
-        var t = resp.map(function(title) {
+        var t = resp.map(function (title) {
           return title.series_title;
         }).toString();
         var titles = t.split(',').join('\n');
-        var s = resp.map(function(score) {
+        var s = resp.map(function (score) {
           return score.my_score;
         }).toString();
         var scores = s.split(',').join('\n');
-        var w = resp.map(function(watched) {
+        var w = resp.map(function (watched) {
           return watched.my_watched_episodes;
         }).toString();
         var watchedep = s.split(',').join('\n');
@@ -69,23 +71,31 @@ module.exports = {
         bot.createMessage(msg.channel.id, {
           embed: embed
         }).catch(err => {
-          bot.createMessage(msg.channel.id, {
-            content: ``,
-            embed: {
-              color: 0xff0000,
-              author: {
-                name: ``,
-                url: ``,
-                icon_url: ``
-              },
-              description: `${err}`,
-              fields: [{
-                name: `For support join:`,
-                value: `https://discord.gg/Vf4ne5b`,
-                inline: true
-              }]
+            const error = JSON.parse(err.response);
+            if (error.code === 50013) {
+                bot.createMessage(msg.channel.id, `❌ I do not have the required permissions for this command to function normally.`).catch(err => {
+                    bot.getDMChannel(msg.author.id).then(dmchannel => {
+                        dmchannel.createMessage(`I tried to respond to a command you used in **${msg.channel.guild.name}**, channel: ${msg.channel.mention}.\nUnfortunately I do not have the required permissions. Please speak to the guild owner.`).catch(err => {
+                            return;
+                        });
+                    }).catch(err => {
+                        return;
+                    });
+                });
+            } else {
+                bot.createMessage(msg.channel.id, `
+\`\`\`
+ERROR
+Code: ${error.code}
+Message: ${error.message}
+
+For more help join the support server.
+Get the invite link by doing s.support
+\`\`\`
+`).catch(err => {
+                    return;
+                });
             }
-          });
         });
       })
     } else if (type === 'completed') {
@@ -110,17 +120,19 @@ module.exports = {
                 inline: true
               }]
             }
+          }).catch(err => {
+            return;
           });
         }
-        var t = resp.map(function(title) {
+        var t = resp.map(function (title) {
           return title.series_title;
         }).toString();
         var titles = t.split(',').join('\n');
-        var s = resp.map(function(score) {
+        var s = resp.map(function (score) {
           return score.my_score;
         }).toString();
         var scores = s.split(',').join('\n');
-        var w = resp.map(function(watched) {
+        var w = resp.map(function (watched) {
           return watched.my_watched_episodes;
         }).toString();
         var watchedep = s.split(',').join('\n');
@@ -147,23 +159,31 @@ module.exports = {
         bot.createMessage(msg.channel.id, {
           embed: embed
         }).catch(err => {
-          bot.createMessage(msg.channel.id, {
-            content: ``,
-            embed: {
-              color: 0xff0000,
-              author: {
-                name: ``,
-                url: ``,
-                icon_url: ``
-              },
-              description: `${err}`,
-              fields: [{
-                name: `For support join:`,
-                value: `https://discord.gg/Vf4ne5b`,
-                inline: true
-              }]
+            const error = JSON.parse(err.response);
+            if (error.code === 50013) {
+                bot.createMessage(msg.channel.id, `❌ I do not have the required permissions for this command to function normally.`).catch(err => {
+                    bot.getDMChannel(msg.author.id).then(dmchannel => {
+                        dmchannel.createMessage(`I tried to respond to a command you used in **${msg.channel.guild.name}**, channel: ${msg.channel.mention}.\nUnfortunately I do not have the required permissions. Please speak to the guild owner.`).catch(err => {
+                            return;
+                        });
+                    }).catch(err => {
+                        return;
+                    });
+                });
+            } else {
+                bot.createMessage(msg.channel.id, `
+\`\`\`
+ERROR
+Code: ${error.code}
+Message: ${error.message}
+
+For more help join the support server.
+Get the invite link by doing s.support
+\`\`\`
+`).catch(err => {
+                    return;
+                });
             }
-          });
         });
       })
     } else if (type === 'onhold') {
@@ -188,17 +208,19 @@ module.exports = {
                 inline: true
               }]
             }
+          }).catch(err => {
+            return;
           });
         }
-        var t = resp.map(function(title) {
+        var t = resp.map(function (title) {
           return title.series_title;
         }).toString();
         var titles = t.split(',').join('\n');
-        var s = resp.map(function(score) {
+        var s = resp.map(function (score) {
           return score.my_score;
         }).toString();
         var scores = s.split(',').join('\n');
-        var w = resp.map(function(watched) {
+        var w = resp.map(function (watched) {
           return watched.my_watched_episodes;
         }).toString();
         var watchedep = s.split(',').join('\n');
@@ -225,23 +247,31 @@ module.exports = {
         bot.createMessage(msg.channel.id, {
           embed: embed
         }).catch(err => {
-          bot.createMessage(msg.channel.id, {
-            content: ``,
-            embed: {
-              color: 0xff0000,
-              author: {
-                name: ``,
-                url: ``,
-                icon_url: ``
-              },
-              description: `${err}`,
-              fields: [{
-                name: `For support join:`,
-                value: `https://discord.gg/Vf4ne5b`,
-                inline: true
-              }]
+            const error = JSON.parse(err.response);
+            if (error.code === 50013) {
+                bot.createMessage(msg.channel.id, `❌ I do not have the required permissions for this command to function normally.`).catch(err => {
+                    bot.getDMChannel(msg.author.id).then(dmchannel => {
+                        dmchannel.createMessage(`I tried to respond to a command you used in **${msg.channel.guild.name}**, channel: ${msg.channel.mention}.\nUnfortunately I do not have the required permissions. Please speak to the guild owner.`).catch(err => {
+                            return;
+                        });
+                    }).catch(err => {
+                        return;
+                    });
+                });
+            } else {
+                bot.createMessage(msg.channel.id, `
+\`\`\`
+ERROR
+Code: ${error.code}
+Message: ${error.message}
+
+For more help join the support server.
+Get the invite link by doing s.support
+\`\`\`
+`).catch(err => {
+                    return;
+                });
             }
-          });
         });
       })
     }

@@ -1,111 +1,139 @@
 const owjs = require('overwatch-js');
 
 module.exports = {
-  desc: "Get overwatch data.",
-  usage: "<profile/competitive/quickplay> | <xbl/psn/pc> | <region> | <username>",
-  aliases: ['ow'],
-  cooldown: 5,
-  task(bot, msg, args) {
-    if (!args) return 'wrong usage';
-    const str = args + "";
-    const array = str.split(/ ?\| ?/),
-      type = array[0], // profile, comp, quick
-      platform = array[1], // xbl, psn, pc
-      region = array[2], // eu, na, asia, china
-      username = array[3];
-    const user = username.replace("#", "-");
-    const lower = type.toLowerCase();
+    desc: "Get overwatch data.",
+    usage: "<profile/competitive/quickplay> | <xbl/psn/pc> | <region> | <username>",
+    aliases: ['ow'],
+    cooldown: 5,
+    task(bot, msg, args) {
+        if (!args) return 'wrong usage';
+        const str = args + "";
+        const array = str.split(/ ?\| ?/),
+            type = array[0], // profile, comp, quick
+            platform = array[1], // xbl, psn, pc
+            region = array[2], // eu, na, asia, china
+            username = array[3];
+        const user = username.replace("#", "-");
+        const lower = type.toLowerCase();
 
-    if (lower === 'profile' || lower === 'p') {
-      owjs.getOverall(platform, region, user).then(data => {
-        bot.createMessage(msg.channel.id, {
-          content: ``,
-          embed: {
-            color: 0xf4ce11,
-            author: {
-              name: `Info for: ${username}`,
-              url: `${data.profile.url}`,
-              icon_url: `${data.profile.rankPicture}`
-            },
-            description: ``,
-            thumbnail: {
-              url: `${data.profile.avatar}`
-            },
-            fields: [{
-                name: `Nick`,
-                value: `${data.profile.nick}`,
-                inline: true
-              },
-              {
-                name: `Level`,
-                value: `${data.profile.level}`,
-                inline: true
-              },
-              {
-                name: `Rank`,
-                value: `${data.profile.rank}`,
-                inline: true
-              },
-              {
-                name: `Season`,
-                value: `S: ${data.profile.season.id}\nR: ${data.profile.season.rank}`,
-                inline: true
-              },
-              {
-                name: `Best Rank`,
-                value: `${data.profile.ranking}`,
-                inline: false
-              }
-            ]
-          }
-        });
-      }).catch(err => {
-        bot.createMessage(msg.channel.id, {
-          content: ``,
-          embed: {
-            color: 0xff0000,
-            author: {
-              name: ``,
-              url: ``,
-              icon_url: ``
-            },
-            description: `${err}`,
-            fields: [{
-              name: `For support join:`,
-              value: `https://discord.gg/Vf4ne5b`,
-              inline: true
-            }]
-          }
-        });
-      });
-    } else if (lower === 'comp' || lower === 'c' || lower === 'competitive') {
-      owjs.getOverall(platform, region, user).then(data => {
-        bot.createMessage(msg.channel.id, {
-          content: ``,
-          embed: {
-            color: 0xf4ce11,
-            author: {
-              name: `Competitive info for: ${username}`,
-              url: `${data.profile.url}`,
-              icon_url: `${data.profile.rankPicture}`
-            },
-            description: ``,
-            thumbnail: {
-              url: `${data.profile.avatar}`
-            },
-            fields: [{
-                name: `Average`,
-                value: `**Eliminations:** ${data.competitive.global.eliminations_average}
+        if (lower === 'profile' || lower === 'p') {
+            owjs.getOverall(platform, region, user).then(data => {
+                bot.createMessage(msg.channel.id, {
+                    content: ``,
+                    embed: {
+                        color: 0xf4ce11,
+                        author: {
+                            name: `Info for: ${username}`,
+                            url: `${data.profile.url}`,
+                            icon_url: `${data.profile.rankPicture}`
+                        },
+                        description: ``,
+                        thumbnail: {
+                            url: `${data.profile.avatar}`
+                        },
+                        fields: [{
+                                name: `Nick`,
+                                value: `${data.profile.nick}`,
+                                inline: true
+                            },
+                            {
+                                name: `Level`,
+                                value: `${data.profile.level}`,
+                                inline: true
+                            },
+                            {
+                                name: `Rank`,
+                                value: `${data.profile.rank}`,
+                                inline: true
+                            },
+                            {
+                                name: `Season`,
+                                value: `S: ${data.profile.season.id}\nR: ${data.profile.season.rank}`,
+                                inline: true
+                            },
+                            {
+                                name: `Best Rank`,
+                                value: `${data.profile.ranking}`,
+                                inline: false
+                            }
+                        ]
+                    }
+                }).catch(err => {
+                    const error = JSON.parse(err.response);
+                    if (error.code === 50013) {
+                        bot.createMessage(msg.channel.id, `❌ I do not have the required permissions for this command to function normally.`).catch(err => {
+                            bot.getDMChannel(msg.author.id).then(dmchannel => {
+                                dmchannel.createMessage(`I tried to respond to a command you used in **${msg.channel.guild.name}**, channel: ${msg.channel.mention}.\nUnfortunately I do not have the required permissions. Please speak to the guild owner.`).catch(err => {
+                                    return;
+                                });
+                            }).catch(err => {
+                                return;
+                            });
+                        });
+                    } else {
+                        bot.createMessage(msg.channel.id, `
+\`\`\`
+ERROR
+Code: ${error.code}
+Message: ${error.message}
+
+For more help join the support server.
+Get the invite link by doing s.support
+\`\`\`
+`).catch(err => {
+                            return;
+                        });
+                    }
+                });
+            }).catch(err => {
+                bot.createMessage(msg.channel.id, {
+                    content: ``,
+                    embed: {
+                        color: 0xff0000,
+                        author: {
+                            name: ``,
+                            url: ``,
+                            icon_url: ``
+                        },
+                        description: `${err}`,
+                        fields: [{
+                            name: `For support join:`,
+                            value: `https://discord.gg/Vf4ne5b`,
+                            inline: true
+                        }]
+                    }
+                });
+            }).catch(err => {
+                return;
+            });
+        } else if (lower === 'comp' || lower === 'c' || lower === 'competitive') {
+            owjs.getOverall(platform, region, user).then(data => {
+                bot.createMessage(msg.channel.id, {
+                    content: ``,
+                    embed: {
+                        color: 0xf4ce11,
+                        author: {
+                            name: `Competitive info for: ${username}`,
+                            url: `${data.profile.url}`,
+                            icon_url: `${data.profile.rankPicture}`
+                        },
+                        description: ``,
+                        thumbnail: {
+                            url: `${data.profile.avatar}`
+                        },
+                        fields: [{
+                                name: `Average`,
+                                value: `**Eliminations:** ${data.competitive.global.eliminations_average}
 **Damage done:** ${data.competitive.global.damage_done_average}
 **Deaths:** ${data.competitive.global.deaths_average}
 **Final blows:** ${data.competitive.global.final_blows_average}
 **Objective kills:** ${data.competitive.global.objective_kills_average}
 **Solo kills:** ${data.competitive.global.solo_kills_average}`,
-                inline: true
-              },
-              {
-                name: `Total`,
-                value: `**Solo kills:** ${data.competitive.global.solo_kills}
+                                inline: true
+                            },
+                            {
+                                name: `Total`,
+                                value: `**Solo kills:** ${data.competitive.global.solo_kills}
 **Objective kills:** ${data.competitive.global.objective_kills}
 **Final blows:** ${data.competitive.global.final_blows}
 **Damage done:** ${data.competitive.global.damage_done}
@@ -114,76 +142,104 @@ module.exports = {
 **Games played:** ${data.competitive.global.games_played}
 **Games won:** ${data.competitive.global.games_won}
 **Games lost:** ${data.competitive.global.games_lost}`,
-                inline: true
-              },
-              {
-                name: `Most in game`,
-                value: `**Eliminations:** ${data.competitive.global.eliminations_most_in_game}
+                                inline: true
+                            },
+                            {
+                                name: `Most in game`,
+                                value: `**Eliminations:** ${data.competitive.global.eliminations_most_in_game}
 **Final blows:** ${data.competitive.global.final_blows_most_in_game}
 **Damage done:** ${data.competitive.global.damage_done_most_in_game}
 **Objective kills:** ${data.competitive.global.objective_kills_most_in_game}
 **Solo kills:** ${data.competitive.global.solo_kills_most_in_game}`,
-                inline: true
-              },
-              {
-                name: `Medals`,
-                value: `**Total:** ${data.competitive.global.medals}
+                                inline: true
+                            },
+                            {
+                                name: `Medals`,
+                                value: `**Total:** ${data.competitive.global.medals}
 **Gold:** ${data.competitive.global.medals_gold}
 **Silver:** ${data.competitive.global.medals_silver}
 **Bronze:** ${data.competitive.global.medals_bronze}`,
-                inline: true
-              }
-            ]
-          }
-        });
-      }).catch(err => {
-        bot.createMessage(msg.channel.id, {
-          content: ``,
-          embed: {
-            color: 0xff0000,
-            author: {
-              name: ``,
-              url: ``,
-              icon_url: ``
-            },
-            description: `${err}`,
-            fields: [{
-              name: `For support join:`,
-              value: `https://discord.gg/Vf4ne5b`,
-              inline: true
-            }]
-          }
-        });
-      });
-    } else if (lower === 'quick' || lower === 'q' || lower === 'quickplay') {
-      owjs.getOverall(platform, region, user).then(data => {
-        bot.createMessage(msg.channel.id, {
-          content: ``,
-          embed: {
-            color: 0xf4ce11,
-            author: {
-              name: `Info for: ${username}`,
-              url: `${data.profile.url}`,
-              icon_url: `${data.profile.rankPicture}`
-            },
-            description: ``,
-            thumbnail: {
-              url: `${data.profile.avatar}`
-            },
-            fields: [{
-                name: `Average`,
-                value: `**Eliminations:** ${data.quickplay.global.eliminations_average}
+                                inline: true
+                            }
+                        ]
+                    }
+                }).catch(err => {
+                    const error = JSON.parse(err.response);
+                    if (error.code === 50013) {
+                        bot.createMessage(msg.channel.id, `❌ I do not have the required permissions for this command to function normally.`).catch(err => {
+                            bot.getDMChannel(msg.author.id).then(dmchannel => {
+                                dmchannel.createMessage(`I tried to respond to a command you used in **${msg.channel.guild.name}**, channel: ${msg.channel.mention}.\nUnfortunately I do not have the required permissions. Please speak to the guild owner.`).catch(err => {
+                                    return;
+                                });
+                            }).catch(err => {
+                                return;
+                            });
+                        });
+                    } else {
+                        bot.createMessage(msg.channel.id, `
+\`\`\`
+ERROR
+Code: ${error.code}
+Message: ${error.message}
+
+For more help join the support server.
+Get the invite link by doing s.support
+\`\`\`
+`).catch(err => {
+                            return;
+                        });
+                    }
+                });
+            }).catch(err => {
+                bot.createMessage(msg.channel.id, {
+                    content: ``,
+                    embed: {
+                        color: 0xff0000,
+                        author: {
+                            name: ``,
+                            url: ``,
+                            icon_url: ``
+                        },
+                        description: `${err}`,
+                        fields: [{
+                            name: `For support join:`,
+                            value: `https://discord.gg/Vf4ne5b`,
+                            inline: true
+                        }]
+                    }
+                });
+            }).catch(err => {
+                return;
+            });
+        } else if (lower === 'quick' || lower === 'q' || lower === 'quickplay') {
+            owjs.getOverall(platform, region, user).then(data => {
+                bot.createMessage(msg.channel.id, {
+                    content: ``,
+                    embed: {
+                        color: 0xf4ce11,
+                        author: {
+                            name: `Info for: ${username}`,
+                            url: `${data.profile.url}`,
+                            icon_url: `${data.profile.rankPicture}`
+                        },
+                        description: ``,
+                        thumbnail: {
+                            url: `${data.profile.avatar}`
+                        },
+                        fields: [{
+                                name: `Average`,
+                                value: `**Eliminations:** ${data.quickplay.global.eliminations_average}
 **Damage done:** ${data.quickplay.global.damage_done_average}
 **Deaths:** ${data.quickplay.global.deaths_average}
 **Final blows:** ${data.quickplay.global.final_blows_average}
 **Healing done:** ${data.quickplay.global.healing_done_average}
 **Objective kills:** ${data.quickplay.global.objective_kills_average}
 **Solo kills:** ${data.quickplay.global.solo_kills_average}`,
-                inline: true
-              },
-              {
-                name: `Total`,
-                value: `**Solo kills:** ${data.quickplay.global.solo_kills}
+                                inline: true
+                            },
+                            {
+                                name: `Total`,
+                                value: `**Solo kills:** ${data.quickplay.global.solo_kills}
 **Objective kills:** ${data.quickplay.global.objective_kills}
 **Final blows:** ${data.quickplay.global.final_blows}
 **Damage done:** ${data.quickplay.global.damage_done}
@@ -191,11 +247,11 @@ module.exports = {
 **Healing done:** ${data.quickplay.global.healing_done}
 **Deaths:** ${data.quickplay.global.deaths}
 **Games won:** ${data.quickplay.global.games_won}`,
-                inline: true
-              },
-              {
-                name: `Most in game`,
-                value: `**Eliminations:** ${data.quickplay.global.eliminations_most_in_game}
+                                inline: true
+                            },
+                            {
+                                name: `Most in game`,
+                                value: `**Eliminations:** ${data.quickplay.global.eliminations_most_in_game}
 **Final blows:** ${data.quickplay.global.final_blows_most_in_game}
 **Damage done:** ${data.quickplay.global.damage_done_most_in_game}
 **Healing done:** ${data.quickplay.global.healing_done_most_in_game}
@@ -203,38 +259,66 @@ module.exports = {
 **Offensive assists:** ${data.quickplay.global.offensive_assists_most_in_game}
 **Objective kills:** ${data.quickplay.global.objective_kills_most_in_game}
 **Solo kills:** ${data.quickplay.global.solo_kills_most_in_game}`,
-                inline: true
-              },
-              {
-                name: `Medals`,
-                value: `**Total:** ${data.quickplay.global.medals}
+                                inline: true
+                            },
+                            {
+                                name: `Medals`,
+                                value: `**Total:** ${data.quickplay.global.medals}
 **Gold:** ${data.quickplay.global.medals_gold}
 **Silver:** ${data.quickplay.global.medals_silver}
 **Bronze:** ${data.quickplay.global.medals_bronze}`,
-                inline: true
-              }
-            ]
-          }
-        });
-      }).catch(err => {
-        bot.createMessage(msg.channel.id, {
-          content: ``,
-          embed: {
-            color: 0xff0000,
-            author: {
-              name: ``,
-              url: ``,
-              icon_url: ``
-            },
-            description: `${err}`,
-            fields: [{
-              name: `For support join:`,
-              value: `https://discord.gg/Vf4ne5b`,
-              inline: true
-            }]
-          }
-        });
-      });
+                                inline: true
+                            }
+                        ]
+                    }
+                }).catch(err => {
+                    const error = JSON.parse(err.response);
+                    if (error.code === 50013) {
+                        bot.createMessage(msg.channel.id, `❌ I do not have the required permissions for this command to function normally.`).catch(err => {
+                            bot.getDMChannel(msg.author.id).then(dmchannel => {
+                                dmchannel.createMessage(`I tried to respond to a command you used in **${msg.channel.guild.name}**, channel: ${msg.channel.mention}.\nUnfortunately I do not have the required permissions. Please speak to the guild owner.`).catch(err => {
+                                    return;
+                                });
+                            }).catch(err => {
+                                return;
+                            });
+                        });
+                    } else {
+                        bot.createMessage(msg.channel.id, `
+\`\`\`
+ERROR
+Code: ${error.code}
+Message: ${error.message}
+
+For more help join the support server.
+Get the invite link by doing s.support
+\`\`\`
+`).catch(err => {
+                            return;
+                        });
+                    }
+                });
+            }).catch(err => {
+                bot.createMessage(msg.channel.id, {
+                    content: ``,
+                    embed: {
+                        color: 0xff0000,
+                        author: {
+                            name: ``,
+                            url: ``,
+                            icon_url: ``
+                        },
+                        description: `${err}`,
+                        fields: [{
+                            name: `For support join:`,
+                            value: `https://discord.gg/Vf4ne5b`,
+                            inline: true
+                        }]
+                    }
+                }).catch(err => {
+                    return;
+                });
+            });
+        }
     }
-  }
 };

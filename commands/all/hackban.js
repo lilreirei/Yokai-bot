@@ -13,7 +13,10 @@ module.exports = {
         const strlength = /^\d{17,18}/.test(userToBan);
         const isnum = /^\d+$/.test(userToBan);
         if (isnum === true && strlength === true) {
-            msg.channel.guild.members.get(bot.user.id).permission.json.banMembers
+            const permcheck = msg.channel.guild.members.get(bot.user.id).permission.json.banMembers;
+            if (permcheck === false) return bot.createMessage(msg.channel.id, 'I need the banMembers permission for this...').catch(err => {
+                return;
+            });
             bot.banGuildMember(msg.channel.guild.id, userToBan, deletedays, reason).catch(err => {
                 var string = `${err}`,
                     substring = 'Privilege is too low...';
@@ -28,7 +31,9 @@ module.exports = {
                         },
                         description: `Can't ban <@${userToBan}>, privilege is too low.`
                     }
-                })
+                }).catch(err => {
+                    return;
+                });
                 bot.createMessage(msg.channel.id, {
                     content: ``,
                     embed: {
@@ -45,6 +50,8 @@ module.exports = {
                             inline: true
                         }]
                     }
+                }).catch(err => {
+                    return;
                 });
             });
         } else {
@@ -64,6 +71,8 @@ module.exports = {
                         inline: true
                     }]
                 }
+            }).catch(err => {
+                return;
             });
         }
     }

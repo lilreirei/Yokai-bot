@@ -9,7 +9,10 @@ module.exports = {
         const array = str.split(/ ?\| ?/),
             userToBan = array[0],
             reason = array[1];
-        msg.channel.guild.members.get(bot.user.id).permission.json.banMembers
+        const permcheck = msg.channel.guild.members.get(bot.user.id).permission.json.banMembers;
+        if (permcheck === false) return bot.createMessage(msg.channel.id, 'I need the banMembers permission for this...').catch(err => {
+            return;
+        });
         bot.unbanGuildMember(msg.channel.guild.id, userToBan, reason).catch(err => {
             var string = `${err}`,
                 substring = 'Privilege is too low...';
@@ -24,6 +27,8 @@ module.exports = {
                     },
                     description: `Can't unban <@${userToBan}>, privilege is too low.`
                 }
+            }).catch(err => {
+                return;
             });
             bot.createMessage(msg.channel.id, {
                 content: ``,
@@ -41,6 +46,8 @@ module.exports = {
                         inline: true
                     }]
                 }
+            }).catch(err => {
+                return;
             });
         })
     }

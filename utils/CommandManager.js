@@ -75,12 +75,14 @@ class CommandManager {
         let command = this.checkForMatch(name.toLowerCase());
         let suffix = msg.content.replace(this.prefix + name, '').trim();
         if (command !== null) {
+            bannedUsers = reload('../banned_users.json');
             if ((bannedUsers.bannedUserIds.includes(msg.author.id)) && (msg.author.id !== config.adminIds[0])) return bot.createMessage(msg.channel.id, `${msg.author.mention}, You have been blacklisted from using any commands.`);
             if (msg.channel.guild !== undefined && !msg.channel.permissionsOf(msg.author.id).has('manageChannels') && settingsManager.isCommandIgnored(this.prefix, command.name, msg.channel.guild.id, msg.channel.id, msg.author.id) === true)
                 return;
             this.logCommand(msg, command.name, name);
             return command.execute(bot, msg, suffix, config, settingsManager, this.logger);
         } else if (name.toLowerCase() === "help") {
+            bannedUsers = reload('../banned_users.json');
             if ((bannedUsers.bannedUserIds.includes(msg.author.id)) && (msg.author.id !== config.adminIds[0])) return bot.createMessage(msg.channel.id, `${msg.author.mention}, You have been blacklisted from using any commands.`);
             return this.help(bot, msg, msg.content.replace(this.prefix + name, '').trim());
         } else if (this.fallbackCommands.length > 0) {

@@ -1,10 +1,12 @@
 [
-	"with Senpai",
+    "with Senpai",
 	"with my master",
 	"watching anime",
-	"type s!help or s$help",
+	"type s.help for commands list",
+	"prefix: s.",
 	"secret things",
 	"with your feelings",
 	"with souls",
-	"https://shinobubot.xyz"
+	"https://shinobubot.xyz",
+    "with ${USERSIZE} users in ${GUILDSIZE} servers"
 ]

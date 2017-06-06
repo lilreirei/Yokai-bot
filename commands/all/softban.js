@@ -24,9 +24,14 @@ module.exports = {
                 },
                 description: `That is not a valid guild member. Need to specify a name, ID or mention the user.`
             }
+        }).catch(err => {
+            return;
         });
         const user_id = user.id;
-        msg.channel.guild.members.get(bot.user.id).permission.json.banMembers
+        var permcheck = msg.channel.guild.members.get(bot.user.id).permission.json.banMembers;
+        if (permcheck === false) return bot.createMessage(msg.channel.id, 'I need the banMembers permission for this...').catch(err => {
+            return;
+        });
         bot.banGuildMember(msg.channel.guild.id, user_id, deletedays, reason).catch(err => {
             var string = `${err}`,
                 substring = 'Privilege is too low...';
@@ -41,6 +46,8 @@ module.exports = {
                     },
                     description: `Can't ban <@${user.id}>, privilege is too low.`
                 }
+            }).catch(err => {
+                return;
             });
             bot.createMessage(msg.channel.id, {
                 content: ``,
@@ -58,9 +65,14 @@ module.exports = {
                         inline: true
                     }]
                 }
+            }).catch(err => {
+                return;
             });
         });
-        msg.channel.guild.members.get(bot.user.id).permission.json.banMembers
+        var permcheck = msg.channel.guild.members.get(bot.user.id).permission.json.banMembers;
+        if (permcheck === false) return bot.createMessage(msg.channel.id, 'I need the banMembers permission for this...').catch(err => {
+            return;
+        });
         bot.unbanGuildMember(msg.channel.guild.id, user_id, 'Automatically unbanned because of sofban.').catch(err => {
             var string = `${err}`,
                 substring = 'Privilege is too low...';
@@ -75,6 +87,8 @@ module.exports = {
                     },
                     description: `Can't ban <@${user.id}>, privilege is too low.`
                 }
+            }).catch(err => {
+                return;
             });
             bot.createMessage(msg.channel.id, {
                 content: ``,
@@ -92,6 +106,8 @@ module.exports = {
                         inline: true
                     }]
                 }
+            }).catch(err => {
+                return;
             });
         });
     }

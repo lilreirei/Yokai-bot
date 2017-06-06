@@ -30,6 +30,32 @@ module.exports = {
                         },
                         description: `Guild-wide permissions for **${msg.author.mention}**\n${slice}`
                     }
+                }).catch(err => {
+                    const error = JSON.parse(err.response);
+                    if (error.code === 50013) {
+                        bot.createMessage(msg.channel.id, `❌ I do not have the required permissions for this command to function normally.`).catch(err => {
+                            bot.getDMChannel(msg.author.id).then(dmchannel => {
+                                dmchannel.createMessage(`I tried to respond to a command you used in **${msg.channel.guild.name}**, channel: ${msg.channel.mention}.\nUnfortunately I do not have the required permissions. Please speak to the guild owner.`).catch(err => {
+                                    return;
+                                });
+                            }).catch(err => {
+                                return;
+                            });
+                        });
+                    } else {
+                        bot.createMessage(msg.channel.id, `
+\`\`\`
+ERROR
+Code: ${error.code}
+Message: ${error.message}
+
+For more help join the support server.
+Get the invite link by doing s.support
+\`\`\`
+`).catch(err => {
+                            return;
+                        });
+                    }
                 });
             } else {
                 const user = this.findMember(msg, member);
@@ -44,7 +70,9 @@ module.exports = {
                         },
                         description: `That is not a valid guild member. Need to specify a name, ID or mention the user.`
                     }
-                })
+                }).catch(err => {
+                    return;
+                });
                 const mem = msg.channel.guild.members.get(user.id);
                 let perms = mem.permission.json;
                 perms = JSON.stringify(perms).split(',').join('\n');
@@ -62,6 +90,32 @@ module.exports = {
                             icon_url: ``
                         },
                         description: `Guild-wide permissions for **${user.mention}**\n${slice}`
+                    }
+                }).catch(err => {
+                    const error = JSON.parse(err.response);
+                    if (error.code === 50013) {
+                        bot.createMessage(msg.channel.id, `❌ I do not have the required permissions for this command to function normally.`).catch(err => {
+                            bot.getDMChannel(msg.author.id).then(dmchannel => {
+                                dmchannel.createMessage(`I tried to respond to a command you used in **${msg.channel.guild.name}**, channel: ${msg.channel.mention}.\nUnfortunately I do not have the required permissions. Please speak to the guild owner.`).catch(err => {
+                                    return;
+                                });
+                            }).catch(err => {
+                                return;
+                            });
+                        });
+                    } else {
+                        bot.createMessage(msg.channel.id, `
+\`\`\`
+ERROR
+Code: ${error.code}
+Message: ${error.message}
+
+For more help join the support server.
+Get the invite link by doing s.support
+\`\`\`
+`).catch(err => {
+                            return;
+                        });
                     }
                 });
             }
@@ -84,6 +138,32 @@ module.exports = {
                         },
                         description: `Channel specific permissions for **${msg.author.mention}**\n${slice}`
                     }
+                }).catch(err => {
+                    const error = JSON.parse(err.response);
+                    if (error.code === 50013) {
+                        bot.createMessage(msg.channel.id, `❌ I do not have the required permissions for this command to function normally.`).catch(err => {
+                            bot.getDMChannel(msg.author.id).then(dmchannel => {
+                                dmchannel.createMessage(`I tried to respond to a command you used in **${msg.channel.guild.name}**, channel: ${msg.channel.mention}.\nUnfortunately I do not have the required permissions. Please speak to the guild owner.`).catch(err => {
+                                    return;
+                                });
+                            }).catch(err => {
+                                return;
+                            });
+                        });
+                    } else {
+                        bot.createMessage(msg.channel.id, `
+\`\`\`
+ERROR
+Code: ${error.code}
+Message: ${error.message}
+
+For more help join the support server.
+Get the invite link by doing s.support
+\`\`\`
+`).catch(err => {
+                            return;
+                        });
+                    }
                 });
             } else {
                 const user = this.findMember(msg, member);
@@ -98,7 +178,9 @@ module.exports = {
                         },
                         description: `That is not a valid guild member. Need to specify a name, ID or mention the user.`
                     }
-                })
+                }).catch(err => {
+                    return;
+                });
                 let perms = msg.channel.permissionsOf(user.id).json;
                 perms = JSON.stringify(perms).split(',').join('\n');
                 perms = perms.replace(/"/g, '');
@@ -115,6 +197,32 @@ module.exports = {
                             icon_url: ``
                         },
                         description: `Channel specific permissions for **${user.mention}**\n${slice}`
+                    }
+                }).catch(err => {
+                    const error = JSON.parse(err.response);
+                    if (error.code === 50013) {
+                        bot.createMessage(msg.channel.id, `❌ I do not have the required permissions for this command to function normally.`).catch(err => {
+                            bot.getDMChannel(msg.author.id).then(dmchannel => {
+                                dmchannel.createMessage(`I tried to respond to a command you used in **${msg.channel.guild.name}**, channel: ${msg.channel.mention}.\nUnfortunately I do not have the required permissions. Please speak to the guild owner.`).catch(err => {
+                                    return;
+                                });
+                            }).catch(err => {
+                                return;
+                            });
+                        });
+                    } else {
+                        bot.createMessage(msg.channel.id, `
+\`\`\`
+ERROR
+Code: ${error.code}
+Message: ${error.message}
+
+For more help join the support server.
+Get the invite link by doing s.support
+\`\`\`
+`).catch(err => {
+                            return;
+                        });
                     }
                 });
             }

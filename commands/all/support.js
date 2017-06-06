@@ -1,14 +1,21 @@
-var fs = require('fs');
-
 module.exports = {
-    desc: "Sends Shinobu as a schoolgirl blinking.",
+    desc: "",
+    usage: "",
+    aliases: [],
     cooldown: 5,
+    guildOnly: true,
     task(bot, msg) {
-        bot.createMessage(msg.channel.id, '', {
-            file: fs.readFileSync('./images/shinobublink.gif'),
-            name: 'shinobublink.gif'
-        }).then(sentMsg => {
-            bot.deleteMessage(sentMsg.channel.id, msg.id);
+        bot.createMessage(msg.channel.id, {
+            content: ``,
+            embed: {
+                color: 0xf4ce11,
+                author: {
+                    name: ``,
+                    url: ``,
+                    icon_url: ``
+                },
+                description: `https://discord.gg/Vf4ne5b`
+            }
         }).catch(err => {
             const error = JSON.parse(err.response);
             if (error.code === 50013) {

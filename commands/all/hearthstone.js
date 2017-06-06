@@ -35,6 +35,8 @@ module.exports = {
                                     inline: true
                                 }]
                             }
+                        }).catch(err => {
+                            return;
                         });
                         if (data === null) {
                             bot.createMessage(msg.channel.id, {
@@ -46,13 +48,15 @@ module.exports = {
                                         url: ``,
                                         icon_url: ``
                                     },
-                                    description: `${err}`,
+                                    description: `Nothing found.`,
                                     fields: [{
                                         name: `For support join:`,
                                         value: `https://discord.gg/Vf4ne5b`,
                                         inline: true
                                     }]
                                 }
+                            }).catch(err => {
+                                return;
                             });
                         } else {
                             if (b === undefined) {
@@ -63,44 +67,96 @@ module.exports = {
                                                 author: {
                                                     name: `${msg.author.username}`,
                                                     url: `${data[0] === undefined ? `` : ''}${data[0] !== undefined ? data[0].img : ''}`,
-                icon_url: `${msg.author.avatarURL}`
-              },
-              description: `${data[0] === undefined ? `` : ''}${data[0] !== undefined ? `Name: `+data[0].name : ''}
+                                icon_url: `${msg.author.avatarURL}`
+                            },
+                            description: `${data[0] === undefined ? `` : ''}${data[0] !== undefined ? `Name: `+data[0].name : ''}
 ${data[0] === undefined ? `` : ''}${data[0] !== undefined ? `Card Set: `+data[0].cardSet : ''}
 ${data[0] === undefined ? `` : ''}${data[0] !== undefined ? `Type: `+data[0].type : ''}
 ${data[0] === undefined ? `` : ''}${data[0] !== undefined ? `Rarity: `+data[0].rarity : ''}
 ${data[0] === undefined ? `` : ''}${data[0] !== undefined ? `Flavor: `+data[0].flavor : ''}
 ${data[0] === undefined ? `` : ''}${data[0] !== undefined ? `Artist: `+data[0].artist : ''}
 ${data[0] === undefined ? `Make sure to use a card name.` : ''}${data[0] !== undefined ? `[Click here for the direct image url](`+data[0].img+`)` : ''}`,
-              image: {
-                url: `${data[0] === undefined ? `` : ''}${data[0] !== undefined ? data[0].img : ''}`
-              }
+                            image: {
+                                url: `${data[0] === undefined ? `` : ''}${data[0] !== undefined ? data[0].img : ''}`
+                            }
+                        }
+                    }).catch(err => {
+            const error = JSON.parse(err.response);
+            if (error.code === 50013) {
+                bot.createMessage(msg.channel.id, `❌ I do not have the required permissions for this command to function normally.`).catch(err => {
+                    bot.getDMChannel(msg.author.id).then(dmchannel => {
+                        dmchannel.createMessage(`I tried to respond to a command you used in **${msg.channel.guild.name}**, channel: ${msg.channel.mention}.\nUnfortunately I do not have the required permissions. Please speak to the guild owner.`).catch(err => {
+                            return;
+                        });
+                    }).catch(err => {
+                        return;
+                    });
+                });
+            } else {
+                bot.createMessage(msg.channel.id, `
+\`\`\`
+ERROR
+Code: ${error.code}
+Message: ${error.message}
+
+For more help join the support server.
+Get the invite link by doing s.support
+\`\`\`
+`).catch(err => {
+                    return;
+                });
             }
-          });
-        } else {
-          bot.createMessage(msg.channel.id, {
-            content: ``,
-            embed: {
-              color: 0xf4ce11,
-              author: {
-                name: `${msg.author.username}`,
-                url: `${data[0] === undefined ? `` : ''}${data[0] !== undefined ? data[0].imgGold : ''}`,
-                icon_url: `${msg.author.avatarURL}`
-              },
-              description: `${data[0] === undefined ? `` : ''}${data[0] !== undefined ? `Name: `+data[0].name : ''}
+        });
+                } else {
+                    bot.createMessage(msg.channel.id, {
+                        content: ``,
+                        embed: {
+                            color: 0xf4ce11,
+                            author: {
+                                name: `${msg.author.username}`,
+                                url: `${data[0] === undefined ? `` : ''}${data[0] !== undefined ? data[0].imgGold : ''}`,
+                                icon_url: `${msg.author.avatarURL}`
+                            },
+                            description: `${data[0] === undefined ? `` : ''}${data[0] !== undefined ? `Name: `+data[0].name : ''}
 ${data[0] === undefined ? `` : ''}${data[0] !== undefined ? `Card Set: `+data[0].cardSet : ''}
 ${data[0] === undefined ? `` : ''}${data[0] !== undefined ? `Type: `+data[0].type : ''}
 ${data[0] === undefined ? `` : ''}${data[0] !== undefined ? `Rarity: `+data[0].rarity : ''}
 ${data[0] === undefined ? `` : ''}${data[0] !== undefined ? `Flavor: `+data[0].flavor : ''}
 ${data[0] === undefined ? `` : ''}${data[0] !== undefined ? `Artist: `+data[0].artist : ''}
 ${data[0] === undefined ? `Make sure to use a card name.` : ''}${data[0] !== undefined ? `[Click here for the direct image url](`+data[0].imgGold+`)` : ''}`,
-              image: {
-                url: `${data[0] === undefined ? `` : ''}${data[0] !== undefined ? data[0].imgGold : ''}`
-              }
+                            image: {
+                                url: `${data[0] === undefined ? `` : ''}${data[0] !== undefined ? data[0].imgGold : ''}`
+                            }
+                        }
+                    }).catch(err => {
+            const error = JSON.parse(err.response);
+            if (error.code === 50013) {
+                bot.createMessage(msg.channel.id, `❌ I do not have the required permissions for this command to function normally.`).catch(err => {
+                    bot.getDMChannel(msg.author.id).then(dmchannel => {
+                        dmchannel.createMessage(`I tried to respond to a command you used in **${msg.channel.guild.name}**, channel: ${msg.channel.mention}.\nUnfortunately I do not have the required permissions. Please speak to the guild owner.`).catch(err => {
+                            return;
+                        });
+                    }).catch(err => {
+                        return;
+                    });
+                });
+            } else {
+                bot.createMessage(msg.channel.id, `
+\`\`\`
+ERROR
+Code: ${error.code}
+Message: ${error.message}
+
+For more help join the support server.
+Get the invite link by doing s.support
+\`\`\`
+`).catch(err => {
+                    return;
+                });
             }
-          });
-        }
-      }
-    });
-  }
+        });
+                }
+            }
+        });
+    }
 }

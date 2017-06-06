@@ -29,8 +29,12 @@ module.exports = {
                             inline: true
                         }]
                     }
+                }).catch(err => {
+                    return;
                 });
-                if (!res) return bot.createMessage(msg.channel.id, 'Couldn\'t find any data.');
+                if (!res) return bot.createMessage(msg.channel.id, 'Couldn\'t find any data.').catch(err => {
+                    return;
+                });
                 const types = res.types.toString();
                 const egg_groups = res.egg_groups.toString();
                 const hatch_time = res.hatch_time.toString();
@@ -122,23 +126,31 @@ module.exports = {
                         ]
                     },
                 }).catch(err => {
-                    bot.createMessage(msg.channel.id, {
-                        content: ``,
-                        embed: {
-                            color: 0xff0000,
-                            author: {
-                                name: ``,
-                                url: ``,
-                                icon_url: ``
-                            },
-                            description: `${err}`,
-                            fields: [{
-                                name: `For support join:`,
-                                value: `https://discord.gg/Vf4ne5b`,
-                                inline: true
-                            }]
-                        }
-                    });
+                    const error = JSON.parse(err.response);
+                    if (error.code === 50013) {
+                        bot.createMessage(msg.channel.id, `❌ I do not have the required permissions for this command to function normally.`).catch(err => {
+                            bot.getDMChannel(msg.author.id).then(dmchannel => {
+                                dmchannel.createMessage(`I tried to respond to a command you used in **${msg.channel.guild.name}**, channel: ${msg.channel.mention}.\nUnfortunately I do not have the required permissions. Please speak to the guild owner.`).catch(err => {
+                                    return;
+                                });
+                            }).catch(err => {
+                                return;
+                            });
+                        });
+                    } else {
+                        bot.createMessage(msg.channel.id, `
+\`\`\`
+ERROR
+Code: ${error.code}
+Message: ${error.message}
+
+For more help join the support server.
+Get the invite link by doing s.support
+\`\`\`
+`).catch(err => {
+                            return;
+                        });
+                    }
                 });
             });
         } catch (error) {
@@ -158,6 +170,8 @@ module.exports = {
                         inline: true
                     }]
                 }
+            }).catch(err => {
+                return;
             });
         }
 

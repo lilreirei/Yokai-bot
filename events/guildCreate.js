@@ -5,6 +5,7 @@ var reload = require('require-reload'),
 moment = require('../node_modules/moment');
 
 module.exports = function(bot, _settingsManager, config, guild) {
+        bannedGuilds = reload('../banned_guilds.json');
         if (logger === undefined)
             logger = new _Logger(config.logTimestamp);
         logger.logWithHeader('JOINED GUILD', 'bgGreen', 'black', `${guild.name} (${guild.id}) owned by ${guild.members.get(guild.ownerID).user.username}#${guild.members.get(guild.ownerID).user.discriminator}`);
@@ -15,13 +16,15 @@ module.exports = function(bot, _settingsManager, config, guild) {
             logger.logWithHeader('DIDNT SEND WELCOME MESSGAE', 'bgBlue', 'black', guild.name);
         else
             guild.defaultChannel.createMessage("Awesome a new server!\nType `s.help` for a commands list.\nYou could also view all my commands on https://commands.shinobubot.xyz (Note not every command is on the website yet.)");
-        const defid = guild.defaultChannel.id;
-        const bots = bot.guilds.get(guild.id).members.filter(user => user.user.bot).length;
-        const total = bot.guilds.get(guild.id).memberCount;
-        const humans = total - bots;
-        const roles = guild.roles.map(c => c).length;
-        const createdOn = moment(guild.createdAt).utc().format('ddd MMM DD YYYY | kk:mm:ss') + ' UTC ' + '(' + moment(guild.createdAt).fromNow() + ')';
-        const validate = `${createdOn === null ? `n/a` : ''}${createdOn !== null ? createdOn : ''}`;
+        const defid = guild.defaultChannel.id,
+            bots = bot.guilds.get(guild.id).members.filter(user => user.user.bot).length,
+            total = bot.guilds.get(guild.id).memberCount,
+            humans = total - bots,
+            roles = guild.roles.map(c => c).length,
+            createdOn = moment(guild.createdAt).utc().format('ddd MMM DD YYYY | kk:mm:ss') + ' UTC ' + '(' + moment(guild.createdAt).fromNow() + ')',
+            validate = `${createdOn === null ? `n/a` : ''}${createdOn !== null ? createdOn : ''}`,
+            humanper = humans / total * 100,
+            botper = bots / total * 100;    
     bot.createChannelInvite(defid, { temporary: false, unique: true }).then(inv => {
         bot.createMessage('306837434275201025', {
             content: ``,
@@ -48,12 +51,12 @@ module.exports = function(bot, _settingsManager, config, guild) {
                     },
                     {
                         name: `Humans`,
-                        value: `${humans}`,
+                        value: `${humans}, ${round(humanper, 2)}%`,
                         inline: true
                     },
                     {
                         name: `Bots`,
-                        value: `${bots}`,
+                        value: `${bots}, ${round(botper, 2)}%`,
                         inline: true
                     },
                     {
@@ -86,3 +89,7 @@ module.exports = function(bot, _settingsManager, config, guild) {
         });
     });
 }
+function round(value, precision) {
+        var multiplier = Math.pow(10, precision || 0);
+        return Math.round(value * multiplier) / multiplier;
+    }
