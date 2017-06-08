@@ -1,4 +1,6 @@
 const imdb = require('imdb-api');
+const reload = require('require-reload'),
+    config = reload('../../config.json');
 
 module.exports = {
     desc: "Search for either a movie or serie on imdb.",
@@ -8,7 +10,8 @@ module.exports = {
     guildOnly: true,
     task(bot, msg, suffix) {
         if (!suffix) return 'wrong usage';
-        imdb.get(suffix).then(movie => {
+        const movie = suffix.toString();
+        imdb.get(movie, { apiKey: config.imdb_key }).then(movie => {
             bot.createMessage(msg.channel.id, {
                 content: ``,
                 embed: {
