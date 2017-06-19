@@ -18,7 +18,7 @@ ${err}
 ${stderr}
 \`\`\``);
             let str = stdout;
-            let senpai = str.replace('● Agent Online | Dashboard Access: https://app.keymetrics.io/#/r/2pd59t8ulpqlkoi | Server name: Shinobu.js', '');
+            let senpai = str.replace("● Agent Online | Dashboard Access: https://app.keymetrics.io/#/r/2pd59t8ulpqlkoi | Server name: Shinobu.js", "");
             bot.createMessage(msg.channel.id, `
 \`\`\`glsl
 ${senpai}

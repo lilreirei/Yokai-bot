@@ -1,4 +1,10 @@
-var randomItem = require('random-item');
+const findMember = require('../../utils/utils.js').findMember,
+    randomItem = require('random-item');
+var reload = require('require-reload')(require),
+    config = reload('../../config.json'),
+    error,
+    logger,
+    logger = new(reload('../../utils/Logger.js'))(config.logTimestamp);
 
 module.exports = {
     desc: "Kill someone.",
@@ -7,23 +13,37 @@ module.exports = {
     cooldown: 2,
     guildOnly: true,
     task(bot, msg, args) {
-        const user = this.findMember(msg, args);
+        /**
+         * perm checks
+         * @param {boolean} embedLinks - Checks if the bots permissions has embedLinks
+         * @param {boolean} sendMessages - Checks if the bots permissions has sendMessages
+         */
+        const embedLinks = msg.channel.permissionsOf(bot.user.id).has('embedLinks');
+        const sendMessages = msg.channel.permissionsOf(bot.user.id).has('sendMessages');
+        if (embedLinks === false) return bot.createMessage(msg.channel.id, `❌ I'm missing the \`embedLinks\` permission, which is required for this command to work.`)
+            .catch(err => {
+                error = JSON.parse(err.response);
+                if ((!error.code) && (!error.message)) return logger.error('\n' + err, 'ERROR')
+                logger.error(error.code + '\n' + error.message, 'ERROR');
+            });
+        if (sendMessages === false) return;
+        const user = findMember(msg, args);
         let ded = [
-            `${msg.author.mention} pesonally hogtied ${user.mention} and threw him/her on the train tracks, baibai :wave:`,
-            `${msg.author.mention} dragged ${user.mention} behind his/her horse.`,
-            `${msg.author.mention} shootes ${user.mention} between the legs, wewlad that must hurt.`,
-            `${msg.author.mention} hogtied ${user.mention} and threw you at the wolves.`,
-            `${msg.author.mention} got his/her bug net launcher gun and shot it at ${user.mention}, wasn't very effective tho.`,
-            `${msg.author.mention} kicked ${user.mention} from the roof.`,
-            `${msg.author.mention} hit ${user.mention} with a pickup.`,
-            `There's noway ${msg.author.mention} can kill ${user.mention} lol.`,
-            `${msg.author.mention} grabbed a flamethrower and burned everything around him including ${user.mention}.`,
-            `${msg.author.mention} tried to kill ${user.mention} but he/she killed him/herself lmao nugget.`,
-            `${msg.author.mention} used shadow clone jutsu and rasengan on ${user.mention}.`,
-            `${msg.author.mention} killed ${user.mention} with a massive fart.`,
-            `${msg.author.mention} ripped off his/her clothes and ${user.mention} died from a massive nosebleed`,
+            `${msg.author.username} pesonally hogtied ${user.username} and threw him/her on the train tracks, baibai :wave:`,
+            `${msg.author.username} dragged ${user.username} behind his/her horse.`,
+            `${msg.author.username} shootes ${user.username} between the legs, wewlad that must hurt.`,
+            `${msg.author.username} hogtied ${user.username} and threw you at the wolves.`,
+            `${msg.author.username} got his/her bug net launcher gun and shot it at ${user.username}, wasn't very effective tho.`,
+            `${msg.author.username} kicked ${user.username} from the roof.`,
+            `${msg.author.username} hit ${user.username} with a pickup.`,
+            `There's noway ${msg.author.username} can kill ${user.username} lol.`,
+            `${msg.author.username} grabbed a flamethrower and burned everything around him including ${user.username}.`,
+            `${msg.author.username} tried to kill ${user.username} but he/she killed him/herself lmao nugget.`,
+            `${msg.author.username} used shadow clone jutsu and rasengan on ${user.username}.`,
+            `${msg.author.username} killed ${user.username} with a massive fart.`,
+            `${msg.author.username} ripped off his/her clothes and ${user.username} died from a massive nosebleed`,
             `Violence is never the solution.`,
-            `${msg.author.mention} grabbed his pocked knife, too bad ${user.mention} had a gun.`
+            `${msg.author.username} grabbed his pocked knife, too bad ${user.username} had a gun.`
         ];
         const text = randomItem(ded);
         if (!args) return 'wrong usage';
@@ -39,7 +59,7 @@ module.exports = {
                 description: `That is not a valid guild member. Need to specify a name, ID or mention the user.`
             }
         }).catch(err => {
-            return;
+            logger.error('\n' + err, 'ERROR')
         });
         if (user.id === msg.author.id) return bot.createMessage(msg.channel.id, {
             content: ``,
@@ -53,7 +73,7 @@ module.exports = {
                 description: `Oh boii lets not kill ourselves :heart:`
             }
         }).catch(err => {
-            return;
+            logger.error('\n' + err, 'ERROR')
         });
         if (user.id === bot.user.id) return bot.createMessage(msg.channel.id, {
             content: ``,
@@ -67,7 +87,7 @@ module.exports = {
                 description: `Please don't kill me ;-;`
             }
         }).catch(err => {
-            return;
+            logger.error('\n' + err, 'ERROR')
         });
         if (user.id === '93973697643155456') return bot.createMessage(msg.channel.id, {
             content: ``,
@@ -81,7 +101,7 @@ module.exports = {
                 description: `Nuuuu don't kill my masta please ;-;`
             }
         }).catch(err => {
-            return;
+            logger.error('\n' + err, 'ERROR')
         });
         bot.createMessage(msg.channel.id, {
             content: ``,
@@ -95,31 +115,9 @@ module.exports = {
                 description: `${text}`
             }
         }).catch(err => {
-            const error = JSON.parse(err.response);
-            if (error.code === 50013) {
-                bot.createMessage(msg.channel.id, `❌ I do not have the required permissions for this command to function normally.`).catch(err => {
-                    bot.getDMChannel(msg.author.id).then(dmchannel => {
-                        dmchannel.createMessage(`I tried to respond to a command you used in **${msg.channel.guild.name}**, channel: ${msg.channel.mention}.\nUnfortunately I do not have the required permissions. Please speak to the guild owner.`).catch(err => {
-                            return;
-                        });
-                    }).catch(err => {
-                        return;
-                    });
-                });
-            } else {
-                bot.createMessage(msg.channel.id, `
-\`\`\`
-ERROR
-Code: ${error.code}
-Message: ${error.message}
-
-For more help join the support server.
-Get the invite link by doing s.support
-\`\`\`
-`).catch(err => {
-                    return;
-                });
-            }
+            error = JSON.parse(err.response);
+            if ((!error.code) && (!error.message)) return logger.error('\n' + err, 'ERROR')
+            logger.error(error.code + '\n' + error.message, 'ERROR');
         });
     }
 }

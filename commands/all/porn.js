@@ -1,6 +1,10 @@
 const pornsearch = require('pornsearch');
 var reload = require('require-reload'),
-    banned = reload('../../banned_search_terms.json');
+    banned = reload('../../banned_search_terms.json'),
+    config = reload('../../config.json'),
+    error,
+    logger,
+    logger = new(reload('../../utils/Logger.js'))(config.logTimestamp);
 
 module.exports = {
     desc: "Search for gifs from pornhub.com and sex.com",
@@ -9,6 +13,20 @@ module.exports = {
     cooldown: 5,
     guildOnly: true,
     task(bot, msg, suffix, config, settingsManager) {
+        /**
+         * perm checks
+         * @param {boolean} embedLinks - Checks if the bots permissions has embedLinks
+         * @param {boolean} sendMessages - Checks if the bots permissions has sendMessages
+         */
+        const embedLinks = msg.channel.permissionsOf(bot.user.id).has('embedLinks');
+        const sendMessages = msg.channel.permissionsOf(bot.user.id).has('sendMessages');
+        if (embedLinks === false) return bot.createMessage(msg.channel.id, `❌ I'm missing the \`embedLinks\` permission, which is required for this command to work.`)
+            .catch(err => {
+                error = JSON.parse(err.response);
+                if ((!error.code) && (!error.message)) return logger.error('\n' + err, 'ERROR')
+                logger.error(error.code + '\n' + error.message, 'ERROR');
+            });
+        if (sendMessages === false) return;
         var nsfw = settingsManager.getNSFW(msg.channel.guild.id, msg.channel.id);
         if (!nsfw) return bot.createMessage(msg.channel.id, {
             content: ``,
@@ -22,7 +40,7 @@ module.exports = {
                 description: `You can only use this command in an **nsfw** channels, use \`s$settings nsfw <allow/deny>\`.`
             }
         }).catch(err => {
-            return;
+            logger.error('\n' + err, 'ERROR')
         });
         if (!suffix) return 'wrong usage';
         var bannedWord1 = banned.bannedWords[0];
@@ -41,7 +59,7 @@ module.exports = {
                 description: `Sorry it's against Discord's ToS to search for these tags.`
             }
         }).catch(err => {
-            return;
+            logger.error('\n' + err, 'ERROR')
         });
         let items = ['pornhub', 'sex'];
         let item = items[Math.floor(Math.random() * items.length)];
@@ -61,7 +79,7 @@ module.exports = {
                     description: `Couldn't find anything using those tags.`
                 }
             }).catch(err => {
-                return;
+                logger.error('\n' + err, 'ERROR')
             });
             bot.createMessage(msg.channel.id, {
                 content: ``,
@@ -78,31 +96,9 @@ module.exports = {
                     }
                 }
             }).catch(err => {
-                const error = JSON.parse(err.response);
-                if (error.code === 50013) {
-                    bot.createMessage(msg.channel.id, `❌ I do not have the required permissions for this command to function normally.`).catch(err => {
-                        bot.getDMChannel(msg.author.id).then(dmchannel => {
-                            dmchannel.createMessage(`I tried to respond to a command you used in **${msg.channel.guild.name}**, channel: ${msg.channel.mention}.\nUnfortunately I do not have the required permissions. Please speak to the guild owner.`).catch(err => {
-                                return;
-                            });
-                        }).catch(err => {
-                            return;
-                        });
-                    });
-                } else {
-                    bot.createMessage(msg.channel.id, `
-\`\`\`
-ERROR
-Code: ${error.code}
-Message: ${error.message}
-
-For more help join the support server.
-Get the invite link by doing s.support
-\`\`\`
-`).catch(err => {
-                        return;
-                    });
-                }
+                error = JSON.parse(err.response);
+                if ((!error.code) && (!error.message)) return logger.error('\n' + err, 'ERROR')
+                logger.error(error.code + '\n' + error.message, 'ERROR');
             });
         }).catch(err => {
             bot.createMessage(msg.channel.id, {
@@ -122,7 +118,7 @@ Get the invite link by doing s.support
                     }]
                 }
             }).catch(err => {
-                return;
+                logger.error('\n' + err, 'ERROR')
             });
         });
     }

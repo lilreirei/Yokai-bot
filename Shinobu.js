@@ -5,6 +5,10 @@ var reload = require('require-reload')(require),
     fs = require('fs'),
     Eris = require('eris'),
     config = reload('./config.json'),
+    formatTime = reload('./utils/utils.js').formatTime,
+    version = reload('./package.json').version,
+    Nf = new Intl.NumberFormat('en-US'),
+    round = require('./utils/utils.js').round,
     validateConfig = reload('./utils/validateConfig.js'),
     CommandManager = reload('./utils/CommandManager.js'),
     utils = reload('./utils/utils.js'),
@@ -99,16 +103,6 @@ function initEvent(name) { // Setup the event listener for each loaded event.
                 events.messageCreate.handler(bot, msg, CommandManagers, config, settingsManager);
         });
     }
-    /*else if (name === 'messageLevel') {
-		bot.on('messageCreate', msg => {
-			if (msg.content.startsWith(config.reloadCommand) && config.adminIds.includes(msg.author.id)) //check for reload or eval command
-				reloadModule(msg);
-			else if (msg.content.startsWith(config.evalCommand) && config.adminIds.includes(msg.author.id))
-				evaluate(msg);
-			else
-				events.messageLevel.handler(bot, msg, CommandManagers, config, settingsManager);
-		});
-	}*/
     else if (name === 'channelDelete') {
         bot.on('channelDelete', channel => {
             settingsManager.handleDeletedChannel(channel);
@@ -349,10 +343,107 @@ setInterval(() => { // Update the bot's status for each shard every 10 minutes
     }
 }, 600000);
 
+setInterval(() => {
+    let totalCommandUsage = commandsProcessed + cleverbotTimesUsed;
+    let c = bot.getChannel('240154456577015808');
+    let messageID = '326381968763650059';
+    c.editMessage(messageID, {
+            content: ``,
+            embed: {
+                color: 0xf4ce11,
+                type: 'rich',
+                author: {
+                    name: `Shinobu Statistics:`,
+                    url: `https://shinobubot.xyz`,
+                    icon_url: `${bot.user.avatarURL}`
+                },
+                thumbnail: {
+                    url: `${bot.user.avatarURL}`
+                },
+                fields: [{
+                        name: `Memory Usage:`,
+                        value: `${Math.round(process.memoryUsage().rss / 1024 / 1000)}MB`,
+                        inline: true
+                    },
+                    {
+                        name: `Shards:`,
+                        value: `Current: ${c.guild.shard.id}\nTotal: ${bot.shards.size}`,
+                        inline: true
+                    },
+                    {
+                        name: `Version:`,
+                        value: `Shinobu v${version}`,
+                        inline: true
+                    },
+                    {
+                        name: `Node Version:`,
+                        value: `${process.version}`,
+                        inline: true
+                    },
+                    {
+                        name: `Uptime:`,
+                        value: `${formatTime(bot.uptime)}`,
+                        inline: false
+                    },
+                    {
+                        name: `Guilds:`,
+                        value: `${Nf.format(bot.guilds.size)}`,
+                        inline: true
+                    },
+                    {
+                        name: `Channels:`,
+                        value: `${Nf.format(Object.keys(bot.channelGuildMap).length)}`,
+                        inline: true
+                    },
+                    {
+                        name: `Private Channels:`,
+                        value: `${Nf.format(bot.privateChannels.size)}`,
+                        inline: true
+                    },
+                    {
+                        name: `Users:`,
+                        value: `${Nf.format(bot.users.size)}`,
+                        inline: true
+                    },
+                    {
+                        name: `Average Users/Guild:`,
+                        value: `${Nf.format((bot.users.size / bot.guilds.size).toFixed(2))}`,
+                        inline: true
+                    },
+                    {
+                        name: `Total | Commands | Cleverbot:`,
+                        value: `${Nf.format(totalCommandUsage)} | ${Nf.format(commandsProcessed)} | ${Nf.format(cleverbotTimesUsed)}`,
+                        inline: true
+                    },
+                    {
+                        name: `Average:`,
+                        value: `${(totalCommandUsage / (bot.uptime / (1000 * 60))).toFixed(2)}/min`,
+                        inline: true
+                    }
+                ]
+            }
+        })
+        .catch(err => {
+            if ((!error.code) && (!error.message)) return logger.error('\n' + err, 'ERROR');
+            let error = JSON.parse(err.response);
+            logger.error('An unhandledRejection occurred\n' + 'Code: ' + error.code + '\n' + 'Message: ' + error.message, 'ERROR');
+        });
+}, 600000);
+
 process.on('SIGINT', () => {
     bot.disconnect({ reconnect: false });
     settingsManager.handleShutdown().then(() => process.exit(0));
     setTimeout(() => {
         process.exit(0);
     }, 5000);
+});
+
+process.on("uncaughtException", err => {
+    logger.error('An uncaughtException occurred\n' + err.message, 'ERROR')
+});
+
+process.on("unhandledRejection", err => {
+    let error = JSON.parse(err.response);
+    if (error.code !== undefined && error.message !== undefined) return logger.error('An unhandledRejection occurred\n' + 'Code: ' + error.code + '\n' + 'Message: ' + error.message, 'ERROR');
+    logger.error('\n' + err, 'ERROR');
 });

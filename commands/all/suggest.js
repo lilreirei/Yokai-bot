@@ -1,5 +1,10 @@
-const OwnerId = require('../../config.json').adminIds[0];
-const moment = require('../../node_modules/moment');
+const OwnerId = require('../../config.json').adminIds[0],
+    moment = require('../../node_modules/moment');
+var reload = require('require-reload')(require),
+    config = reload('../../config.json'),
+    error,
+    logger,
+    logger = new(reload('../../utils/Logger.js'))(config.logTimestamp);
 
 module.exports = {
     desc: "Send feedback or suggestion directly to my owner's(${kurozero}#0569) DMs without having to join the support server.\nDo NOT use this for any useless trolls/memes!!",
@@ -8,6 +13,20 @@ module.exports = {
     cooldown: 3600,
     guildOnly: true,
     task(bot, msg, args) {
+        /**
+         * perm checks
+         * @param {boolean} embedLinks - Checks if the bots permissions has embedLinks
+         * @param {boolean} sendMessages - Checks if the bots permissions has sendMessages
+         */
+        const embedLinks = msg.channel.permissionsOf(bot.user.id).has('embedLinks');
+        const sendMessages = msg.channel.permissionsOf(bot.user.id).has('sendMessages');
+        if (embedLinks === false) return bot.createMessage(msg.channel.id, `❌ I'm missing the \`embedLinks\` permission, which is required for this command to work.`)
+            .catch(err => {
+                error = JSON.parse(err.response);
+                if ((!error.code) && (!error.message)) return logger.error('\n' + err, 'ERROR')
+                logger.error(error.code + '\n' + error.message, 'ERROR');
+            });
+        if (sendMessages === false) return;
         if (!args) return 'wrong usage';
         bot.getDMChannel(OwnerId).then(dmchannel => {
             const time = Date.now();
@@ -49,86 +68,22 @@ module.exports = {
                         }
                     ]
                 }
+            }).then(() => {
+                bot.createMessage(msg.channel.id, `:white_check_mark: Successfully send your feedback/suggestion.`)
+                    .catch(err => {
+                        error = JSON.parse(err.response);
+                        if ((!error.code) && (!error.message)) return logger.error('\n' + err, 'ERROR')
+                        logger.error(error.code + '\n' + error.message, 'ERROR');
+                    });
             }).catch(err => {
-                const error = JSON.parse(err.response);
-                if (error.code === 50013) {
-                    bot.createMessage(msg.channel.id, `❌ I do not have the required permissions for this command to function normally.`).catch(err => {
-                        bot.getDMChannel(msg.author.id).then(dmchannel => {
-                            dmchannel.createMessage(`I tried to respond to a command you used in **${msg.channel.guild.name}**, channel: ${msg.channel.mention}.\nUnfortunately I do not have the required permissions. Please speak to the guild owner.`).catch(err => {
-                                return;
-                            });
-                        }).catch(err => {
-                            return;
-                        });
-                    });
-                } else {
-                    bot.createMessage(msg.channel.id, `
-\`\`\`
-ERROR
-Code: ${error.code}
-Message: ${error.message}
-
-For more help join the support server.
-Get the invite link by doing s.support
-\`\`\`
-`).catch(err => {
-                        return;
-                    });
-                }
-            });
-            bot.createMessage(msg.channel.id, `:white_check_mark: Successfully send your feedback/suggestion.`).catch(err => {
-                const error = JSON.parse(err.response);
-                if (error.code === 50013) {
-                    bot.createMessage(msg.channel.id, `❌ I do not have the required permissions for this command to function normally.`).catch(err => {
-                        bot.getDMChannel(msg.author.id).then(dmchannel => {
-                            dmchannel.createMessage(`I tried to respond to a command you used in **${msg.channel.guild.name}**, channel: ${msg.channel.mention}.\nUnfortunately I do not have the required permissions. Please speak to the guild owner.`).catch(err => {
-                                return;
-                            });
-                        }).catch(err => {
-                            return;
-                        });
-                    });
-                } else {
-                    bot.createMessage(msg.channel.id, `
-\`\`\`
-ERROR
-Code: ${error.code}
-Message: ${error.message}
-
-For more help join the support server.
-Get the invite link by doing s.support
-\`\`\`
-`).catch(err => {
-                        return;
-                    });
-                }
+                error = JSON.parse(err.response);
+                if ((!error.code) && (!error.message)) return logger.error('\n' + err, 'ERROR')
+                logger.error(error.code + '\n' + error.message, 'ERROR');
             });
         }).catch(err => {
-            const error = JSON.parse(err.response);
-            if (error.code === 50013) {
-                bot.createMessage(msg.channel.id, `❌ I do not have the required permissions for this command to function normally.`).catch(err => {
-                    bot.getDMChannel(msg.author.id).then(dmchannel => {
-                        dmchannel.createMessage(`I tried to respond to a command you used in **${msg.channel.guild.name}**, channel: ${msg.channel.mention}.\nUnfortunately I do not have the required permissions. Please speak to the guild owner.`).catch(err => {
-                            return;
-                        });
-                    }).catch(err => {
-                        return;
-                    });
-                });
-            } else {
-                bot.createMessage(msg.channel.id, `
-\`\`\`
-ERROR
-Code: ${error.code}
-Message: ${error.message}
-
-For more help join the support server.
-Get the invite link by doing s.support
-\`\`\`
-`).catch(err => {
-                    return;
-                });
-            }
+            error = JSON.parse(err.response);
+            if ((!error.code) && (!error.message)) return logger.error('\n' + err, 'ERROR')
+            logger.error(error.code + '\n' + error.message, 'ERROR');
         });
     }
 };

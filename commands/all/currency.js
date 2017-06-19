@@ -1,4 +1,9 @@
-var currency = require('y-currency');
+const currency = require('y-currency');
+var reload = require('require-reload')(require),
+    config = reload('../../config.json'),
+    error,
+    logger,
+    logger = new(reload('../../utils/Logger.js'))(config.logTimestamp);
 
 module.exports = {
     desc: "Convert currency",
@@ -7,13 +12,27 @@ module.exports = {
     guildOnly: true,
     cooldown: 10,
     task(bot, msg, args) {
+        /**
+         * perm checks
+         * @param {boolean} embedLinks - Checks if the bots permissions has embedLinks
+         * @param {boolean} sendMessages - Checks if the bots permissions has sendMessages
+         */
+        const embedLinks = msg.channel.permissionsOf(bot.user.id).has('embedLinks');
+        const sendMessages = msg.channel.permissionsOf(bot.user.id).has('sendMessages');
+        if (embedLinks === false) return bot.createMessage(msg.channel.id, `❌ I'm missing the \`embedLinks\` permission, which is required for this command to work.`)
+            .catch(err => {
+                error = JSON.parse(err.response);
+                if ((!error.code) && (!error.message)) return logger.error('\n' + err, 'ERROR')
+                logger.error(error.code + '\n' + error.message, 'ERROR');
+            });
+        if (sendMessages === false) return;
         var str = args.toString();
         var array = str.split(', '),
             a = parseInt(array[0], 10),
             b = array[1],
             c = array[2];
         if (!args) return 'wrong usage'
-        currency.convert(a, b, c, function(err, converted) {
+        currency.convert(a, b, c, (err, converted) => {
             if (err) return bot.createMessage(msg.channel.id, {
                 content: ``,
                 embed: {
@@ -31,7 +50,7 @@ module.exports = {
                     }]
                 }
             }).catch(err => {
-                return;
+                logger.error('\n' + err, 'ERROR')
             });
             bot.createMessage(msg.channel.id, {
                 content: ``,
@@ -46,31 +65,9 @@ module.exports = {
 ${c}: ${converted}`
                 }
             }).catch(err => {
-                const error = JSON.parse(err.response);
-                if (error.code === 50013) {
-                    bot.createMessage(msg.channel.id, `❌ I do not have the required permissions for this command to function normally.`).catch(err => {
-                        bot.getDMChannel(msg.author.id).then(dmchannel => {
-                            dmchannel.createMessage(`I tried to respond to a command you used in **${msg.channel.guild.name}**, channel: ${msg.channel.mention}.\nUnfortunately I do not have the required permissions. Please speak to the guild owner.`).catch(err => {
-                                return;
-                            });
-                        }).catch(err => {
-                            return;
-                        });
-                    });
-                } else {
-                    bot.createMessage(msg.channel.id, `
-\`\`\`
-ERROR
-Code: ${error.code}
-Message: ${error.message}
-
-For more help join the support server.
-Get the invite link by doing s.support
-\`\`\`
-`).catch(err => {
-                        return;
-                    });
-                }
+                error = JSON.parse(err.response);
+                if ((!error.code) && (!error.message)) return logger.error('\n' + err, 'ERROR')
+                logger.error(error.code + '\n' + error.message, 'ERROR');
             });
         })
     }

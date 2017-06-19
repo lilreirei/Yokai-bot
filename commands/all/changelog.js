@@ -4,8 +4,21 @@ module.exports = {
     cooldown: 5,
     guildOnly: true,
     task(bot, msg, suffix, channel) {
-        let c_ = bot.getChannel('240154536856125440')
-
+        /**
+         * perm checks
+         * @param {boolean} embedLinks - Checks if the bots permissions has embedLinks
+         * @param {boolean} sendMessages - Checks if the bots permissions has sendMessages
+         */
+        const embedLinks = msg.channel.permissionsOf(bot.user.id).has('embedLinks');
+        const sendMessages = msg.channel.permissionsOf(bot.user.id).has('sendMessages');
+        if (embedLinks === false) return bot.createMessage(msg.channel.id, `❌ I'm missing the \`embedLinks\` permission, which is required for this command to work.`)
+            .catch(err => {
+                error = JSON.parse(err.response);
+                if ((!error.code) && (!error.message)) return logger.error('\n' + err, 'ERROR')
+                logger.error(error.code + '\n' + error.message, 'ERROR');
+            });
+        if (sendMessages === false) return;
+        let c_ = bot.getChannel('240154536856125440');
         c_.getMessages(0).then(function(value) {
             let embed = {
                 color: 0xf4ce11,
@@ -18,31 +31,9 @@ module.exports = {
             bot.createMessage(msg.channel.id, {
                 embed: embed
             }).catch(err => {
-                const error = JSON.parse(err.response);
-                if (error.code === 50013) {
-                    bot.createMessage(msg.channel.id, `❌ I do not have the required permissions for this command to function normally.`).catch(err => {
-                        bot.getDMChannel(msg.author.id).then(dmchannel => {
-                            dmchannel.createMessage(`I tried to respond to a command you used in **${msg.channel.guild.name}**, channel: ${msg.channel.mention}.\nUnfortunately I do not have the required permissions. Please speak to the guild owner.`).catch(err => {
-                                return;
-                            });
-                        }).catch(err => {
-                            return;
-                        });
-                    });
-                } else {
-                    bot.createMessage(msg.channel.id, `
-\`\`\`
-ERROR
-Code: ${error.code}
-Message: ${error.message}
-
-For more help join the support server.
-Get the invite link by doing s.support
-\`\`\`
-`).catch(err => {
-                        return;
-                    });
-                }
+                error = JSON.parse(err.response);
+                if ((!error.code) && (!error.message)) return logger.error('\n' + err, 'ERROR')
+                logger.error(error.code + '\n' + error.message, 'ERROR');
             });
         }).catch(err => {
             bot.createMessage(msg.channel.id, {
@@ -62,7 +53,7 @@ Get the invite link by doing s.support
                     }]
                 }
             }).catch(err => {
-                return;
+                logger.error('\n' + err, 'ERROR')
             });
         })
     }

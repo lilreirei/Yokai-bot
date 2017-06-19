@@ -1,3 +1,9 @@
+var reload = require('require-reload')(require),
+    config = reload('../../config.json'),
+    error,
+    logger,
+    logger = new(reload('../../utils/Logger.js'))(config.logTimestamp);
+
 const RESPONSES = [
     ":apple:",
     ":pear:",
@@ -17,6 +23,20 @@ module.exports = {
     cooldown: 5,
     aliases: ['slot', 'slots', 'slotmachine'],
     task(bot, msg) {
+        /**
+         * perm checks
+         * @param {boolean} embedLinks - Checks if the bots permissions has embedLinks
+         * @param {boolean} sendMessages - Checks if the bots permissions has sendMessages
+         */
+        const embedLinks = msg.channel.permissionsOf(bot.user.id).has('embedLinks');
+        const sendMessages = msg.channel.permissionsOf(bot.user.id).has('sendMessages');
+        if (embedLinks === false) return bot.createMessage(msg.channel.id, `❌ I'm missing the \`embedLinks\` permission, which is required for this command to work.`)
+            .catch(err => {
+                error = JSON.parse(err.response);
+                if ((!error.code) && (!error.message)) return logger.error('\n' + err, 'ERROR')
+                logger.error(error.code + '\n' + error.message, 'ERROR');
+            });
+        if (sendMessages === false) return;
         let choice1 = ~~(Math.random() * RESPONSES.length);
         let choice2 = ~~(Math.random() * RESPONSES.length);
         let choice3 = ~~(Math.random() * RESPONSES.length);
@@ -29,7 +49,7 @@ module.exports = {
                 description: `**${msg.author.username}** spinned and got...`
             }
         }).then(sentMsg => {
-            setTimeout(function() {
+            setTimeout(() => {
                 if (choice1 == choice2 && choice2 == choice3) {
                     bot.editMessage(sentMsg.channel.id, sentMsg.id, {
                         content: ``,
@@ -60,31 +80,9 @@ module.exports = {
                 }
             }, delay);
         }).catch(err => {
-            const error = JSON.parse(err.response);
-            if (error.code === 50013) {
-                bot.createMessage(msg.channel.id, `❌ I do not have the required permissions for this command to function normally.`).catch(err => {
-                    bot.getDMChannel(msg.author.id).then(dmchannel => {
-                        dmchannel.createMessage(`I tried to respond to a command you used in **${msg.channel.guild.name}**, channel: ${msg.channel.mention}.\nUnfortunately I do not have the required permissions. Please speak to the guild owner.`).catch(err => {
-                            return;
-                        });
-                    }).catch(err => {
-                        return;
-                    });
-                });
-            } else {
-                bot.createMessage(msg.channel.id, `
-\`\`\`
-ERROR
-Code: ${error.code}
-Message: ${error.message}
-
-For more help join the support server.
-Get the invite link by doing s.support
-\`\`\`
-`).catch(err => {
-                    return;
-                });
-            }
+            error = JSON.parse(err.response);
+            if ((!error.code) && (!error.message)) return logger.error('\n' + err, 'ERROR')
+            logger.error(error.code + '\n' + error.message, 'ERROR');
         });
     }
 }

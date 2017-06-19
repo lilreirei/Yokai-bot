@@ -1,10 +1,29 @@
 const fs = require('fs');
+var reload = require('require-reload')(require),
+    config = reload('../../config.json'),
+    error,
+    logger,
+    logger = new(reload('../../utils/Logger.js'))(config.logTimestamp);
 
 module.exports = {
     desc: "Get your level and points.",
     aliases: ['lvl', 'points', 'profile', 'rank'],
     cooldown: 5,
     task(bot, msg, args) {
+        /**
+         * perm checks
+         * @param {boolean} embedLinks - Checks if the bots permissions has embedLinks
+         * @param {boolean} sendMessages - Checks if the bots permissions has sendMessages
+         */
+        const embedLinks = msg.channel.permissionsOf(bot.user.id).has('embedLinks');
+        const sendMessages = msg.channel.permissionsOf(bot.user.id).has('sendMessages');
+        if (embedLinks === false) return bot.createMessage(msg.channel.id, `❌ I'm missing the \`embedLinks\` permission, which is required for this command to work.`)
+            .catch(err => {
+                error = JSON.parse(err.response);
+                if ((!error.code) && (!error.message)) return logger.error('\n' + err, 'ERROR')
+                logger.error(error.code + '\n' + error.message, 'ERROR');
+            });
+        if (sendMessages === false) return;
         if (!args) {
             let points = JSON.parse(fs.readFileSync(`./db/points.json`, 'utf8'));
             if (!points) return bot.createMessage(msg.channel.id, {
@@ -19,7 +38,7 @@ module.exports = {
                     description: `Couldn't find your data.`
                 }
             }).catch(err => {
-                return;
+                logger.error('\n' + err, 'ERROR')
             });
             let userData = points[msg.author.id];
             if (!userData) return bot.createMessage(msg.channel.id, {
@@ -34,7 +53,7 @@ module.exports = {
                     description: `Oh it looks like you do not have any points yet, better start talking and stop lurking boii.`
                 }
             }).catch(err => {
-                return;
+                logger.error('\n' + err, 'ERROR')
             });
             bot.createMessage(msg.channel.id, {
                 content: ``,
@@ -59,31 +78,9 @@ module.exports = {
                     ]
                 }
             }).catch(err => {
-                const error = JSON.parse(err.response);
-                if (error.code === 50013) {
-                    bot.createMessage(msg.channel.id, `❌ I do not have the required permissions for this command to function normally.`).catch(err => {
-                        bot.getDMChannel(msg.author.id).then(dmchannel => {
-                            dmchannel.createMessage(`I tried to respond to a command you used in **${msg.channel.guild.name}**, channel: ${msg.channel.mention}.\nUnfortunately I do not have the required permissions. Please speak to the guild owner.`).catch(err => {
-                                return;
-                            });
-                        }).catch(err => {
-                            return;
-                        });
-                    });
-                } else {
-                    bot.createMessage(msg.channel.id, `
-\`\`\`
-ERROR
-Code: ${error.code}
-Message: ${error.message}
-
-For more help join the support server.
-Get the invite link by doing s.support
-\`\`\`
-`).catch(err => {
-                        return;
-                    });
-                }
+                error = JSON.parse(err.response);
+                if ((!error.code) && (!error.message)) return logger.error('\n' + err, 'ERROR')
+                logger.error(error.code + '\n' + error.message, 'ERROR');
             });
         } else {
             const user = this.findMember(msg, args)
@@ -99,7 +96,7 @@ Get the invite link by doing s.support
                     description: `That is not a valid guild member. Need to specify a name, ID or mention the user.`
                 }
             }).catch(err => {
-                return;
+                logger.error('\n' + err, 'ERROR')
             });
             // const userID = msg.channel.guild.members.get(user.id);
             let points = JSON.parse(fs.readFileSync(`./db/points.json`, 'utf8'));
@@ -115,7 +112,7 @@ Get the invite link by doing s.support
                     description: `Couldn't find your data.`
                 }
             }).catch(err => {
-                return;
+                logger.error('\n' + err, 'ERROR')
             });
             let userData = points[user.id];
             if (!userData) return bot.createMessage(msg.channel.id, {
@@ -130,7 +127,7 @@ Get the invite link by doing s.support
                     description: `Oh it looks like you do not have any points yet, better start talking and stop lurking boii.`
                 }
             }).catch(err => {
-                return;
+                logger.error('\n' + err, 'ERROR')
             });
             bot.createMessage(msg.channel.id, {
                 content: ``,
@@ -155,31 +152,9 @@ Get the invite link by doing s.support
                     ]
                 }
             }).catch(err => {
-                const error = JSON.parse(err.response);
-                if (error.code === 50013) {
-                    bot.createMessage(msg.channel.id, `❌ I do not have the required permissions for this command to function normally.`).catch(err => {
-                        bot.getDMChannel(msg.author.id).then(dmchannel => {
-                            dmchannel.createMessage(`I tried to respond to a command you used in **${msg.channel.guild.name}**, channel: ${msg.channel.mention}.\nUnfortunately I do not have the required permissions. Please speak to the guild owner.`).catch(err => {
-                                return;
-                            });
-                        }).catch(err => {
-                            return;
-                        });
-                    });
-                } else {
-                    bot.createMessage(msg.channel.id, `
-\`\`\`
-ERROR
-Code: ${error.code}
-Message: ${error.message}
-
-For more help join the support server.
-Get the invite link by doing s.support
-\`\`\`
-`).catch(err => {
-                        return;
-                    });
-                }
+                error = JSON.parse(err.response);
+                if ((!error.code) && (!error.message)) return logger.error('\n' + err, 'ERROR')
+                logger.error(error.code + '\n' + error.message, 'ERROR');
             });
         }
     }

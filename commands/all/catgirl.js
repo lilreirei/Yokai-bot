@@ -1,11 +1,31 @@
-const request = require('request-promise');
-const catgirls = require('../../catgirls.json');
+const request = require('request-promise'),
+    catgirls = require('../../catgirls.json');
+
+var reload = require('require-reload')(require),
+    config = reload('../../config.json'),
+    error,
+    logger,
+    logger = new(reload('../../utils/Logger.js'))(config.logTimestamp);
 
 module.exports = {
     desc: "Posts a random catgirl.",
     aliases: ['neko', 'nekos', 'catgirls'],
     cooldown: 5,
     task(bot, msg, args) {
+        /**
+         * perm checks
+         * @param {boolean} embedLinks - Checks if the bots permissions has embedLinks
+         * @param {boolean} sendMessages - Checks if the bots permissions has sendMessages
+         */
+        const embedLinks = msg.channel.permissionsOf(bot.user.id).has('embedLinks');
+        const sendMessages = msg.channel.permissionsOf(bot.user.id).has('sendMessages');
+        if (embedLinks === false) return bot.createMessage(msg.channel.id, `❌ I'm missing the \`embedLinks\` permission, which is required for this command to work.`)
+            .catch(err => {
+                error = JSON.parse(err.response);
+                if ((!error.code) && (!error.message)) return logger.error('\n' + err, 'ERROR')
+                logger.error(error.code + '\n' + error.message, 'ERROR');
+            });
+        if (sendMessages === false) return;
         try {
             var response = catgirls[Math.floor(Math.random() * catgirls.length)];
             if (response.includes("/a/")) { // If image is an album.
@@ -24,31 +44,9 @@ module.exports = {
                         }
                     }
                 }).catch(err => {
-                    const error = JSON.parse(err.response);
-                    if (error.code === 50013) {
-                        bot.createMessage(msg.channel.id, `❌ I do not have the required permissions for this command to function normally.`).catch(err => {
-                            bot.getDMChannel(msg.author.id).then(dmchannel => {
-                                dmchannel.createMessage(`I tried to respond to a command you used in **${msg.channel.guild.name}**, channel: ${msg.channel.mention}.\nUnfortunately I do not have the required permissions. Please speak to the guild owner.`).catch(err => {
-                                    return;
-                                });
-                            }).catch(err => {
-                                return;
-                            });
-                        });
-                    } else {
-                        bot.createMessage(msg.channel.id, `
-\`\`\`
-ERROR
-Code: ${error.code}
-Message: ${error.message}
-
-For more help join the support server.
-Get the invite link by doing s.support
-\`\`\`
-`).catch(err => {
-                            return;
-                        });
-                    }
+                    error = JSON.parse(err.response);
+                    if ((!error.code) && (!error.message)) return logger.error('\n' + err, 'ERROR')
+                    logger.error(error.code + '\n' + error.message, 'ERROR');
                 });
             } else {
                 bot.createMessage(msg.channel.id, {
@@ -66,31 +64,9 @@ Get the invite link by doing s.support
                         }
                     }
                 }).catch(err => {
-                    const error = JSON.parse(err.response);
-                    if (error.code === 50013) {
-                        bot.createMessage(msg.channel.id, `❌ I do not have the required permissions for this command to function normally.`).catch(err => {
-                            bot.getDMChannel(msg.author.id).then(dmchannel => {
-                                dmchannel.createMessage(`I tried to respond to a command you used in **${msg.channel.guild.name}**, channel: ${msg.channel.mention}.\nUnfortunately I do not have the required permissions. Please speak to the guild owner.`).catch(err => {
-                                    return;
-                                });
-                            }).catch(err => {
-                                return;
-                            });
-                        });
-                    } else {
-                        bot.createMessage(msg.channel.id, `
-\`\`\`
-ERROR
-Code: ${error.code}
-Message: ${error.message}
-
-For more help join the support server.
-Get the invite link by doing s.support
-\`\`\`
-`).catch(err => {
-                            return;
-                        });
-                    }
+                    error = JSON.parse(err.response);
+                    if ((!error.code) && (!error.message)) return logger.error('\n' + err, 'ERROR')
+                    logger.error(error.code + '\n' + error.message, 'ERROR');
                 });
             }
         } catch (err) {
@@ -111,7 +87,7 @@ Get the invite link by doing s.support
                     }]
                 }
             }).catch(err => {
-                return;
+                logger.error('\n' + err, 'ERROR')
             });
         }
     }

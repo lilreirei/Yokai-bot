@@ -35,6 +35,6 @@ module.exports = {
                     description: `User added to the blacklist :black_heart:`
                 }
             });
-        });
+        })
     }
 };
