@@ -3,7 +3,8 @@ var reload = require('require-reload')(require),
   error,
   logger,
   logger = new(reload('../../utils/Logger.js'))(config.logTimestamp),
-  moment = require('../../node_modules/moment');
+  moment = require('../../node_modules/moment'),
+  findMember = require('../../utils/utils.js').findMember;
 
 module.exports = {
   desc: "Shows info of a user.",
