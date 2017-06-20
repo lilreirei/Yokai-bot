@@ -1,5 +1,4 @@
 const reload = require('require-reload'),
-    formatTime = reload('../../utils/utils.js').formatTime,
     formatSeconds = require("../../utils/utils.js").formatSeconds;
 var config = reload('../../config.json'),
     error,
@@ -32,7 +31,7 @@ module.exports = {
                     name: `Uptime:`,
                     icon_url: ``
                 },
-                description: `\`\`\`Bot:        ${formatTime(bot.uptime)}\nProcess:    ${formatSeconds(process.uptime())}\`\`\``
+                description: `:clock1: ${formatSeconds(process.uptime())}`
             }
         }).catch(err => {
             error = JSON.parse(err.response);

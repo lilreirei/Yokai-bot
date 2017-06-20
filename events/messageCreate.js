@@ -5,7 +5,12 @@ var reload = require('require-reload')(require),
     message = reload('../db/message.json'),
     bannedUsers = reload('../banned_users.json'),
     updatePoints = false,
-    updateMessage = false;
+    updateMessage = false,
+    config = reload('../config.json'),
+    error,
+    logger,
+    logger = new(reload('../utils/Logger.js'))(config.logTimestamp);
+
 const fs = require('fs');
 //let points = JSON.parse(fs.readFileSync(`./db/points.json`, 'utf8'));
 
@@ -14,6 +19,13 @@ module.exports = {
         if (msg.author.bot === true) return;
 
         for (let i = 0; i < CommandManagers.length; i++) {
+            if ((msg.content.startsWith(CommandManagers[i].prefix)) && (!msg.channel.guild)) return msg.channel.createMessage('Commands can only be used in a server/guild.')
+                .catch(err => {
+                    if (!err.response) return logger.error('\n' + err, 'ERROR')
+                    error = JSON.parse(err.response);
+                    if ((!error.code) && (!error.message)) return logger.error('\n' + err, 'ERROR')
+                    logger.error(error.code + '\n' + error.message, 'ERROR');
+                });
             if (msg.content.startsWith(CommandManagers[i].prefix))
                 return CommandManagers[i].processCommand(bot, msg, config, settingsManager);
         }

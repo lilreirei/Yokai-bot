@@ -5,7 +5,7 @@ var reload = require('require-reload')(require),
     fs = require('fs'),
     Eris = require('eris'),
     config = reload('./config.json'),
-    formatTime = reload('./utils/utils.js').formatTime,
+    formatSeconds = require("./utils/utils.js").formatSeconds,
     version = reload('./package.json').version,
     Nf = new Intl.NumberFormat('en-US'),
     round = require('./utils/utils.js').round,
@@ -343,6 +343,7 @@ setInterval(() => { // Update the bot's status for each shard every 10 minutes
     }
 }, 600000);
 
+/** Only meant for the public version */
 setInterval(() => {
     let totalCommandUsage = commandsProcessed + cleverbotTimesUsed;
     let c = bot.getChannel('240154456577015808');
@@ -382,7 +383,7 @@ setInterval(() => {
                     },
                     {
                         name: `Uptime:`,
-                        value: `${formatTime(bot.uptime)}`,
+                        value: `${formatSeconds(process.uptime())}`,
                         inline: false
                     },
                     {
@@ -424,11 +425,13 @@ setInterval(() => {
             }
         })
         .catch(err => {
-            if ((!error.code) && (!error.message)) return logger.error('\n' + err, 'ERROR');
+            if (!err.response) return logger.error('\n' + err, 'ERROR');
             let error = JSON.parse(err.response);
+            if ((!error.code) && (!error.message)) return logger.error('\n' + err, 'ERROR');
             logger.error('An unhandledRejection occurred\n' + 'Code: ' + error.code + '\n' + 'Message: ' + error.message, 'ERROR');
         });
-}, 600000);
+}, 20000);
+/**/
 
 process.on('SIGINT', () => {
     bot.disconnect({ reconnect: false });

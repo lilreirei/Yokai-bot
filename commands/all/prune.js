@@ -33,15 +33,15 @@ module.exports = {
                 logger.error(error.code + '\n' + error.message, 'ERROR');
             });
         if (sendMessages === false) return;
-        var limit = '';
         if (!suffix) {
-            limit = 50 + 1; // +1 for the command message kek
+            var limit = 50 + 1; // +1 for the command message kek
         } else if (suffix) {
             var count = parseInt(suffix),
                 msgTodelete = count + 1, // yea same here nugget
                 limit = msgTodelete;
         }
         bot.purgeChannel(msg.channel.id, limit).then((del, sentMsg) => {
+            const delmsg = del - 1 // Don't count the command message
             bot.createMessage(msg.channel.id, {
                 content: ``,
                 embed: {
@@ -51,7 +51,10 @@ module.exports = {
                         url: ``,
                         icon_url: ``
                     },
-                    description: `Deleted: ${del} messages`
+                    description: `Deleted: ${delmsg} messages`,
+                    footer: {
+                        text: `This message will auto delete in 5 seconds`
+                    }
                 }
             }).then(sentMsg => {
                 setTimeout(function() {

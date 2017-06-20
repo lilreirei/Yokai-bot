@@ -46,6 +46,7 @@ module.exports = {
         var bannedWord2 = banned.bannedWords[1];
         var bannedWord3 = banned.bannedWords[2];
         var bannedWord4 = banned.bannedWords[3];
+        if ((array.length === 1) && (a !== 'list')) return 'wrong usage';
         if (a === 'list') {
             bot.createMessage(msg.channel.id, {
                 content: ``,

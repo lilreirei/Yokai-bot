@@ -1,5 +1,5 @@
 var reload = require('require-reload'),
-    formatTime = reload('../../utils/utils.js').formatTime,
+    formatSeconds = require("../../utils/utils.js").formatSeconds,
     version = reload('../../package.json').version,
     Nf = new Intl.NumberFormat('en-US'),
     config = reload('../../config.json'),
@@ -62,7 +62,7 @@ module.exports = {
                     },
                     {
                         name: `Uptime:`,
-                        value: `${formatTime(bot.uptime)}`,
+                        value: `${formatSeconds(process.uptime())}`,
                         inline: false
                     },
                     {
