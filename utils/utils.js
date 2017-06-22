@@ -1,5 +1,6 @@
 var fs = require('fs'),
     superagent = require('superagent'),
+    snekfetch = require('snekfetch'),
     reload = require('require-reload'),
     logger = new(reload('./Logger.js'))((reload('../config.json')).logTimestamp);
 
@@ -135,52 +136,47 @@ exports.updateCarbon = (key, servercount) => {
  * @arg {String} token The bot's key.
  * @arg {Number} servers Server count.
  */
-exports.updateDiscordlist = (token, servers) => {
+exports.updateDiscordlist = (token, serverCount) => {
     if (!token || !servers) return;
-    superagent.post('https://bots.discordlist.net/api.php')
+    snekfetch.post(`https://bots.discordlist.net/api.php`)
+        .set('Authorization', token)
         .type('application/json')
-        .send({ token, servers })
-        .end(error => {
-            logger.debug('Updated discordlist server count to ' + servers, 'DISCORDLIST UPDATE');
-            if (error) logger.error(error.status || error.response, 'DISCORDLIST UPDATE ERROR');
-        });
+        .send({ servers: serverCount })
+        .then(logger.debug('Updated discordlist server count to ' + servers, 'DISCORDLIST UPDATE'))
+        .catch(error => logger.error(error.status || error.response, 'DISCORDLIST UPDATE ERROR'));
 }
 
 /**
  * Update the server count on [Abalabahaha's bot list]@{link https://bots.discord.pw/}.
  * @arg {String} id Client id.
  * @arg {String} key Your API key.
- * @arg {Number} server_count Server count.
+ * @arg {Number} serverCount Server count.
  */
-exports.updateAbalBots = (id, key, server_count) => {
-    if (!key || !server_count) return;
-    superagent.post(`https://bots.discord.pw/api/bots/${id}/stats`)
+exports.updateAbalBots = (id, key, serverCount) => {
+    if (!key || !serverCount) return;
+    snekfetch.post(`https://bots.discord.pw/api/bots/${id}/stats`)
         .set('Authorization', key)
         .type('application/json')
-        .send({ server_count })
-        .end(error => {
-            logger.debug('Updated bot server count to ' + server_count, 'ABAL BOT LIST UPDATE');
-            if (error) logger.error(error.status || error.response, 'ABAL BOT LIST UPDATE ERROR');
-        });
+        .send({ serverCount })
+        .then(logger.debug('Updated bot server count to ' + serverCount, 'ABAL BOT LIST UPDATE'))
+        .catch(error => logger.error(error.status || error.response, 'ABAL BOT LIST UPDATE ERROR'));
 }
 
 /**
  * Update the server count on [discordbots]@{link https://discordbots.org}.
  * @arg {String} key Your API key.
- * @arg {Number} server_count Server count.
+ * @arg {Number} serverCount Server count.
  * @arg {Number} shard_id Shard id.
  * @arg {Number} shard_count Shard count.
  */
-exports.updateDiscordBots = (id, key, server_count, shard_id, shard_count) => {
-    if (!key || !server_count) return;
-    superagent.post(`https://discordbots.org/api/bots/${id}/stats`)
+exports.updateDiscordBots = (id, key, serverCount, shard_id, shard_count) => {
+    if (!key || !serverCount) return;
+    snekfetch.post(`https://discordbots.org/api/bots/${id}/stats`)
         .set('Authorization', key)
         .type('application/json')
-        .send({ server_count, shard_id, shard_count })
-        .end(error => {
-            logger.debug('Updated bot server count to ' + server_count, 'BOTS .ORG LIST UPDATE');
-            if (error) logger.error(error.status || error.response, 'BOTS .ORG LIST UPDATE ERROR');
-        });
+        .send({ server_count: serverCount, shard_count: shard_count })
+        .then(logger.debug('Updated bot server count to ' + serverCount, 'BOTS .ORG LIST UPDATE'))
+        .catch(error => logger.error(error.status || error.response, 'BOTS .ORG LIST UPDATE ERROR'));
 }
 
 /**
