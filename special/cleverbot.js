@@ -30,7 +30,10 @@ module.exports = function(bot, msg, config, settingsManager) {
         else {
             msg.channel.sendTyping();
             axios.get(`http://api.program-o.com/v2/chatbot/?bot_id=6&say=${text}&convo_id=${msg.author.id}&format=json`).then(res => {
-                bot.createMessage(msg.channel.id, `${msg.author.username}, ${res.data.botsay.replace("Program-O", bot.user.username)}`);
+                let answer = res.data.botsay;
+                answer = answer.replace("Program-O", bot.user.username);
+                answer = answer.replace(/<br\/> ?/, "\n")
+                bot.createMessage(msg.channel.id, `${msg.author.username}, ${answer}`);
             }).catch(err => {
                 console.log(err);
                 bot.createMessage(msg.channel.id, `${msg.author.username}, I don't wanna talk right now :slight_frown:`);

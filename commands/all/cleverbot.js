@@ -40,7 +40,10 @@ module.exports = {
                 });
             axios.get(`http://api.program-o.com/v2/chatbot/?bot_id=6&say=${args}&convo_id=${msg.author.id}&format=json`)
                 .then(res => {
-                    bot.createMessage(msg.channel.id, `${msg.author.username}, ${res.data.botsay.replace("Program-O", bot.user.username)}`)
+                    let answer = res.data.botsay;
+                    answer = answer.replace("Program-O", bot.user.username);
+                    answer = answer.replace(/<br\/> ?/, "\n")
+                    bot.createMessage(msg.channel.id, `${msg.author.username}, ${answer}`)
                         .catch(err => {
                             error = JSON.parse(err.response);
                             if ((!error.code) && (!error.message)) return logger.error('\n' + err, 'ERROR')
