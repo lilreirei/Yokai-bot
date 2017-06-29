@@ -1,5 +1,4 @@
-const kiss = require('../../kiss.json'),
-    randomItem = require('random-item'),
+const axios = require('axios'),
     findMember = require('../../utils/utils.js').findMember;
 var reload = require('require-reload')(require),
     config = reload('../../config.json'),
@@ -9,9 +8,8 @@ var reload = require('require-reload')(require),
 
 module.exports = {
     desc: "Kiss someone.",
-    usage: "<username | ID | @username>",
-    aliases: ['kisses', 'kissu'],
-    cooldown: 2,
+    usage: "<username/id/@mention>",
+    cooldown: 5,
     guildOnly: true,
     task(bot, msg, args) {
         /**
@@ -21,15 +19,15 @@ module.exports = {
          */
         const embedLinks = msg.channel.permissionsOf(bot.user.id).has('embedLinks');
         const sendMessages = msg.channel.permissionsOf(bot.user.id).has('sendMessages');
-        if (embedLinks === false) return bot.createMessage(msg.channel.id, `❌ I'm missing the \`embedLinks\` permission, which is required for this command to work.`)
+        if (embedLinks === false) return bot.createMessage(msg.channel.id, `\\❌ I'm missing the \`embedLinks\` permission, which is required for this command to work.`)
             .catch(err => {
+                if (!err.response) return logger.error(err, 'ERROR');
                 error = JSON.parse(err.response);
-                if ((!error.code) && (!error.message)) return logger.error('\n' + err, 'ERROR')
+                if ((!error.code) && (!error.message)) return logger.error(err, 'ERROR');
                 logger.error(error.code + '\n' + error.message, 'ERROR');
             });
         if (sendMessages === false) return;
         const user = findMember(msg, args);
-        const gif = randomItem(kiss);
         if (!args) return 'wrong usage';
         if (!user) return bot.createMessage(msg.channel.id, {
             content: ``,
@@ -43,45 +41,58 @@ module.exports = {
                 description: `That is not a valid guild member. Need to specify a name, ID or mention the user.`
             }
         }).catch(err => {
-            logger.error('\n' + err, 'ERROR')
+            logger.error(err, 'ERROR')
         });
-        if (!gif) return bot.createMessage(msg.channel.id, {
-            content: ``,
-            embed: {
-                color: 0xff0000,
-                author: {
-                    name: ``,
-                    url: ``,
-                    icon_url: ``
-                },
-                description: `Sowwy I couldn't find a gif for you :(`,
-                fields: [{
-                    name: `For support join:`,
-                    value: `https://discord.gg/Vf4ne5b`,
-                    inline: true
-                }]
-            }
-        }).catch(err => {
-            logger.error('\n' + err, 'ERROR')
-        });
-        bot.createMessage(msg.channel.id, {
-            content: ``,
-            embed: {
-                color: 0xf4ce11,
-                author: {
-                    name: ``,
-                    url: ``,
-                    icon_url: ``
-                },
-                description: `${user.username}, you got a kiss from ${msg.author.username}`,
-                image: {
-                    url: `${gif}`
-                }
-            }
-        }).catch(err => {
-            error = JSON.parse(err.response);
-            if ((!error.code) && (!error.message)) return logger.error('\n' + err, 'ERROR')
-            logger.error(error.code + '\n' + error.message, 'ERROR');
-        });
+        const base_url = "https://rra.ram.moe",
+            type = "kiss",
+            path = "/i/r?type=" + type;
+        axios.get(base_url + path)
+            .then(res => {
+                if (res.data.error) return msg.channel.createMessage({
+                        content: ``,
+                        embed: {
+                            color: 0xff0000,
+                            author: {
+                                name: `ERROR: ${res.data.error}`,
+                                url: ``,
+                                icon_url: ``
+                            },
+                            description: res.data.message,
+                        }
+                    })
+                    .catch(err => {
+                        if (!err.response) return logger.error(err, 'ERROR');
+                        error = JSON.parse(err.response);
+                        if ((!error.code) && (!error.message)) return logger.error(err, 'ERROR');
+                        logger.error(error.code + '\n' + error.message, 'ERROR');
+                    });
+                bot.createMessage(msg.channel.id, {
+                    content: ``,
+                    embed: {
+                        color: 0xf4ce11,
+                        author: {
+                            name: ``,
+                            url: ``,
+                            icon_url: ``
+                        },
+                        description: `${msg.author.username} gives ${user.username} a kiss`,
+                        image: {
+                            url: base_url + res.data.path
+                        },
+                        footer: {
+                            text: `using the ram.moe API`,
+                            icon_url: ``
+                        }
+                    }
+                }).catch(err => {
+                    if (!err.response) return logger.error(err, 'ERROR');
+                    error = JSON.parse(err.response);
+                    if ((!error.code) && (!error.message)) return logger.error(err, 'ERROR');
+                    logger.error(error.code + '\n' + error.message, 'ERROR');
+                });
+            })
+            .catch(err => {
+                logger.error(err, 'ERROR');
+            });
     }
-}
+};

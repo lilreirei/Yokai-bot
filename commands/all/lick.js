@@ -7,7 +7,7 @@ var reload = require('require-reload')(require),
     logger = new(reload('../../utils/Logger.js'))(config.logTimestamp);
 
 module.exports = {
-    desc: "Hug someone.",
+    desc: "Lick someone.",
     usage: "<username/id/@mention>",
     cooldown: 5,
     guildOnly: true,
@@ -44,7 +44,7 @@ module.exports = {
             logger.error(err, 'ERROR')
         });
         const base_url = "https://rra.ram.moe",
-            type = "hug",
+            type = "lick",
             path = "/i/r?type=" + type;
         axios.get(base_url + path)
             .then(res => {
@@ -75,7 +75,7 @@ module.exports = {
                             url: ``,
                             icon_url: ``
                         },
-                        description: `${msg.author.username} gives ${user.username} a hug`,
+                        description: `${msg.author.username} licks ${user.username}`,
                         image: {
                             url: base_url + res.data.path
                         },

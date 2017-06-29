@@ -37,7 +37,7 @@ module.exports = {
                     url: ``,
                     icon_url: ``
                 },
-                description: `You can only use this command in an **nsfw** channels, use \`s$settings nsfw <allow/deny>\`.`
+                description: `You can only use this command in an **nsfw** channels, use \`s.settings nsfw <allow/deny>\`.`
             }
         }).catch(err => {
             logger.error('\n' + err, 'ERROR')

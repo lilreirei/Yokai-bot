@@ -1,5 +1,4 @@
-const axios = require('axios'),
-    findMember = require('../../utils/utils.js').findMember;
+const axios = require('axios');
 var reload = require('require-reload')(require),
     config = reload('../../config.json'),
     error,
@@ -7,11 +6,11 @@ var reload = require('require-reload')(require),
     logger = new(reload('../../utils/Logger.js'))(config.logTimestamp);
 
 module.exports = {
-    desc: "Hug someone.",
-    usage: "<username/id/@mention>",
+    desc: "Pout.",
+    usage: "",
     cooldown: 5,
     guildOnly: true,
-    task(bot, msg, args) {
+    task(bot, msg) {
         /**
          * perm checks
          * @param {boolean} embedLinks - Checks if the bots permissions has embedLinks
@@ -27,24 +26,8 @@ module.exports = {
                 logger.error(error.code + '\n' + error.message, 'ERROR');
             });
         if (sendMessages === false) return;
-        const user = findMember(msg, args);
-        if (!args) return 'wrong usage';
-        if (!user) return bot.createMessage(msg.channel.id, {
-            content: ``,
-            embed: {
-                color: 0xff0000,
-                author: {
-                    name: ``,
-                    url: ``,
-                    icon_url: ``
-                },
-                description: `That is not a valid guild member. Need to specify a name, ID or mention the user.`
-            }
-        }).catch(err => {
-            logger.error(err, 'ERROR')
-        });
         const base_url = "https://rra.ram.moe",
-            type = "hug",
+            type = "pout",
             path = "/i/r?type=" + type;
         axios.get(base_url + path)
             .then(res => {
@@ -75,7 +58,7 @@ module.exports = {
                             url: ``,
                             icon_url: ``
                         },
-                        description: `${msg.author.username} gives ${user.username} a hug`,
+                        description: ``,
                         image: {
                             url: base_url + res.data.path
                         },

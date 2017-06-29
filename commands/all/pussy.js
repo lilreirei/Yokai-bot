@@ -1,5 +1,4 @@
-const pussy = require('../../pussy.json'),
-    randomItem = require('random-item');
+const pussy = require('../../node_modules/random-pussy/index.js');
 var reload = require('require-reload')(require),
     config = reload('../../config.json'),
     error,
@@ -31,7 +30,9 @@ module.exports = {
         if (!nsfw) return bot.createMessage(msg.channel.id, 'You can only use this command in an **nsfw** channels, use \`s.settings nsfw <allow/deny>\`.').catch(err => {
             return;
         });
-        bot.createMessage(msg.channel.id, {
+        pussy()
+        .then(url => {
+            bot.createMessage(msg.channel.id, {
             content: ``,
             embed: {
                 color: 0xf4ce11,
@@ -42,13 +43,18 @@ module.exports = {
                 },
                 description: ``,
                 image: {
-                    url: `${randomItem(pussy)}`
+                    url: url
                 }
             }
         }).catch(err => {
+            if (!err.response) return logger.error('\n' + err, 'ERROR')
             error = JSON.parse(err.response);
             if ((!error.code) && (!error.message)) return logger.error('\n' + err, 'ERROR')
             logger.error(error.code + '\n' + error.message, 'ERROR');
+        });
+        })
+        .catch(err => {
+            logger.error('\n' + err, 'ERROR')
         });
     }
 }
