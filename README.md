@@ -1,6 +1,8 @@
 [![Discord](https://discordapp.com/api/guilds/240059867744698368/embed.png)](https://discord.gg/Vf4ne5b)
 [![dependencies Status](https://david-dm.org/KurozeroPB/Shinobu/status.svg)](https://david-dm.org/KurozeroPB/Shinobu)
 
+# I have moved this repo to a private gitlab repo, do not expect any updates here anymore.
+
 # Shinobu
 Shinobu is a bot created for the discord app https://discordapp.com
 
